@@ -1,0 +1,72 @@
+body {
+    background: #eee;
+}
+
+.form-signin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    min-height: 300px;
+    background: #fff;
+    border: 1px solid #bbb;
+    border-radius: 15px;
+    box-sizign: border-box;
+    padding: 30px;
+    margin: -150px 0 0 -200px;
+}
+
+.form-signin .form-signin-heading {
+    text-align: center;
+    border-bottom: 1px dashed #ddd;
+    margin: 0 0 30px 0;
+}
+
+.form-signin p {
+    text-align: right;
+    color: #ccc;
+    padding: 5px 0 20px 0;
+}
+
+.form-signin input {
+    margin: 5px 0;
+}
+
+.navbar-right li a {
+    padding: 14px 5px;
+}
+
+.navbar-right img {
+    height: 20px;
+    border: 1px solid #aaa;
+}
+
+.navbar-right .dropdown-menu > li > a {
+    padding: 3px 20px;
+}
+
+.jumbotron {
+    background: #fff;
+}
+
+h4 {
+    white-space: pre-line;
+}
+
+.jumbotron h1 {
+    font-size: 28px;
+    border-bottom: 1px dashed #ddd;
+    margin: -20px 0 30px 0;
+    text-align: center;
+}
+
+.jumbotron h2 {
+    font-size: 24px;
+}
+.stronalogin footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}

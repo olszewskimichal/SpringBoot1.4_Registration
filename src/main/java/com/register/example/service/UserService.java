@@ -16,7 +16,6 @@ import static java.util.Optional.ofNullable;
 
 @Service
 @Slf4j
-
 public class UserService {
     private final UserRepository userRepository;
 
@@ -55,6 +54,6 @@ public class UserService {
 
     public Optional<User> getUserByEmailOrLogin(String value) {
         log.info("Pobieranie uzytkownika {}", value);
-        return userRepository.findUserByEmailOrLogin(value);
+        return userRepository.findUserByEmailOrLogin(value,value);
     }
 }
