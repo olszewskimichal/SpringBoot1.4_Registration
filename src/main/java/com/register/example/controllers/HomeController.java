@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @RequestMapping(value = "/")
-    public String homePage(Model model) {
+    public String homePage() {
         log.info("wywołanie metody homePage");
         return "index";
     }
