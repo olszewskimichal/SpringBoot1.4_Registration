@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 @Slf4j
+@Profile("!test")
 public class DevDBConfig {
     @Autowired
     private UserRepository userRepository;

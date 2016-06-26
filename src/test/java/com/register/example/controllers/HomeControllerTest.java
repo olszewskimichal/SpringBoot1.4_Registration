@@ -7,12 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,11 +42,14 @@ public class HomeControllerTest {
 
     @Test
     public void shouldReturnHomePage() throws Exception {
+        //given
         CurrentUser currentUser= (CurrentUser) userDetailsService.loadUserByUsername("admin");
         TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(currentUser,null);
         SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
+        //when
         mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andDo(print())
+        //then
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(content().string(

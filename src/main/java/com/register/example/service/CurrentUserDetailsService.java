@@ -22,14 +22,9 @@ public class CurrentUserDetailsService implements UserDetailsService {
     @Override
     public CurrentUser loadUserByUsername(String value) {
         log.info("Autentykacja uzytkownika {}", value);
-        try {
-            User user = userService.getUserByEmailOrLogin(value)
-                    .orElseThrow(() -> new UsernameNotFoundException(String.format("Uzytkownik %s nie istnieje", value)));
-            return new CurrentUser(user);
-        } catch (Exception e) {
-            log.debug(e.getMessage());
-            throw new RuntimeException(e);
-        }
+        User user = userService.getUserByEmailOrLogin(value)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Uzytkownik %s nie istnieje", value)));
+        return new CurrentUser(user);
     }
 
 }

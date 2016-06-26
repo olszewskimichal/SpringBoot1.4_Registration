@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static java.util.Optional.ofNullable;
-
 @Service
 @Slf4j
 public class UserService {
@@ -46,14 +44,9 @@ public class UserService {
         userRepository.delete(id);
     }
 
-    public Optional<User> getUserById(long id) {
-        log.info("Pobieranie uzytkownika o id = {}", id);
-        return ofNullable(userRepository.findOne(id));
-    }
-
 
     public Optional<User> getUserByEmailOrLogin(String value) {
         log.info("Pobieranie uzytkownika {}", value);
-        return userRepository.findUserByEmailOrLogin(value,value);
+        return userRepository.findUserDistinctByEmailOrLogin(value,value);
     }
 }
