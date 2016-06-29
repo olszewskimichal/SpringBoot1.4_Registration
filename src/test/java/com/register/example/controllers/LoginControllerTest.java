@@ -43,8 +43,8 @@ public class LoginControllerTest {
     @Test
     public void shouldLoginWithCorrectLoginAndPassword() throws Exception {
         //given
-        String userLogin="admin";
-        String password="admin";
+        String userLogin = "admin";
+        String password = "admin";
         //when
         RequestBuilder requestBuilder = post("/login")
                 .param("username", userLogin)
@@ -60,12 +60,12 @@ public class LoginControllerTest {
     @Test
     public void shouldFailLoginAndRedirect() throws Exception {
         //given
-        String userLogin="admin";
-        String password="incorrectPassword";
+        String userLogin = "admin";
+        String password = "incorrectPassword";
         //when
         RequestBuilder requestBuilder = formLogin("/login")
-                .user("username",userLogin)
-                .password("password",password);
+                .user("username", userLogin)
+                .password("password", password);
         //then
         mvc.perform(requestBuilder)
                 .andDo(print())
@@ -78,12 +78,12 @@ public class LoginControllerTest {
         //when
         mvc.perform(get("/login-error"))
                 .andDo(print())
-         //then
-                .andExpect(model().attribute("errorMessage","Nieprawidłwy użytkownik lub hasło"))
+                //then
+                .andExpect(model().attribute("errorMessage", "Nieprawidłwy użytkownik lub hasło"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
-    
+
 }
 
 

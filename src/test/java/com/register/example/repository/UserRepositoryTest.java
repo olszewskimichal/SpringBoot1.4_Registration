@@ -27,36 +27,37 @@ public class UserRepositoryTest {
     @Before
     public void setUp() throws Exception {
         userRepository.deleteAll();
-        userRepository.save(new UserBuilder("user1Email","user1Login").build());
-        userRepository.save(new UserBuilder("user2Email","user2Login").build());
+        userRepository.save(new UserBuilder("user1Email", "user1Login").build());
+        userRepository.save(new UserBuilder("user2Email", "user2Login").build());
     }
 
     @Test
     public void should_return_the_same_person() throws Exception {
         //given
-        Optional<User> user=userRepository.findUserDistinctByEmailOrLogin("user1Email","user1Email");
+        Optional<User> user = userRepository.findUserDistinctByEmailOrLogin("user1Email", "user1Email");
         //when
-        Optional<User> user2=userRepository.findUserDistinctByEmailOrLogin("user1Login","user1Login");
+        Optional<User> user2 = userRepository.findUserDistinctByEmailOrLogin("user1Login", "user1Login");
         //then
         assertThat(user.get()).isEqualToComparingFieldByField(user2.get());
     }
+
     @Test
     public void should_be_empty() throws Exception {
         //when
-        Optional<User> user=userRepository.findUserDistinctByEmailOrLogin("user3Email","user3Email");
+        Optional<User> user = userRepository.findUserDistinctByEmailOrLogin("user3Email", "user3Email");
         //then
         assertThat(user).isEqualTo(Optional.empty());
     }
+
     @Test(expected = UsernameNotFoundException.class)
     public void should_throw_UsernameNotFoundException() {
         //given
-        String expectedUser="user3Email";
+        String expectedUser = "user3Email";
         //when
-        Optional<User> user=userRepository.findUserDistinctByEmailOrLogin(expectedUser,expectedUser);
+        Optional<User> user = userRepository.findUserDistinctByEmailOrLogin(expectedUser, expectedUser);
         //then
         user.orElseThrow(() -> new UsernameNotFoundException(String.format("Uzytkownik %s nie istnieje", expectedUser)));
     }
-
 
 
 }

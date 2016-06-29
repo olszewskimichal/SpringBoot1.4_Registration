@@ -4,8 +4,8 @@ import com.register.example.entity.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserBuilder {
-    private String name="przykladoweImie";
-    private String lastName="przykladoweNazwisko";
+    private String name = "przykladoweImie";
+    private String lastName = "przykladoweNazwisko";
     private String email;
     private String login;
     private String passwordHash;
@@ -19,8 +19,9 @@ public class UserBuilder {
         this.passwordHash = new BCryptPasswordEncoder().encode(password);
         return this;
     }
+
     public User build() {
-        return new User(name,lastName,email,login,passwordHash);
+        return new User(name, lastName, email, login, passwordHash);
     }
 
 }

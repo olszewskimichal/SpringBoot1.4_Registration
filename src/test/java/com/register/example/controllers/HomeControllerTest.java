@@ -43,23 +43,22 @@ public class HomeControllerTest {
     @Test
     public void shouldReturnHomePage() throws Exception {
         //given
-        CurrentUser currentUser= (CurrentUser) userDetailsService.loadUserByUsername("admin");
-        TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(currentUser,null);
+        CurrentUser currentUser = (CurrentUser) userDetailsService.loadUserByUsername("admin");
+        TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(currentUser, null);
         SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
         //when
         mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andDo(print())
-        //then
+                //then
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(content().string(
-                allOf(
-                        containsString("<span>Witamy</span>\n" +
-                                "                <strong>"+currentUser.getUser().getName()+"</strong>")
-                ))
-        );
+                        allOf(
+                                containsString("<span>Witamy</span>\n" +
+                                        "                <strong>" + currentUser.getUser().getName() + "</strong>")
+                        ))
+                );
     }
-
 
 
 }

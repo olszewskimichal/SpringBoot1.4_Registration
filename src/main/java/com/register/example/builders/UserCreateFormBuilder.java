@@ -3,8 +3,8 @@ package com.register.example.builders;
 import com.register.example.forms.UserCreateForm;
 
 public class UserCreateFormBuilder {
-    private String name="przykladoweImie";
-    private String lastName="przykladoweNazwisko";
+    private String name = "przykladoweImie";
+    private String lastName = "przykladoweNazwisko";
     private String email;
     private String login;
     private String password;
@@ -16,14 +16,16 @@ public class UserCreateFormBuilder {
     }
 
     public UserCreateFormBuilder withPassword(String password) {
-        this.password=password;
+        this.password = password;
         return this;
     }
+
     public UserCreateFormBuilder withConfirmPassword(String password) {
-        this.confirmPassword=password;
+        this.confirmPassword = password;
         return this;
     }
+
     public UserCreateForm build() {
-        return new UserCreateForm(name,lastName,email,login,password,confirmPassword);
+        return new UserCreateForm(name, lastName, email, login, password, confirmPassword);
     }
 }

@@ -41,7 +41,7 @@ public class RegisterControllerTest {
         //when
         mvc.perform(get("/register"))
                 .andDo(print())
-        //then
+                //then
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"));
     }
@@ -57,15 +57,16 @@ public class RegisterControllerTest {
                 .param("password", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX"))
                 .andDo(print())
-        //then
+                //then
                 .andExpect(model().errorCount(0));
     }
+
     @Test
     public void should_fail_registration() throws Exception {
         //when
         mvc.perform(post("/register"))
                 .andDo(print())
-        //then
+                //then
                 .andExpect(model().hasErrors());
     }
 

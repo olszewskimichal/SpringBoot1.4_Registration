@@ -33,7 +33,7 @@ public class UserService {
         user.setName(form.getName());
         user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getPassword()));
         user = userRepository.save(user);
-        log.info("Stworzono uzytkownika o id="+user.getId());
+        log.info("Stworzono uzytkownika o id=" + user.getId());
         return user;
     }
 
@@ -47,6 +47,6 @@ public class UserService {
 
     public Optional<User> getUserByEmailOrLogin(String value) {
         log.info("Pobieranie uzytkownika {}", value);
-        return userRepository.findUserDistinctByEmailOrLogin(value,value);
+        return userRepository.findUserDistinctByEmailOrLogin(value, value);
     }
 }

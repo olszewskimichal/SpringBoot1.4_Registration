@@ -17,8 +17,9 @@ public class DevDBConfig {
     private UserRepository userRepository;
 
     @PostConstruct
-    public void populateDatabase(){
+    public void populateDatabase() {
         log.info("ładowanie bazy testowej");
-        userRepository.save(new UserBuilder("admin","admin").withPassword("admin").build());
+        userRepository.save(new UserBuilder("admin", "admin").withPassword("admin").build());
+        userRepository.save(new UserBuilder("user@poczta.pl", "user").withPassword("user").build());
     }
 }

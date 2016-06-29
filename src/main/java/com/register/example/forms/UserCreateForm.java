@@ -28,11 +28,11 @@ public class UserCreateForm {
 
 
     public UserCreateForm(String name, String lastName, String email, String login, String password, String confirmPassword) {
-        this.name=name;
-        this.lastName=lastName;
-        this.email=email;
-        this.login=login;
-        this.password=password;
-        this.confirmPassword=confirmPassword;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
     }
 }

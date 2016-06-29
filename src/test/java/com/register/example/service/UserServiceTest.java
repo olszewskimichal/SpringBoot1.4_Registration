@@ -36,33 +36,35 @@ public class UserServiceTest {
     public void setUp() throws Exception {
         initMocks(this);
         userRepository.deleteAll();
-        userRepository.save(new UserBuilder("user1Email","user1Login").build());
-        userRepository.save(new UserBuilder("user2Email","user2Login").build());
+        userRepository.save(new UserBuilder("user1Email", "user1Login").build());
+        userRepository.save(new UserBuilder("user2Email", "user2Login").build());
         userService = new UserService(userRepository);
     }
 
     @Test
     public void should_create_user() throws Exception {
         //given
-        UserCreateForm userCreateForm=new UserCreateFormBuilder("email1","login1").withPassword("1").build();
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("email1", "login1").withPassword("1").build();
         //when
-        User user=userService.create(userCreateForm);
+        User user = userService.create(userCreateForm);
         //then
         assertThat(user).isNotNull();
     }
+
     @Test(expected = DataIntegrityViolationException.class)
     public void should_throw_exception_withUniqueName() throws Exception {
         //given
-        UserCreateForm userCreateForm=new UserCreateFormBuilder("email1","login1").withPassword("1").build();
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("email1", "login1").withPassword("1").build();
         //when
         userService.create(userCreateForm);
         userService.create(userCreateForm);
         //then
     }
+
     @Test(expected = NullPointerException.class)
     public void should_throw_exception_withNullPassword() throws Exception {
         //given
-        UserCreateForm userCreateForm=new UserCreateFormBuilder("email1","login1").build();
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("email1", "login1").build();
         //when
         userService.create(userCreateForm);
         //then
@@ -71,31 +73,32 @@ public class UserServiceTest {
     @Test
     public void should_delete_user() throws Exception {
         //given
-        List<User> allUsers=userRepository.findAll();
-        Integer size=allUsers.size();
+        List<User> allUsers = userRepository.findAll();
+        Integer size = allUsers.size();
         //when
         userService.delete(allUsers.get(0).getId());
         //then
-        assertThat(userRepository.findAll().size()).isEqualTo(size-1);
+        assertThat(userRepository.findAll().size()).isEqualTo(size - 1);
     }
 
     @Test
     public void should_get_user_by_EmailOrLogin() throws Exception {
         //when
-        Optional<User> user=userService.getUserByEmailOrLogin("user1Email");
+        Optional<User> user = userService.getUserByEmailOrLogin("user1Email");
         //then
         assertThat(user.get()).isNotNull();
 
         //when
-        Optional<User> user2=userService.getUserByEmailOrLogin("user1Login");
+        Optional<User> user2 = userService.getUserByEmailOrLogin("user1Login");
         //then
         assertThat(user2.get()).isNotNull();
         assertThat(user.get()).isEqualToComparingFieldByField(user2.get());
     }
+
     @Test
     public void should_be_empty_by_EmailOrLogin() throws Exception {
         //when
-        Optional<User> user=userService.getUserByEmailOrLogin("user3Email");
+        Optional<User> user = userService.getUserByEmailOrLogin("user3Email");
         //then
         assertThat(user).isEqualTo(Optional.empty());
     }
