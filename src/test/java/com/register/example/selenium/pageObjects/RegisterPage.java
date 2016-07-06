@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 public class RegisterPage {
     By email = By.id("email");
-    By login = By.id("login");
+    By login = By.id("loginInput");
     By name = By.id("name");
     By lastName = By.id("lastName");
     By password = By.id("password");

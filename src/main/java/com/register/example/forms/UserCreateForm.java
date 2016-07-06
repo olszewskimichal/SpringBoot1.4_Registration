@@ -11,8 +11,12 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UserCreateForm {
 
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String name;
 
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String lastName;
 
     @NotBlank
@@ -20,8 +24,10 @@ public class UserCreateForm {
     @Size(max = 50)
     private String email;
 
+    @NotBlank
     private String login;
 
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{3,}$")
     private String password;
 
     private String confirmPassword;

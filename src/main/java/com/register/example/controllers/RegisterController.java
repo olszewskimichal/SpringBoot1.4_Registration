@@ -51,7 +51,7 @@ public class RegisterController {
             return "register";
         } else {
             User user = userService.create(userCreateForm);
-            log.info("stworzono uzytkownika \n" + userCreateForm.getLogin());
+            log.info("stworzono uzytkownika \n" + user.getLogin());
             model.addAttribute("userCreateForm", new UserCreateForm());
             model.addAttribute("confirmRegistration", true);
             return "register";

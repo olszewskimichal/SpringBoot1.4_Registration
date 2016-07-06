@@ -29,8 +29,8 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         registerPage.typeLastName("userTest");
         registerPage.typeEmail("userTest@poczta.pl");
         registerPage.typeLogin("userTest");
-        registerPage.typePassword("userTest");
-        registerPage.typeConfirmPassword("userTest");
+        registerPage.typePassword("zaq1@WSX");
+        registerPage.typeConfirmPassword("zaq1@WSX");
         registerPage.clickOnRegisterButton();
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
@@ -47,12 +47,12 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         registerPage.typeLastName("user");
         registerPage.typeEmail("user@poczta.pl");
         registerPage.typeLogin("user");
-        registerPage.typePassword("user");
-        registerPage.typeConfirmPassword("user");
+        registerPage.typePassword("zaQ1");
+        registerPage.typeConfirmPassword("zaQ1");
         registerPage.clickOnRegisterButton();
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
-        assertThat(driver.getPageSource()).contains("Whitelabel Error Page");
+        assertThat(driver.getPageSource()).contains("Podany email lub login jest juz wykorzystany");
         driver.quit();
     }
 

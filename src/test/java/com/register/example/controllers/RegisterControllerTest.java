@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -62,11 +64,57 @@ public class RegisterControllerTest {
     }
 
     @Test
+    public void should_fail_registration_with_existing_email() throws Exception {
+        //when
+        mvc.perform(post("/register")
+                .param("name", "adam")
+                .param("lastName", "malysz")
+                .param("login", "malyszNajeprzy")
+                .param("email", "a1@o2.pl")
+                .param("password", "zaq1@WSX")
+                .param("confirmPassword", "zaq1@WSX"))
+                .andDo(print())
+                //then
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<p>Podany email lub login jest juz wykorzystany</p>")
+                        ))
+                )
+                .andExpect(model().errorCount(1));
+    }
+
+    @Test
     public void should_fail_registration() throws Exception {
         //when
         mvc.perform(post("/register"))
                 .andDo(print())
                 //then
+                .andExpect(model().errorCount(5))
+                .andExpect(content().string(
+                        allOf(
+                                containsString("Nazwisko nie może być  puste</p>")
+                        ))
+                )
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<p>Email nie może być  pusty</p>")
+                        ))
+                )
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<p>Login nie może być  pusty</p>")
+                        ))
+                )
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<p>Imie nie może być  puste</p>")
+                        ))
+                )
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<p>Podane hasła nie pasują do siebie</p>")
+                        ))
+                )
                 .andExpect(model().hasErrors());
     }
 
