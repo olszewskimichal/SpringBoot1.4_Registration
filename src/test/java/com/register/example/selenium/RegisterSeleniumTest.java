@@ -1,9 +1,12 @@
 package com.register.example.selenium;
 
+import com.register.example.configuration.ScreenshotTestRule;
 import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.NonAuthenticatedNavigation;
 import com.register.example.selenium.pageObjects.RegisterPage;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.Profile;
@@ -13,12 +16,20 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @Profile("!test")
 public class RegisterSeleniumTest extends SeleniumTestBase {
 
-    public WebDriver driver;
+    public static WebDriver driver;
 
-    @Before
-    public void setUp() {
+    @Rule
+    public ScreenshotTestRule screenshotTestRule = new ScreenshotTestRule(driver);
+
+    @BeforeClass
+    public static void setUp() {
         driver = browserConfiguration.getChromeDriver();
         driver.manage().window().maximize();
+    }
+
+    @AfterClass
+    public static void tearDown(){
+        driver.quit();
     }
 
     @Test
@@ -36,8 +47,8 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
         assertThat(driver.getPageSource()).contains("Twoje konto zostalo stworzone");
         assertThat(driver.getTitle()).isEqualTo("Zarejestruj się");
-        driver.quit();
     }
+
 
     @Test
     public void shouldRegisterFailedWithExistingAccount() {
@@ -53,7 +64,6 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
         assertThat(driver.getPageSource()).contains("Podany email lub login jest juz wykorzystany");
-        driver.quit();
     }
 
     @Test
@@ -65,7 +75,6 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         navigation.clickOnLoginPage();
         assertThat(driver.getPageSource()).contains("Zaloguj się");
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
-        driver.quit();
     }
 
 }
