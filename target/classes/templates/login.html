@@ -12,6 +12,20 @@
         <div th:if="${loginError}" class="alert alert-danger" role="alert">
             <span th:text="${errorMessage}"></span>
         </div>
+        <div th:if="${blednyToken}" class="alert alert-danger" role="alert">
+            <span th:text="#{failedToken}"></span>
+        </div>
+        <div th:if="${nieaktualny}" class="alert alert-danger" role="alert">
+            <span th:text="#{notActualMessage}"></span>
+        </div>
+
+        <div th:if="${wykorzystany}" class="alert alert-danger" role="alert">
+            <span th:text="#{usedMessage}"></span>
+        </div>
+
+        <div th:if="${aktualny}" class="alert alert-success" role="alert">
+            <span th:text="#{actualMessage}"></span>
+        </div>
 
         <label for="username" th:text="#{login.email}" class="sr-only"/>
         <input type="text" name="username" id="username" class="form-control" th:placeholder="#{login.login}"

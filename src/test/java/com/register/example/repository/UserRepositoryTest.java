@@ -23,9 +23,12 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @Before
     public void setUp() throws Exception {
+        tokenRepository.deleteAll();
         userRepository.deleteAll();
         userRepository.save(new UserBuilder("user1Email", "user1Login").build());
         userRepository.save(new UserBuilder("user2Email", "user2Login").build());

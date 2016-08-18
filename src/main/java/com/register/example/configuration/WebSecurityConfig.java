@@ -25,6 +25,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("administrator").password("administrator").roles("ADMIN");
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
@@ -35,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register", "/login**")
+                .antMatchers("/register**", "/login**","/register/**")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
@@ -51,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .and()
-                .csrf().disable();
+                .csrf().disable().headers().frameOptions().disable();
 
     }
 

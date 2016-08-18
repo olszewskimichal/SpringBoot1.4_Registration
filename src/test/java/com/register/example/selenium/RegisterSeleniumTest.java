@@ -1,7 +1,8 @@
 package com.register.example.selenium;
 
-import com.register.example.configuration.ScreenshotTestRule;
+import com.register.example.selenium.configuration.ScreenshotTestRule;
 import com.register.example.selenium.configuration.SeleniumTestBase;
+import com.register.example.selenium.pageObjects.LoginPage;
 import com.register.example.selenium.pageObjects.NonAuthenticatedNavigation;
 import com.register.example.selenium.pageObjects.RegisterPage;
 import org.junit.AfterClass;
@@ -47,6 +48,15 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
         assertThat(driver.getPageSource()).contains("Twoje konto zostalo stworzone");
         assertThat(driver.getTitle()).isEqualTo("Zarejestruj się");
+
+        driver.get("http://localhost:8080/login");
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.typeUserName("userTest");
+        loginPage.typePassword("zaq1@WSX");
+        loginPage.clickOnLoginButton();
+        System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
+        System.out.println(driver.getTitle() + "\n////////////////////////////////////");
+        assertThat(driver.getPageSource()).contains(" <span>Nieprawidłowy użytkownik lub hasło</span>");
     }
 
 
@@ -64,6 +74,14 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
         assertThat(driver.getPageSource()).contains("Podany email lub login jest juz wykorzystany");
+    }
+
+    @Test
+    public void shouldActivationFailedWithNotExistingToken() {
+        driver.get("http://localhost:8080/register/registrationConfirm?token=dupa");
+        System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
+        System.out.println(driver.getTitle() + "\n////////////////////////////////////");
+        assertThat(driver.getPageSource()).contains("Bledny link weryfikacyjny");
     }
 
     @Test

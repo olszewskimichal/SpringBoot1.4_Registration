@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -11,6 +13,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(unique = true)
@@ -25,12 +28,30 @@ public class User {
 
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
+    private Role role=Role.USER;
 
-    public User(String name, String lastName, String email, String login, String passwordHash) {
+    private Boolean enabled = false;
+
+    private Boolean accountNonExpired = true;
+
+    private Boolean credentialsNonExpired = true;
+
+    private Boolean accountNonLocked = true;
+
+    private LocalDateTime lastSuccesfullLogin=null;
+
+    private LocalDate registrationDate=LocalDate.now();
+
+
+
+    public User(String name, String lastName, String email, String login, String passwordHash,Role role,Boolean enabled) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.passwordHash = passwordHash;
+        this.role = role;
+        this.enabled=enabled;
     }
 }

@@ -20,7 +20,7 @@ public class LoginController {
     public String loginError(Model model) {
         log.info("wywołanie metody  loginError");
         model.addAttribute("loginError", true);
-        model.addAttribute("errorMessage", "Nieprawidłwy użytkownik lub hasło");
+        model.addAttribute("errorMessage", "Nieprawidłowy użytkownik lub hasło");
         return "login";
     }
 

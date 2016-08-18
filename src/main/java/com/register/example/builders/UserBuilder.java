@@ -1,5 +1,6 @@
 package com.register.example.builders;
 
+import com.register.example.entity.Role;
 import com.register.example.entity.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -9,6 +10,8 @@ public class UserBuilder {
     private String email;
     private String login;
     private String passwordHash;
+    private Role role=Role.USER;
+    private Boolean enabled=false;
 
     public UserBuilder(String email, String login) {
         this.email = email;
@@ -20,8 +23,18 @@ public class UserBuilder {
         return this;
     }
 
+    public UserBuilder withRole(Role role){
+        this.role=role;
+        return this;
+    }
+
+    public UserBuilder withEnabled(Boolean enabled){
+        this.enabled=enabled;
+        return this;
+    }
+
     public User build() {
-        return new User(name, lastName, email, login, passwordHash);
+        return new User(name, lastName, email, login, passwordHash,role,enabled);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.register.example.controllers;
 
+import com.register.example.builders.UserCreateFormBuilder;
+import com.register.example.forms.UserCreateForm;
+import com.register.example.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +35,9 @@ public class LoginControllerTest {
     @Autowired
     private FilterChainProxy springSecurityFilterChain;
 
+    @Autowired
+    private UserService userService;
+
     private MockMvc mvc;
 
 
@@ -56,6 +62,24 @@ public class LoginControllerTest {
                 .andExpect(authenticated().withUsername("admin"));
     }
 
+    @Test
+    public void shouldLoginFailedWithNotActivateAccount() throws Exception {
+        //given
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest", "loginTest").withPassword("1").build();
+        userService.create(userCreateForm);
+        //when
+        RequestBuilder requestBuilder = post("/login-error")
+                .param("username", "emailTest")
+                .param("password", "loginTest");
+        //then
+        mvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(model().attribute("errorMessage", "Nieprawidłowy użytkownik lub hasło"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+    }
+
+
 
     @Test
     public void shouldFailLoginAndRedirect() throws Exception {
@@ -79,7 +103,7 @@ public class LoginControllerTest {
         mvc.perform(get("/login-error"))
                 .andDo(print())
                 //then
-                .andExpect(model().attribute("errorMessage", "Nieprawidłwy użytkownik lub hasło"))
+                .andExpect(model().attribute("errorMessage", "Nieprawidłowy użytkownik lub hasło"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }

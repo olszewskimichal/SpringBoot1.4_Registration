@@ -48,7 +48,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
         loginPage.typeUserName("admin");
         loginPage.typePassword("dupa");
         loginPage.clickOnLoginButton();
-        assertThat(driver.getPageSource()).contains("Nieprawidłwy użytkownik lub hasło");
+        assertThat(driver.getPageSource()).contains("Nieprawidłowy użytkownik lub hasło");
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
         driver.quit();
     }

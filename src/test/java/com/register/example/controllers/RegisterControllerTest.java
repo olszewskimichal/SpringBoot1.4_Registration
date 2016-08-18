@@ -1,5 +1,11 @@
 package com.register.example.controllers;
 
+import com.register.example.builders.UserCreateFormBuilder;
+import com.register.example.entity.User;
+import com.register.example.entity.VerificationToken;
+import com.register.example.forms.UserCreateForm;
+import com.register.example.repository.TokenRepository;
+import com.register.example.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +15,12 @@ import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -26,6 +36,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RegisterControllerTest {
     @Autowired
     private WebApplicationContext context;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @Autowired
     private FilterChainProxy springSecurityFilterChain;
@@ -64,6 +80,103 @@ public class RegisterControllerTest {
     }
 
     @Test
+    public void shouldActivateUserWithCorrectToken() throws Exception {
+        //given
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest1", "loginTest1").withPassword("1").build();
+        User user=userService.create(userCreateForm);
+        Optional<VerificationToken> verificationToken=userService.getVerificationToken(user);
+
+        //when
+        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+verificationToken.get().getToken());
+        //then
+        mvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(model().attribute("aktualny", true))
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<span>Twoje konto zostało aktywowane</span>")
+                        ))
+                )
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+    }
+
+    @Test
+    public void shouldFailActivationWithUsedToken() throws Exception {
+        //given
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest2", "loginTest2").withPassword("1").build();
+        User user=userService.create(userCreateForm);
+        Optional<VerificationToken> verificationToken=userService.getVerificationToken(user);
+
+        //when
+        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+verificationToken.get().getToken());
+
+        //then
+        mvc.perform(requestBuilder);
+
+        mvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(model().attribute("wykorzystany", true))
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<span>Podany token juz został wykorzystany</span>")
+                        ))
+                )
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+    }
+
+    @Test
+    public void shouldFailActivationWithNotExistingToken() throws Exception {
+        //given
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest4", "loginTest4s").withPassword("1").build();
+        User user=userService.create(userCreateForm);
+        VerificationToken verificationToken=userService.getVerificationToken(user).get();
+        verificationToken.setExpiryDate(LocalDateTime.now().minusDays(1).minusMinutes(1));
+
+        tokenRepository.save(verificationToken);
+
+        //when
+        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+verificationToken.getToken());
+
+        //then
+        mvc.perform(requestBuilder);
+
+        mvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(model().attribute("nieaktualny", true))
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<span>Podany token juz jest nieaktualny</span>")
+                        ))
+                )
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+    }
+
+    @Test
+    public void shouldFailActivationWithNotActualToken() throws Exception {
+        //given
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest3", "loginTest3").withPassword("1").build();
+        userService.create(userCreateForm);
+
+        //when
+        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+"dupa");
+
+        //then
+        mvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(model().attribute("blednyToken", true))
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<span>Bledny link weryfikacyjny</span>")
+                        ))
+                )
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+    }
+
+    @Test
     public void should_fail_registration_with_existing_email() throws Exception {
         //when
         mvc.perform(post("/register")
@@ -84,6 +197,26 @@ public class RegisterControllerTest {
     }
 
     @Test
+    public void should_fail_registration_with_failed_email() throws Exception {
+        //when
+        mvc.perform(post("/register")
+                .param("name", "adam")
+                .param("lastName", "malysz")
+                .param("login", "malyszNajeprzy3")
+                .param("email", "aaaa")
+                .param("password", "zaq1@WSX")
+                .param("confirmPassword", "zaq1@WSX"))
+                .andDo(print())
+                //then
+                .andExpect(content().string(
+                        allOf(
+                                containsString("<p>To nie jest prawidłowy adres email</p>")
+                        ))
+                )
+                .andExpect(model().errorCount(1));
+    }
+
+    @Test
     public void should_fail_registration() throws Exception {
         //when
         mvc.perform(post("/register"))
@@ -97,7 +230,7 @@ public class RegisterControllerTest {
                 )
                 .andExpect(content().string(
                         allOf(
-                                containsString("<p>Email nie może być  pusty</p>")
+                                containsString("<p>To nie jest prawidłowy adres email</p>")
                         ))
                 )
                 .andExpect(content().string(

@@ -1,4 +1,4 @@
-package com.register.example.configuration;
+package com.register.example.selenium.configuration;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.MethodRule;

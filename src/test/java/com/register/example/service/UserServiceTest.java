@@ -3,7 +3,9 @@ package com.register.example.service;
 import com.register.example.builders.UserBuilder;
 import com.register.example.builders.UserCreateFormBuilder;
 import com.register.example.entity.User;
+import com.register.example.entity.VerificationToken;
 import com.register.example.forms.UserCreateForm;
+import com.register.example.repository.TokenRepository;
 import com.register.example.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,15 +32,19 @@ public class UserServiceTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    TokenRepository tokenRepository;
+
     private UserService userService;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        tokenRepository.deleteAll();
         userRepository.deleteAll();
         userRepository.save(new UserBuilder("user1Email", "user1Login").build());
         userRepository.save(new UserBuilder("user2Email", "user2Login").build());
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, tokenRepository);
     }
 
     @Test
@@ -49,6 +55,37 @@ public class UserServiceTest {
         User user = userService.create(userCreateForm);
         //then
         assertThat(user).isNotNull();
+        assertThat(user.getEnabled()).isFalse();
+    }
+
+    @Test
+    public void should_after_create_user_exist_verificationToken() throws Exception {
+        //given
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("email2", "login2").withPassword("1").build();
+        //when
+        User user = userService.create(userCreateForm);
+        //then
+        Optional<VerificationToken> verificationToken=tokenRepository.findVerificationTokenByUser(user);
+        assertThat(user.getEnabled()).isFalse();
+        assertThat(verificationToken.get()).isNotNull();
+        assertThat(verificationToken.get().getIsUsed()).isFalse();
+        assertThat(verificationToken.get().getUser()).isEqualTo(user);
+    }
+
+    @Test
+    public void should_after_activateUser_changeToken() throws Exception {
+        //given
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("email3", "login3").withPassword("1").build();
+        User user = userService.create(userCreateForm);
+        Optional<VerificationToken> verificationToken=tokenRepository.findVerificationTokenByUser(user);
+
+        //when
+        userService.activateUser(user,verificationToken.get());
+
+        //then
+        assertThat(verificationToken.get().getIsUsed()).isTrue();
+        assertThat(user.getEnabled()).isTrue();
+
     }
 
     @Test(expected = DataIntegrityViolationException.class)
@@ -76,7 +113,7 @@ public class UserServiceTest {
         List<User> allUsers = userRepository.findAll();
         Integer size = allUsers.size();
         //when
-        userService.delete(allUsers.get(0).getId());
+        userService.delete(allUsers.get(0));
         //then
         assertThat(userRepository.findAll().size()).isEqualTo(size - 1);
     }
@@ -102,5 +139,6 @@ public class UserServiceTest {
         //then
         assertThat(user).isEqualTo(Optional.empty());
     }
+
 
 }

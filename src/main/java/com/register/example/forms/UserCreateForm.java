@@ -1,5 +1,6 @@
 package com.register.example.forms;
 
+import com.register.example.validators.ValidEmail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,8 +20,7 @@ public class UserCreateForm {
     @Size(min = 3, max = 30)
     private String lastName;
 
-    @NotBlank
-    @Pattern(regexp = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$")
+    @ValidEmail
     @Size(max = 50)
     private String email;
 

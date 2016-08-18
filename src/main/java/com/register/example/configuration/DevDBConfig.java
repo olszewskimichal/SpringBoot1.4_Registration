@@ -1,6 +1,7 @@
 package com.register.example.configuration;
 
 import com.register.example.builders.UserBuilder;
+import com.register.example.entity.Role;
 import com.register.example.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class DevDBConfig {
     @PostConstruct
     public void populateDatabase() {
         log.info("ładowanie bazy testowej");
-        userRepository.save(new UserBuilder("admin", "admin").withPassword("admin").build());
-        userRepository.save(new UserBuilder("user@poczta.pl", "user").withPassword("user").build());
+        userRepository.save(new UserBuilder("admin", "admin").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
+        userRepository.save(new UserBuilder("user@poczta.pl", "user").withPassword("user").withEnabled(true).build());
     }
 }
