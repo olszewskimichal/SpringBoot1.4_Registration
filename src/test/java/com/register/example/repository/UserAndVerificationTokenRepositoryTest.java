@@ -1,7 +1,9 @@
 package com.register.example.repository;
 
 import com.register.example.builders.UserBuilder;
+import com.register.example.builders.VerificationTokenBuilder;
 import com.register.example.entity.User;
+import com.register.example.entity.tokens.VerificationToken;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,24 +21,37 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @SpringBootTest
-public class UserRepositoryTest {
+public class UserAndVerificationTokenRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private TokenRepository tokenRepository;
+    private VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    private PasswordResetTokenRepository resetTokenRepository;
+
+    private User user;
+    private User user1;
+    private VerificationToken verificationToken;
 
     @Before
     public void setUp() throws Exception {
-        tokenRepository.deleteAll();
+        verificationTokenRepository.deleteAll();
+        resetTokenRepository.deleteAll();
         userRepository.deleteAll();
-        userRepository.save(new UserBuilder("user1Email", "user1Login").build());
-        userRepository.save(new UserBuilder("user2Email", "user2Login").build());
+        user=userRepository.save(new UserBuilder("user1Email", "user1Login").build());
+        user1=userRepository.save(new UserBuilder("user2Email", "user2Login").build());
+
+        verificationTokenRepository.save(new VerificationTokenBuilder(user,Boolean.FALSE).withDate(LocalDateTime.now().minusDays(8)).build());
+        verificationTokenRepository.save(new VerificationTokenBuilder(user,Boolean.TRUE).build());
+        verificationToken= verificationTokenRepository.save(new VerificationTokenBuilder(user1,Boolean.FALSE).build());
+
     }
 
     @Test
-    public void should_return_the_same_person() throws Exception {
+    public void userRepository_should_return_the_same_person() throws Exception {
         //given
         Optional<User> user = userRepository.findUserDistinctByEmailOrLogin("user1Email", "user1Email");
         //when
@@ -45,7 +61,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void should_be_empty() throws Exception {
+    public void userRepository_should_be_empty() throws Exception {
         //when
         Optional<User> user = userRepository.findUserDistinctByEmailOrLogin("user3Email", "user3Email");
         //then
@@ -53,13 +69,27 @@ public class UserRepositoryTest {
     }
 
     @Test(expected = UsernameNotFoundException.class)
-    public void should_throw_UsernameNotFoundException() {
+    public void userRepository_should_throw_UsernameNotFoundException() {
         //given
         String expectedUser = "user3Email";
         //when
         Optional<User> user = userRepository.findUserDistinctByEmailOrLogin(expectedUser, expectedUser);
         //then
         user.orElseThrow(() -> new UsernameNotFoundException(String.format("Uzytkownik %s nie istnieje", expectedUser)));
+    }
+
+
+    @Test
+    public void testDeleteVerificationTokenByExpiryDateLessThen() throws Exception {
+        //given
+
+        //when
+        Integer deleted= verificationTokenRepository.deleteVerificationTokenByExpiryDateLessThen(LocalDateTime.now().minusDays(7));
+
+        //then
+        assertThat(verificationTokenRepository.findAll().size()).isEqualTo(1);
+        assertThat(deleted).isEqualTo(2);
+        assertThat(verificationTokenRepository.findAll().get(0)).isEqualToComparingFieldByField(verificationToken);
     }
 
 

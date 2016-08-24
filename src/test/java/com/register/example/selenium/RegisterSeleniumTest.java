@@ -39,8 +39,8 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         RegisterPage registerPage = new RegisterPage(driver);
         registerPage.typeName("userTest");
         registerPage.typeLastName("userTest");
-        registerPage.typeEmail("userTest@poczta.pl");
-        registerPage.typeLogin("userTest");
+        registerPage.typeEmail("userTestXXX@poczta.pl");
+        registerPage.typeLogin("userTestXXX");
         registerPage.typePassword("zaq1@WSX");
         registerPage.typeConfirmPassword("zaq1@WSX");
         registerPage.clickOnRegisterButton();

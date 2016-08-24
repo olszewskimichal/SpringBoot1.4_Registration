@@ -1,17 +1,17 @@
-package com.register.example.entity;
+package com.register.example.entity.tokens;
 
+import com.register.example.entity.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
+@EqualsAndHashCode
 @NoArgsConstructor
-@Slf4j
-public class VerificationToken {
+public abstract class Token {
     @Id
     @GeneratedValue
     private Long id;
@@ -22,8 +22,11 @@ public class VerificationToken {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    private LocalDateTime expiryDate=LocalDateTime.now().plusDays(1);
-
     private Boolean isUsed=false;
 
+    public Token(String token, User user, Boolean isUsed) {
+        this.token=token;
+        this.user=user;
+        this.isUsed=isUsed;
+    }
 }

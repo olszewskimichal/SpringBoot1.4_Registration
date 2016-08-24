@@ -1,10 +1,13 @@
 package com.register.example.service;
 
 import com.register.example.entity.User;
-import com.register.example.entity.VerificationToken;
+import com.register.example.entity.tokens.PasswordResetToken;
+import com.register.example.entity.tokens.VerificationToken;
+import com.register.example.forms.ResetPasswordForm;
 import com.register.example.forms.UserCreateForm;
-import com.register.example.repository.TokenRepository;
+import com.register.example.repository.PasswordResetTokenRepository;
 import com.register.example.repository.UserRepository;
+import com.register.example.repository.VerificationTokenRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,12 +23,15 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
 
-    private final TokenRepository tokenRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
+
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, TokenRepository tokenRepository) {
+    public UserService(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository, PasswordResetTokenRepository passwordResetTokenRepository) {
         this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
+        this.verificationTokenRepository = verificationTokenRepository;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
     @Transactional
@@ -47,7 +53,15 @@ public class UserService {
         VerificationToken verificationToken=new VerificationToken();
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.setUser(user);
-        tokenRepository.save(verificationToken);
+        verificationTokenRepository.save(verificationToken);
+        log.info("Stworzono token dla uzytkownika o id=" + user.getId());
+    }
+
+    public void createPasswordResetToken(User user){
+        PasswordResetToken token=new PasswordResetToken();
+        token.setToken(UUID.randomUUID().toString());
+        token.setUser(user);
+        passwordResetTokenRepository.save(token);
         log.info("Stworzono token dla uzytkownika o id=" + user.getId());
     }
 
@@ -57,7 +71,7 @@ public class UserService {
         log.info("usuwanie uzytkownika o id=" + user.getId());
         Optional<VerificationToken> verificationToken=getVerificationToken(user);
         if (verificationToken.isPresent()) {
-            tokenRepository.delete(verificationToken.get());
+            verificationTokenRepository.delete(verificationToken.get());
         }
         userRepository.delete(user.getId());
     }
@@ -65,12 +79,22 @@ public class UserService {
 
     public Optional<VerificationToken> getVerificationToken(String token) {
         log.info("Pobieranie tokena {}", token);
-        return tokenRepository.findVerificationTokenByToken(token);
+        return verificationTokenRepository.findVerificationTokenByToken(token);
     }
 
     public Optional<VerificationToken> getVerificationToken(User user) {
         log.info("Pobieranie tokena nalezacego do usera {}", user.getLogin());
-        return tokenRepository.findVerificationTokenByUser(user);
+        return verificationTokenRepository.findVerificationTokenByUser(user);
+    }
+
+    public Optional<PasswordResetToken> getPasswordResetToken(String token) {
+        log.info("Pobieranie tokena resetujacego haslo {}", token);
+        return passwordResetTokenRepository.findPasswordResetTokenByToken(token);
+    }
+
+    public Optional<PasswordResetToken> getPasswordResetToken(User user) {
+        log.info("Pobieranie tokena resetujacego haslo nalezacego do usera {}", user.getLogin());
+        return passwordResetTokenRepository.findPasswordResetTokenByUser(user);
     }
 
 
@@ -84,6 +108,18 @@ public class UserService {
         user.setEnabled(true);
         userRepository.save(user);
         verificationToken.setIsUsed(true);
-        tokenRepository.save(verificationToken);
+        verificationTokenRepository.save(verificationToken);
+    }
+
+    @Modifying
+    @Transactional
+    public User resetPassword(ResetPasswordForm resetPasswordForm) {
+        PasswordResetToken token=getPasswordResetToken(resetPasswordForm.getToken()).get();
+        User user=token.getUser();
+        user.setPasswordHash(new BCryptPasswordEncoder().encode(resetPasswordForm.getPassword()));
+        user=userRepository.save(user);
+        token.setIsUsed(true);
+        passwordResetTokenRepository.save(token);
+        return user;
     }
 }

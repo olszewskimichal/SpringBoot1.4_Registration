@@ -1,7 +1,7 @@
 package com.register.example.controllers;
 
 import com.register.example.entity.User;
-import com.register.example.entity.VerificationToken;
+import com.register.example.entity.tokens.VerificationToken;
 import com.register.example.forms.UserCreateForm;
 import com.register.example.service.UserService;
 import com.register.example.validators.UserCreateValidator;
@@ -91,5 +91,6 @@ public class RegisterController {
             }
         return "login";
     }
+
 
 }

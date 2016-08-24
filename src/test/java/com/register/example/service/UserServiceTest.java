@@ -3,10 +3,13 @@ package com.register.example.service;
 import com.register.example.builders.UserBuilder;
 import com.register.example.builders.UserCreateFormBuilder;
 import com.register.example.entity.User;
-import com.register.example.entity.VerificationToken;
+import com.register.example.entity.tokens.PasswordResetToken;
+import com.register.example.entity.tokens.VerificationToken;
+import com.register.example.forms.ResetPasswordForm;
 import com.register.example.forms.UserCreateForm;
-import com.register.example.repository.TokenRepository;
+import com.register.example.repository.PasswordResetTokenRepository;
 import com.register.example.repository.UserRepository;
+import com.register.example.repository.VerificationTokenRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,18 +36,24 @@ public class UserServiceTest {
     UserRepository userRepository;
 
     @Autowired
-    TokenRepository tokenRepository;
+    VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    PasswordResetTokenRepository passwordResetTokenRepository;
 
     private UserService userService;
+
+    private User user;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        tokenRepository.deleteAll();
+        passwordResetTokenRepository.deleteAll();
+        verificationTokenRepository.deleteAll();
         userRepository.deleteAll();
-        userRepository.save(new UserBuilder("user1Email", "user1Login").build());
+        user=userRepository.save(new UserBuilder("user1Email", "user1Login").build());
         userRepository.save(new UserBuilder("user2Email", "user2Login").build());
-        userService = new UserService(userRepository, tokenRepository);
+        userService = new UserService(userRepository, verificationTokenRepository, passwordResetTokenRepository);
     }
 
     @Test
@@ -52,7 +61,7 @@ public class UserServiceTest {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("email1", "login1").withPassword("1").build();
         //when
-        User user = userService.create(userCreateForm);
+        user = userService.create(userCreateForm);
         //then
         assertThat(user).isNotNull();
         assertThat(user.getEnabled()).isFalse();
@@ -63,9 +72,9 @@ public class UserServiceTest {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("email2", "login2").withPassword("1").build();
         //when
-        User user = userService.create(userCreateForm);
+        user = userService.create(userCreateForm);
         //then
-        Optional<VerificationToken> verificationToken=tokenRepository.findVerificationTokenByUser(user);
+        Optional<VerificationToken> verificationToken= verificationTokenRepository.findVerificationTokenByUser(user);
         assertThat(user.getEnabled()).isFalse();
         assertThat(verificationToken.get()).isNotNull();
         assertThat(verificationToken.get().getIsUsed()).isFalse();
@@ -73,11 +82,11 @@ public class UserServiceTest {
     }
 
     @Test
-    public void should_after_activateUser_changeToken() throws Exception {
+    public void should_after_activateUser_changeToken_and_activateUser() throws Exception {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("email3", "login3").withPassword("1").build();
-        User user = userService.create(userCreateForm);
-        Optional<VerificationToken> verificationToken=tokenRepository.findVerificationTokenByUser(user);
+        user = userService.create(userCreateForm);
+        Optional<VerificationToken> verificationToken= verificationTokenRepository.findVerificationTokenByUser(user);
 
         //when
         userService.activateUser(user,verificationToken.get());
@@ -138,6 +147,33 @@ public class UserServiceTest {
         Optional<User> user = userService.getUserByEmailOrLogin("user3Email");
         //then
         assertThat(user).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void should_createResetPasswordToken() throws Exception{
+        //given
+
+        //when
+        userService.createPasswordResetToken(user);
+        //then
+        assertThat(userService.getPasswordResetToken(user).get()).isNotNull();
+    }
+
+    @Test
+    public void should_afterResetPassword_changePassword() throws Exception{
+        //given
+        userService.createPasswordResetToken(user);
+        Optional<PasswordResetToken> resetToken=userService.getPasswordResetToken(user);
+        ResetPasswordForm resetPasswordForm=new ResetPasswordForm(resetToken.get().getToken());
+        resetPasswordForm.setPassword("dupa");
+        resetPasswordForm.setConfirmPassword("dupa");
+        String oldHash=user.getPasswordHash();
+        //then
+        user=userService.resetPassword(resetPasswordForm);
+        String newHash=userService.getUserByEmailOrLogin(user.getLogin()).get().getPasswordHash();
+
+        assertThat(newHash).isNotNull();
+        assertThat(newHash).isNotEqualTo(oldHash);
     }
 
 

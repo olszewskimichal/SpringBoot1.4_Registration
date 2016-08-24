@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register**", "/login**","/register/**")
+                .antMatchers("/register**", "/login**","/register/**","/resetPassword**")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()

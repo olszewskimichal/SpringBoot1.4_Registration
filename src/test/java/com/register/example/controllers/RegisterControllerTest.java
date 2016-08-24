@@ -2,9 +2,9 @@ package com.register.example.controllers;
 
 import com.register.example.builders.UserCreateFormBuilder;
 import com.register.example.entity.User;
-import com.register.example.entity.VerificationToken;
+import com.register.example.entity.tokens.VerificationToken;
 import com.register.example.forms.UserCreateForm;
-import com.register.example.repository.TokenRepository;
+import com.register.example.repository.VerificationTokenRepository;
 import com.register.example.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class RegisterControllerTest {
     private UserService userService;
 
     @Autowired
-    private TokenRepository tokenRepository;
+    private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
     private FilterChainProxy springSecurityFilterChain;
@@ -53,9 +53,8 @@ public class RegisterControllerTest {
         mvc = MockMvcBuilders.webAppContextSetup(context).addFilter(springSecurityFilterChain).apply(springSecurity()).build();
     }
 
-
     @Test
-    public void shoud_show_register_page() throws Exception {
+    public void should_show_register_page() throws Exception {
         //when
         mvc.perform(get("/register"))
                 .andDo(print())
@@ -101,6 +100,10 @@ public class RegisterControllerTest {
                 .andExpect(view().name("login"));
     }
 
+
+
+
+
     @Test
     public void shouldFailActivationWithUsedToken() throws Exception {
         //given
@@ -134,7 +137,7 @@ public class RegisterControllerTest {
         VerificationToken verificationToken=userService.getVerificationToken(user).get();
         verificationToken.setExpiryDate(LocalDateTime.now().minusDays(1).minusMinutes(1));
 
-        tokenRepository.save(verificationToken);
+        verificationTokenRepository.save(verificationToken);
 
         //when
         RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+verificationToken.getToken());
@@ -175,6 +178,7 @@ public class RegisterControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
+
 
     @Test
     public void should_fail_registration_with_existing_email() throws Exception {
