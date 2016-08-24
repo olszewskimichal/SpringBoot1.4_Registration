@@ -14,12 +14,10 @@ public class BrowserConfiguration {
         File pathBinary = new File("C:\\Program Files\\Mozilla Firefox\\firefox.exe");
         FirefoxBinary Binary = new FirefoxBinary(pathBinary);
         FirefoxProfile firefoxPro = new FirefoxProfile();
-        WebDriver driver = new FirefoxDriver(Binary, firefoxPro);
-        return driver;
+        return new FirefoxDriver(Binary, firefoxPro);
     }
     public WebDriver getChromeDriver() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver_win32\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        return driver;
+        return new ChromeDriver();
     }
 }

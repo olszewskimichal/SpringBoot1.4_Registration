@@ -82,7 +82,7 @@ public class RegisterController {
             } else {
                 log.info("Token jest aktualny - aktywacja konta");
                 if (verificationToken.get().getIsUsed()){
-                    log.info(String.format("Token juz jest wykorzystany"));
+                    log.info("Token juz jest wykorzystany");
                     model.addAttribute("wykorzystany", true);
                 }else {
                     userService.activateUser(user, verificationToken.get());

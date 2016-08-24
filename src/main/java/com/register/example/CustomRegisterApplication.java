@@ -27,7 +27,7 @@ import java.util.Map;
 @EnableScheduling
 public class CustomRegisterApplication {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         SpringApplication.run(CustomRegisterApplication.class, args);
     }
 

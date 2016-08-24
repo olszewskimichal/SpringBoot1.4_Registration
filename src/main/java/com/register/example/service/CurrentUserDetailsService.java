@@ -31,8 +31,7 @@ public class CurrentUserDetailsService implements UserDetailsService {
         log.info("Autentykacja uzytkownika {} z ip {}", value,ip);
 
         if (loginAttemptService.isBlocked(ip)) {
-            log.info("Zbyt duża ilość błednych logowań - blokada do jutra");
-            throw new RuntimeException("blocked");
+            log.info("Zbyt duża ilość błednych logowań - Powinno zablokować");
         }
 
         User user = userService.getUserByEmailOrLogin(value)

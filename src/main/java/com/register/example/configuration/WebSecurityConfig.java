@@ -2,6 +2,7 @@ package com.register.example.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
@@ -13,6 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
@@ -23,7 +27,11 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    PersistentTokenRepository tokenRepository;
+    @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler = new CustomAuthenticationFailureHandler();
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,18 +53,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register**", "/login**","/register/**","/resetPassword**")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()
+
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login-error")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+               // .failureHandler(authenticationFailureHandler)
                 .permitAll()
                 .and()
                 .rememberMe()
+                .rememberMeParameter("remember-me")
+                .tokenRepository(tokenRepository)
+                .tokenValiditySeconds(360000)
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .deleteCookies("remember-me")
+                .logoutSuccessUrl("/login")
+                .permitAll()
                 .and()
                 .csrf().disable().headers().frameOptions().disable();
 
@@ -67,6 +81,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    @Bean
+    public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
+        PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
+                "remember-me", userDetailsService, tokenRepository);
+        return tokenBasedservice;
     }
 
 }

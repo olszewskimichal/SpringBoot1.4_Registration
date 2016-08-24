@@ -40,9 +40,16 @@
         <label for="password" th:text="#{login.password}" class="sr-only"></label>
         <input type="password" name="password" id="password" class="form-control" th:placeholder="#{login.password}"
                required="required"/>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="remember-me" name="remember-me"/> Zapamietaj mnie
+            </label>
+            <p>
+                <a th:id="register" th:href="@{/register}" th:text="#{login.register}"></a>
+            </p>
+        </div>
 
-        <p><a th:id="register" th:href="@{/register}" th:text="#{login.register}"></a>
-        </p>
+
         <button class="btn btn-lg btn-primary btn-block" name="loginSubmit" type="submit"
                 th:text="#{login.submit}"></button>
     </form>

@@ -37,7 +37,7 @@ public class ResetPasswordController {
             return "login";
         }
         if (resetToken.get().getIsUsed()){
-            log.info(String.format("Token juz jest wykorzystany"));
+            log.info("Token juz jest wykorzystany");
             model.addAttribute("wykorzystany", true);
             return "login";
         }

@@ -9,7 +9,7 @@ public class HibernateStatisticsInterceptor extends EmptyInterceptor {
     private ThreadLocal<Long> queryCount = new ThreadLocal<>();
 
     public void startCounter() {
-        queryCount.set(0l);
+        queryCount.set(0L);
     }
 
     public Long getQueryCount() {
