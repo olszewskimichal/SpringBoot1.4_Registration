@@ -13,3 +13,6 @@ before_script:
 
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+test:
+- mvn test -Dmaven.javadoc.skip=true -B -V
