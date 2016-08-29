@@ -34,6 +34,11 @@ public class DevDBConfig {
         log.info("ładowanie bazy testowej");
         User admin=userRepository.save(new UserBuilder("admin", "admin").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
         User user=userRepository.save(new UserBuilder("user@poczta.pl", "user").withPassword("user").withEnabled(true).build());
+        userRepository.save(new UserBuilder("admin1", "admin8").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
+        userRepository.save(new UserBuilder("admin2", "admin7").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
+        userRepository.save(new UserBuilder("admin3", "admin6").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
+        userRepository.save(new UserBuilder("admin4", "admin5").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
+
         verificationTokenRepository.save(new VerificationTokenBuilder(user,true).build());
         verificationTokenRepository.save(new VerificationTokenBuilder(user,false).withDate(LocalDateTime.now().minusDays(8)).build());
         verificationTokenRepository.save(new VerificationTokenBuilder(user,false).withDate(LocalDateTime.now().minusDays(6)).build());

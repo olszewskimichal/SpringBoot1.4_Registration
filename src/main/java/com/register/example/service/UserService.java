@@ -1,10 +1,13 @@
 package com.register.example.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.register.example.entity.User;
 import com.register.example.entity.tokens.PasswordResetToken;
 import com.register.example.entity.tokens.VerificationToken;
+import com.register.example.forms.EmailRegistrationDTO;
 import com.register.example.forms.ResetPasswordForm;
 import com.register.example.forms.UserCreateForm;
+import com.register.example.jms.EmailProducer;
 import com.register.example.repository.PasswordResetTokenRepository;
 import com.register.example.repository.UserRepository;
 import com.register.example.repository.VerificationTokenRepository;
@@ -27,16 +30,19 @@ public class UserService {
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
+    private final EmailProducer emailProducer;
+
     @Autowired
-    public UserService(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository, PasswordResetTokenRepository passwordResetTokenRepository) {
+    public UserService(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository, PasswordResetTokenRepository passwordResetTokenRepository, EmailProducer emailProducer) {
         this.userRepository = userRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.passwordResetTokenRepository = passwordResetTokenRepository;
+        this.emailProducer = emailProducer;
     }
 
     @Transactional
     @Modifying
-    public User create(UserCreateForm form) {
+    public User create(UserCreateForm form) throws JsonProcessingException {
         log.info("tworzenie uzytkownika =" + form.getLogin());
         User user = new User();
         user.setEmail(form.getEmail());
@@ -49,11 +55,13 @@ public class UserService {
         log.info("Stworzono uzytkownika o id=" + user.getId());
         return user;
     }
-    public void createVerificationToken(User user){
+    public void createVerificationToken(User user) throws JsonProcessingException {
         VerificationToken verificationToken=new VerificationToken();
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.setUser(user);
         verificationTokenRepository.save(verificationToken);
+        log.info("Zaczynam wysylac wiadomosci.");
+        emailProducer.send(new EmailRegistrationDTO(user.getEmail(),"Rejestracja",verificationToken.getToken()));
         log.info("Stworzono token dla uzytkownika o id=" + user.getId());
     }
 

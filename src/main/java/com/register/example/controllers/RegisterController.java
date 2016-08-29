@@ -1,5 +1,6 @@
 package com.register.example.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.register.example.entity.User;
 import com.register.example.entity.tokens.VerificationToken;
 import com.register.example.forms.UserCreateForm;
@@ -48,7 +49,7 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerSubmit(@ModelAttribute @Valid UserCreateForm userCreateForm, BindingResult result, Model model, HttpServletRequest servletRequest) {
+    public String registerSubmit(@ModelAttribute @Valid UserCreateForm userCreateForm, BindingResult result, Model model, HttpServletRequest servletRequest) throws JsonProcessingException {
         log.info("wywołanie metody registerSubmit");
         userCreateValidator.validate(userCreateForm, result);
         if (result.hasErrors()) {
@@ -56,8 +57,7 @@ public class RegisterController {
             return "register";
         } else {
             User user = userService.create(userCreateForm);
-
-            log.info("stworzono uzytkownika \n" + user.getLogin());
+            log.info("stworzono uzytkownika " + user.getLogin());
             model.addAttribute("userCreateForm", new UserCreateForm());
             model.addAttribute("confirmRegistration", true);
             return "register";

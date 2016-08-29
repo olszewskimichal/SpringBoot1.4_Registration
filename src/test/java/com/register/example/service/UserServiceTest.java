@@ -7,6 +7,7 @@ import com.register.example.entity.tokens.PasswordResetToken;
 import com.register.example.entity.tokens.VerificationToken;
 import com.register.example.forms.ResetPasswordForm;
 import com.register.example.forms.UserCreateForm;
+import com.register.example.jms.EmailProducer;
 import com.register.example.repository.PasswordResetTokenRepository;
 import com.register.example.repository.UserRepository;
 import com.register.example.repository.VerificationTokenRepository;
@@ -41,6 +42,9 @@ public class UserServiceTest {
     @Autowired
     PasswordResetTokenRepository passwordResetTokenRepository;
 
+    @Autowired
+    private  EmailProducer emailProducer;
+
     private UserService userService;
 
     private User user;
@@ -53,7 +57,7 @@ public class UserServiceTest {
         userRepository.deleteAll();
         user=userRepository.save(new UserBuilder("user1Email", "user1Login").build());
         userRepository.save(new UserBuilder("user2Email", "user2Login").build());
-        userService = new UserService(userRepository, verificationTokenRepository, passwordResetTokenRepository);
+        userService = new UserService(userRepository, verificationTokenRepository, passwordResetTokenRepository, emailProducer);
     }
 
     @Test
