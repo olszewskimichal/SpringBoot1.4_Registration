@@ -10,3 +10,6 @@ before_script:
 - "export DISPLAY=99:0"
 - "wget http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.1.jar"
 - "java -jar selenium-server-standalone-2.43.1.jar > /dev/null &"
+
+install:
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V

@@ -17,7 +17,7 @@ public class BrowserConfiguration {
         return new FirefoxDriver(Binary, firefoxPro);
     }
     public WebDriver getChromeDriver() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver_win32\\chromedriver.exe");
+       // System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver_win32\\chromedriver.exe");
         return new ChromeDriver();
     }
 }
