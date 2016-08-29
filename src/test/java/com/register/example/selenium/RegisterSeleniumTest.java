@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.context.annotation.Profile;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -24,7 +25,7 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
 
     @BeforeClass
     public static void setUp() {
-        driver = browserConfiguration.getChromeDriver();
+        driver = new FirefoxDriver();
         driver.manage().window().maximize();
     }
 

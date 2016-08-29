@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.Profile;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @Profile("!test")
@@ -16,8 +18,8 @@ public class LoginSeleniumTest extends SeleniumTestBase {
     public WebDriver driver;
 
     @Before
-    public void setUp() {
-        driver = browserConfiguration.getChromeDriver();
+    public void setUp() throws IOException {
+        driver = browserConfiguration.trvisDriver();
         driver.manage().window().maximize();
     }
 
