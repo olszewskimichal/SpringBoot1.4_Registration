@@ -4,6 +4,7 @@ import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.AuthenticatedNavigation;
 import com.register.example.selenium.pageObjects.LoginPage;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.Profile;
@@ -13,13 +14,14 @@ import java.io.IOException;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @Profile("!test")
+@Ignore
 public class LoginSeleniumTest extends SeleniumTestBase {
 
     public WebDriver driver;
 
     @Before
     public void setUp() throws IOException {
-        driver = browserConfiguration.trvisDriver();
+        driver = browserConfiguration.firefox();
         driver.manage().window().maximize();
     }
 

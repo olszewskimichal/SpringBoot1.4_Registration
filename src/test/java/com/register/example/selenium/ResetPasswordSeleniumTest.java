@@ -22,7 +22,7 @@ public class ResetPasswordSeleniumTest extends SeleniumTestBase {
 
     @BeforeClass
     public static void setUp() {
-        driver = browserConfiguration.getChromeDriver();
+        driver = browserConfiguration.firefox();
         driver.manage().window().maximize();
     }
 
