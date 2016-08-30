@@ -66,4 +66,31 @@ public class LoginSeleniumTest extends SeleniumTestBase {
         assertThat(driver.getTitle()).isEqualTo("Zarejestruj się");
         driver.quit();
     }
+
+    @Test
+    @Ignore
+    //Zablokuje inne testy TODO do poprawy
+    public void sshouldBlockUserAfter3badCredentials() {
+        driver.get("http://localhost:8080/login");
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        assertThat(driver.getPageSource()).contains("Twoje konto zostało zablokowane");
+        assertThat(driver.getTitle()).isEqualTo("Strona logowania");
+        driver.quit();
+    }
 }

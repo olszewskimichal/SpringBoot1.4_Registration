@@ -48,8 +48,19 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         assertThat(driver.getPageSource()).contains("Twoje konto zostalo stworzone");
         assertThat(driver.getTitle()).isEqualTo("Zarejestruj się");
 
+        //notActivatedUser
         driver.get("http://localhost:8080/login");
         LoginPage loginPage = new LoginPage(driver);
+        loginPage.typeUserName("userTestXXX");
+        loginPage.typePassword("zaq1@WSX");
+        loginPage.clickOnLoginButton();
+        System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
+        System.out.println(driver.getTitle() + "\n////////////////////////////////////");
+        assertThat(driver.getPageSource()).contains(" <span>Twoje konto nie jest aktywne</span>");
+
+        //not Existing login
+        driver.get("http://localhost:8080/login");
+        loginPage = new LoginPage(driver);
         loginPage.typeUserName("userTest");
         loginPage.typePassword("zaq1@WSX");
         loginPage.clickOnLoginButton();

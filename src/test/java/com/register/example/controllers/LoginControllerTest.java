@@ -74,7 +74,7 @@ public class LoginControllerTest {
         //then
         mvc.perform(requestBuilder)
                 .andDo(print())
-                .andExpect(model().attribute("errorMessage", "Nieprawidłowy użytkownik lub hasło"))
+                .andExpect(model().attribute("loginError", true))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
@@ -103,7 +103,7 @@ public class LoginControllerTest {
         mvc.perform(get("/login-error"))
                 .andDo(print())
                 //then
-                .andExpect(model().attribute("errorMessage", "Nieprawidłowy użytkownik lub hasło"))
+                .andExpect(model().attribute("loginError", true))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
