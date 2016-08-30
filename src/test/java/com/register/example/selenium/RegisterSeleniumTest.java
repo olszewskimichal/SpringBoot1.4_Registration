@@ -5,10 +5,7 @@ import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.LoginPage;
 import com.register.example.selenium.pageObjects.NonAuthenticatedNavigation;
 import com.register.example.selenium.pageObjects.RegisterPage;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.context.annotation.Profile;
@@ -16,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @Profile("!test")
+@Ignore
 public class RegisterSeleniumTest extends SeleniumTestBase {
 
     public static WebDriver driver;

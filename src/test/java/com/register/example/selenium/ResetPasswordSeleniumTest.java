@@ -3,16 +3,14 @@ package com.register.example.selenium;
 import com.register.example.selenium.configuration.ScreenshotTestRule;
 import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.ResetPasswordPage;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.Profile;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @Profile("!test")
+@Ignore
 public class ResetPasswordSeleniumTest extends SeleniumTestBase {
 
     public static WebDriver driver;
