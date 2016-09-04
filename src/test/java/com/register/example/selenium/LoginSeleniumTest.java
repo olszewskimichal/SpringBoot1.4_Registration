@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Profile("!test")
 @Ignore
@@ -70,7 +70,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
     @Test
     @Ignore
     //Zablokuje inne testy TODO do poprawy
-    public void sshouldBlockUserAfter3badCredentials() {
+    public void sshouldBlockUserAfter3badCredentials() throws InterruptedException {
         driver.get("http://localhost:8080/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeUserName("admin4");
@@ -88,9 +88,47 @@ public class LoginSeleniumTest extends SeleniumTestBase {
         loginPage.typeUserName("admin4");
         loginPage.typePassword("dupa");
         loginPage.clickOnLoginButton();
-
         assertThat(driver.getPageSource()).contains("Twoje konto zostało zablokowane");
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
+
+        Thread.sleep(1000*320);
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.clickOnLoginButton();
+        assertThat(driver.getPageSource()).contains("Twoje konto zostało zablokowane");
+        assertThat(driver.getTitle()).isEqualTo("Strona logowania");
+
+        Thread.sleep(1000*60*70);
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.typeUserName("admin4");
+        loginPage.typePassword("dupa");
+        loginPage.clickOnLoginButton();
+
+        loginPage.clickOnLoginButton();
+        assertThat(driver.getPageSource()).contains("Twoje konto zostało zablokowane");
+        assertThat(driver.getTitle()).isEqualTo("Strona logowania");
+
+
+
         driver.quit();
     }
 }

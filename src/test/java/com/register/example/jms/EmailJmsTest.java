@@ -3,7 +3,7 @@ package com.register.example.jms;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.register.example.forms.EmailRegistrationDTO;
+import com.register.example.dto.EmailRegistrationDTO;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import javax.jms.Queue;
 import javax.jms.TextMessage;
 import java.io.IOException;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -28,10 +28,6 @@ public class EmailJmsTest {
 
     @Autowired
     private JmsTemplate jmsTemplate;
-
-
-    @Autowired
-    private Queue destination;
 
     @Test
     public void testJMSSender() throws JsonProcessingException {

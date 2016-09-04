@@ -1,10 +1,10 @@
 package com.register.example.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.register.example.dto.EmailRegistrationDTO;
 import com.register.example.entity.User;
 import com.register.example.entity.tokens.PasswordResetToken;
 import com.register.example.entity.tokens.VerificationToken;
-import com.register.example.forms.EmailRegistrationDTO;
 import com.register.example.forms.ResetPasswordForm;
 import com.register.example.forms.UserCreateForm;
 import com.register.example.jms.EmailProducer;

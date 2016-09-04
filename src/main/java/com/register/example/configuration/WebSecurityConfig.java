@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register**", "/login**","/register/**","/resetPassword**")
+                .antMatchers("/register**", "/login**","/register/**","/resetPassword**","/api/**")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()
 
@@ -89,5 +89,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "remember-me", userDetailsService, tokenRepository);
         return tokenBasedservice;
     }
+
 
 }

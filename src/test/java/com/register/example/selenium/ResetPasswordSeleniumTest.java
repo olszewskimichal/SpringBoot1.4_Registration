@@ -7,7 +7,7 @@ import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.Profile;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Profile("!test")
 @Ignore
