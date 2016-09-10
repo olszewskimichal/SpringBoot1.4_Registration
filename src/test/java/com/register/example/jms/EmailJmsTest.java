@@ -3,14 +3,12 @@ package com.register.example.jms;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.register.example.IntegrationTestBase;
 import com.register.example.dto.EmailRegistrationDTO;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.jms.JMSException;
 import javax.jms.Queue;
@@ -19,9 +17,8 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-public class EmailJmsTest {
+
+public class EmailJmsTest extends IntegrationTestBase {
 
     @Autowired
     private EmailProducer jmsSender;

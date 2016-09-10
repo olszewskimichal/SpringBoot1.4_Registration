@@ -21,10 +21,10 @@ public class Product {
     private String description;
     private BigDecimal price;
 
-    public Product(String name,String imageUrl,String description,BigDecimal price){
-        this.name=name;
-        this.imageUrl=imageUrl;
-        this.description=description;
-        this.price=price;
+    public Product(String name, String imageUrl, String description, BigDecimal price) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.price = price;
     }
 }

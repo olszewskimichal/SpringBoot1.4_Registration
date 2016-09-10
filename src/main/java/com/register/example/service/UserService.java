@@ -55,18 +55,19 @@ public class UserService {
         log.info("Stworzono uzytkownika o id=" + user.getId());
         return user;
     }
+
     public void createVerificationToken(User user) throws JsonProcessingException {
-        VerificationToken verificationToken=new VerificationToken();
+        VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.setUser(user);
         verificationTokenRepository.save(verificationToken);
         log.info("Zaczynam wysylac wiadomosci.");
-        emailProducer.send(new EmailRegistrationDTO(user.getEmail(),"Rejestracja",verificationToken.getToken()));
+        emailProducer.send(new EmailRegistrationDTO(user.getEmail(), "Rejestracja", verificationToken.getToken()));
         log.info("Stworzono token dla uzytkownika o id=" + user.getId());
     }
 
-    public void createPasswordResetToken(User user){
-        PasswordResetToken token=new PasswordResetToken();
+    public void createPasswordResetToken(User user) {
+        PasswordResetToken token = new PasswordResetToken();
         token.setToken(UUID.randomUUID().toString());
         token.setUser(user);
         passwordResetTokenRepository.save(token);
@@ -77,7 +78,7 @@ public class UserService {
     @Modifying
     public void delete(User user) {
         log.info("usuwanie uzytkownika o id=" + user.getId());
-        Optional<VerificationToken> verificationToken=getVerificationToken(user);
+        Optional<VerificationToken> verificationToken = getVerificationToken(user);
         if (verificationToken.isPresent()) {
             verificationTokenRepository.delete(verificationToken.get());
         }
@@ -112,7 +113,7 @@ public class UserService {
     }
 
     public void activateUser(User user, VerificationToken verificationToken) {
-        log.info("Aktywacja uzytkownika {} i aktualizacja tokenu weryfikacyjnego",user.getLogin());
+        log.info("Aktywacja uzytkownika {} i aktualizacja tokenu weryfikacyjnego", user.getLogin());
         user.setEnabled(true);
         userRepository.save(user);
         verificationToken.setIsUsed(true);
@@ -122,10 +123,10 @@ public class UserService {
     @Modifying
     @Transactional
     public User resetPassword(ResetPasswordForm resetPasswordForm) {
-        PasswordResetToken token=getPasswordResetToken(resetPasswordForm.getToken()).get();
-        User user=token.getUser();
+        PasswordResetToken token = getPasswordResetToken(resetPasswordForm.getToken()).get();
+        User user = token.getUser();
         user.setPasswordHash(new BCryptPasswordEncoder().encode(resetPasswordForm.getPassword()));
-        user=userRepository.save(user);
+        user = userRepository.save(user);
         token.setIsUsed(true);
         passwordResetTokenRepository.save(token);
         return user;

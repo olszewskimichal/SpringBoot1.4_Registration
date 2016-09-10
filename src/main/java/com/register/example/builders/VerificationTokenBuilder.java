@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class VerificationTokenBuilder {
-    private String token= UUID.randomUUID().toString();
+    private String token = UUID.randomUUID().toString();
     private User user;
-    private LocalDateTime date=LocalDateTime.now();
+    private LocalDateTime date = LocalDateTime.now();
     private Boolean isUsed;
 
     public VerificationTokenBuilder(User user, Boolean isUsed) {
@@ -23,7 +23,7 @@ public class VerificationTokenBuilder {
     }
 
     public VerificationToken build() {
-        return new VerificationToken(token,user,date,isUsed);
+        return new VerificationToken(token, user, date, isUsed);
     }
 
 }

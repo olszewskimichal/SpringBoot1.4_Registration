@@ -37,7 +37,7 @@ public class UserCreateValidator implements Validator {
             errors.rejectValue("password", "password_error");
         }
 
-        if (userRepository.findUserDistinctByEmailOrLogin(form.getEmail(),form.getLogin()).isPresent()) {
+        if (userRepository.findUserDistinctByEmailOrLogin(form.getEmail(), form.getLogin()).isPresent()) {
             errors.rejectValue("email", "email_error");
         }
     }

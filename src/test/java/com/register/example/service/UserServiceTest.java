@@ -1,5 +1,6 @@
 package com.register.example.service;
 
+import com.register.example.IntegrationTestBase;
 import com.register.example.builders.UserBuilder;
 import com.register.example.builders.UserCreateFormBuilder;
 import com.register.example.entity.User;
@@ -13,25 +14,16 @@ import com.register.example.repository.UserRepository;
 import com.register.example.repository.VerificationTokenRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@SpringBootTest
-@Profile("test")
-public class UserServiceTest {
+
+public class UserServiceTest extends IntegrationTestBase {
 
     @Autowired
     UserRepository userRepository;
@@ -51,7 +43,6 @@ public class UserServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
         passwordResetTokenRepository.deleteAll();
         verificationTokenRepository.deleteAll();
         userRepository.deleteAll();

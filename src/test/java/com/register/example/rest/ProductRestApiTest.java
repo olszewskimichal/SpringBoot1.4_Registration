@@ -1,5 +1,7 @@
 package com.register.example.rest;
 
+import com.google.common.collect.Lists;
+import com.register.example.IntegrationTestBase;
 import com.register.example.asserts.ProductListAssert;
 import com.register.example.builders.ProductDTOBuilder;
 import com.register.example.builders.ProductDTOListFactory;
@@ -7,14 +9,11 @@ import com.register.example.dto.ProductDTO;
 import com.register.example.entity.Product;
 import com.register.example.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,21 +21,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringJUnit4ClassRunner.class)
-public class ProductRestApiTest {
+
+public class ProductRestApiTest extends IntegrationTestBase {
 
     @Autowired
     public ProductRepository productRepository;
-    public String baseURL="/api/products";
+    public String baseURL;
+
+    @LocalServerPort
+    private int port;
 
     @Autowired
-    private TestRestTemplate restTemplate=new TestRestTemplate("administrator","administrator");
+    private TestRestTemplate restTemplate;
 
     @Before
     public void setup() {
+        baseURL="http://localhost:"+port+"/api/products";
         productRepository.deleteAll();
     }
 
@@ -67,6 +69,8 @@ public class ProductRestApiTest {
         }
 
     }
+
+
 
     @Test
     public void should_get_3_products() {
@@ -144,7 +148,7 @@ public class ProductRestApiTest {
     }
 
     private List<ProductDTO> thenGetProductsFromApi() {
-        return Lists.newArrayList(restTemplate.getForObject(baseURL, ProductDTO[].class));
+        return Lists.newArrayList(restTemplate.getForEntity(baseURL, ProductDTO[].class).getBody());
     }
 
     private void thenCreateProductByApi(String name) {
@@ -156,7 +160,7 @@ public class ProductRestApiTest {
     }
 
     private List<ProductDTO> thenGetNumberOfNewestProductsFromApi(int number) {
-        return Lists.newArrayList(restTemplate.getForEntity(baseURL+String.format("?order=desc&limit=%s", number), ProductDTO[].class).getBody());
+        return Lists.newArrayList(restTemplate.getForObject(baseURL+String.format("?order=desc&limit=%s", number), ProductDTO[].class));
     }
 
     private void thenDeleteOneProductFromApi(Long id) {

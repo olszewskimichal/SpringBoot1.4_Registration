@@ -6,7 +6,7 @@ import com.register.example.entity.tokens.PasswordResetToken;
 import java.util.UUID;
 
 public class PasswordResetTokenBuilder {
-    private String token= UUID.randomUUID().toString();
+    private String token = UUID.randomUUID().toString();
     private User user;
     private Boolean isUsed;
 
@@ -17,7 +17,7 @@ public class PasswordResetTokenBuilder {
 
 
     public PasswordResetToken build() {
-        return new PasswordResetToken(token,user,isUsed);
+        return new PasswordResetToken(token, user, isUsed);
     }
 
 }

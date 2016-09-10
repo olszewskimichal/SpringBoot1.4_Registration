@@ -11,7 +11,7 @@ public class ProductBuilder {
     private String name;
     private String imageUrl = "http://localhost/image";
     private String description = "description";
-    private BigDecimal price;
+    private BigDecimal price=BigDecimal.ONE;
 
 
     public ProductBuilder(String name) {

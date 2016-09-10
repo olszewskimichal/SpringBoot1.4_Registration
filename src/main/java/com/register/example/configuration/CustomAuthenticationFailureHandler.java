@@ -31,8 +31,6 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     private LocaleResolver localeResolver;
 
 
-
-
     @Override
     public void onAuthenticationFailure(javax.servlet.http.HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
@@ -47,7 +45,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
             String ip = getClientIP();
 
             if (loginAttemptService.isBlocked(ip)) {
-                log.info("Zbyt duża ilość błednych logowań na konto {} - Blokujemy na 1 dzień",email);
+                log.info("Zbyt duża ilość błednych logowań na konto {} - Blokujemy na 1 dzień", email);
             }
 
         }
@@ -64,10 +62,9 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     }
 
 
-
     private String getClientIP() {
         String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader == null){
+        if (xfHeader == null) {
             return request.getRemoteAddr();
         }
         return xfHeader.split(",")[0];

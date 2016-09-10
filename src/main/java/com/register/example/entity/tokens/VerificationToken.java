@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class VerificationToken extends Token {
 
-    private LocalDateTime expiryDate=LocalDateTime.now().plusDays(1);
+    private LocalDateTime expiryDate = LocalDateTime.now().plusDays(1);
 
 
-    public VerificationToken(String token,User user,LocalDateTime date,Boolean isUsed) {
-        super(token,user,isUsed);
-        this.expiryDate=date;
+    public VerificationToken(String token, User user, LocalDateTime date, Boolean isUsed) {
+        super(token, user, isUsed);
+        this.expiryDate = date;
     }
 
 }

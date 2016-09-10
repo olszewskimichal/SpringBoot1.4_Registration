@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 public class PasswordResetToken extends Token {
 
     public PasswordResetToken(String token, User user, Boolean isUsed) {
-        super(token,user,isUsed);
+        super(token, user, isUsed);
     }
 
 }

@@ -14,11 +14,11 @@ public class Test implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "test",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Dupa> dupas;
 
     public Set<Dupa> getDupas() {
-        if (dupas==null) dupas=new HashSet<>();
+        if (dupas == null) dupas = new HashSet<>();
         return dupas;
     }
 

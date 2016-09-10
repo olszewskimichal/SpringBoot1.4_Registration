@@ -1,5 +1,6 @@
 package com.register.example.optimalizationSQL;
 
+import com.register.example.IntegrationTestBase;
 import com.register.example.configuration.HibernateStatisticsInterceptor;
 import com.register.example.entity.test.Dupa;
 import com.register.example.entity.test.Test;
@@ -7,19 +8,15 @@ import com.register.example.repository.test.DupaRepository;
 import com.register.example.repository.test.TestRepository;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-public class OptimalizationTest {
+
+public class OptimalizationTest extends IntegrationTestBase {
     @Autowired
     private HibernateStatisticsInterceptor hibernateStatisticsInterceptor;
 

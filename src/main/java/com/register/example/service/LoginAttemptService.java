@@ -12,12 +12,12 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class LoginAttemptService {
-    private final int MAX_ATTEMPT_DAY=8;
-    private final int MAX_ATTEMPT_HOUR=5;
-    private final int MAX_ATTEMPT_5MIN=3;
-    private LoadingCache<String,Integer> attemptsDayCache;
-    private LoadingCache<String,Integer> attemptsHourCache;
-    private LoadingCache<String,Integer> attempts5minCache;
+    private final int MAX_ATTEMPT_DAY = 8;
+    private final int MAX_ATTEMPT_HOUR = 5;
+    private final int MAX_ATTEMPT_5MIN = 3;
+    private final LoadingCache<String, Integer> attemptsDayCache;
+    private final LoadingCache<String, Integer> attemptsHourCache;
+    private final LoadingCache<String, Integer> attempts5minCache;
 
     public LoginAttemptService() {
         super();
@@ -70,23 +70,34 @@ public class LoginAttemptService {
 
     public boolean isBlocked(String key) {
         try {
-            boolean blocked=false;
-            if (attempts5minCache.get(key)>=MAX_ATTEMPT_5MIN){
-                    log.info("blokada na 5min");
-                    blocked=true;
-            }
-            else if (attemptsHourCache.get(key)>=MAX_ATTEMPT_HOUR){
-                     log.info("blokada na 1h");
-                     blocked=true;
-            }
-            else if (attemptsDayCache.get(key)>=MAX_ATTEMPT_DAY){
+            boolean blocked = false;
+            if (attempts5minCache.get(key) >= MAX_ATTEMPT_5MIN) {
+                log.info("blokada na 5min");
+                blocked = true;
+            } else if (attemptsHourCache.get(key) >= MAX_ATTEMPT_HOUR) {
+                log.info("blokada na 1h");
+                blocked = true;
+            } else if (attemptsDayCache.get(key) >= MAX_ATTEMPT_DAY) {
                 log.info("Blokada na cały dzien");
-                blocked=true;
+                blocked = true;
             }
             return blocked;
         } catch (ExecutionException e) {
             return false;
         }
+    }
+
+    public LoadingCache<String, Integer> getAttempts5minCache() {
+        return attempts5minCache;
+    }
+
+
+    public LoadingCache<String, Integer> getAttemptsHourCache() {
+        return attemptsHourCache;
+    }
+
+    public LoadingCache<String, Integer> getAttemptsDayCache() {
+        return attemptsDayCache;
     }
 
 }

@@ -15,7 +15,7 @@ public class ResetPasswordForm {
 
     private String token;
 
-    public ResetPasswordForm(String token){
-        this.token=token;
+    public ResetPasswordForm(String token) {
+        this.token = token;
     }
 }

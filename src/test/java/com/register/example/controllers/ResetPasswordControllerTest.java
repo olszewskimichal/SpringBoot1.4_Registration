@@ -1,5 +1,6 @@
 package com.register.example.controllers;
 
+import com.register.example.IntegrationTestBase;
 import com.register.example.builders.UserCreateFormBuilder;
 import com.register.example.entity.User;
 import com.register.example.entity.tokens.PasswordResetToken;
@@ -8,12 +9,8 @@ import com.register.example.repository.PasswordResetTokenRepository;
 import com.register.example.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.web.FilterChainProxy;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,10 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@SpringBootTest
-public class ResetPasswordControllerTest {
+public class ResetPasswordControllerTest extends IntegrationTestBase {
     @Autowired
     private WebApplicationContext context;
 

@@ -1,6 +1,8 @@
 package com.register.example.repository;
 
 import com.register.example.entity.Product;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,14 +16,18 @@ import java.util.Collection;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-        Collection<Product> findProductByName(String name);
+    Collection<Product> findProductByName(String name);
 
-        Product findProductById(Long id);
+    Product findProductById(Long id);
 
-        Page<Product> findAll(Pageable pageable);
+    @Cacheable("products")
+    Page<Product> findAll(Pageable pageable);
 
-        @Transactional
-        @Modifying
-        @Query("update Product p set p.imageUrl = ?1, p.description = ?2, p.price = ?3 where p.id = ?4")
-        int updateProduct(String imagerUrl, String description, BigDecimal price, Long id);
+    @Transactional
+    @Modifying
+    @Query("update Product p set p.imageUrl = ?1, p.description = ?2, p.price = ?3, p.name=?4 where p.id = ?5")
+    int updateProduct(String imageUrl, String description, BigDecimal price,String name, Long id);
+
+    @CacheEvict(value = "products", allEntries = true)
+    Product save(Product product);
 }

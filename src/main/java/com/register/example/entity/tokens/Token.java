@@ -22,11 +22,11 @@ public abstract class Token {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    private Boolean isUsed=false;
+    private Boolean isUsed = false;
 
     public Token(String token, User user, Boolean isUsed) {
-        this.token=token;
-        this.user=user;
-        this.isUsed=isUsed;
+        this.token = token;
+        this.user = user;
+        this.isUsed = isUsed;
     }
 }

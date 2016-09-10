@@ -16,8 +16,10 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.ws.config.annotation.EnableWs;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -29,6 +31,7 @@ import java.util.Map;
 @EnableScheduling
 @EnableCaching
 @EnableJms
+@EnableWs
 public class CustomRegisterApplication {
 
     public static void main(String... args) {
@@ -46,6 +49,12 @@ public class CustomRegisterApplication {
         return factory.dataSource(dataSource).packages("com.register")
                 .properties(jpaProperties).build();
     }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
     @Bean
     public HibernateJpaSessionFactoryBean sessionFactory() {
         return new HibernateJpaSessionFactoryBean();

@@ -13,7 +13,7 @@ import java.io.IOException;
 public class EmailConsumer {
     @JmsListener(destination = "email.queue")
     public void receive(String text) throws IOException {
-        ObjectMapper objectMapper=new ObjectMapper();
-        log.info("Otrzymalem z kolejki {}",objectMapper.readValue(text, EmailRegistrationDTO.class));
+        ObjectMapper objectMapper = new ObjectMapper();
+        log.info("Otrzymalem z kolejki {}", objectMapper.readValue(text, EmailRegistrationDTO.class));
     }
 }

@@ -22,7 +22,7 @@ public class VerificationTokenRemoveTasks {
     @Scheduled(
             cron = "00 39 18 * * *")
     public void cronJob() {
-        Integer deleted= verificationTokenRepository.deleteVerificationTokenByExpiryDateLessThen(LocalDateTime.now().minusDays(7));
-        log.info(String.format("Usunieto %d tokenow",deleted));
+        Integer deleted = verificationTokenRepository.deleteVerificationTokenByExpiryDateLessThen(LocalDateTime.now().minusDays(7));
+        log.info(String.format("Usunieto %d tokenow", deleted));
     }
 }

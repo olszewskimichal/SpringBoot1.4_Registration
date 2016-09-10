@@ -1,27 +1,22 @@
 package com.register.example.repository;
 
+import com.register.example.IntegrationTestBase;
 import com.register.example.builders.UserBuilder;
 import com.register.example.builders.VerificationTokenBuilder;
 import com.register.example.entity.User;
 import com.register.example.entity.tokens.VerificationToken;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@SpringBootTest
-public class UserAndVerificationTokenRepositoryTest {
+
+public class UserAndVerificationTokenRepositoryTest extends IntegrationTestBase {
 
     @Autowired
     private UserRepository userRepository;

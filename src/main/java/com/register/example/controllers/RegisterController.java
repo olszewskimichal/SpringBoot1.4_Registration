@@ -72,23 +72,23 @@ public class RegisterController {
             model.addAttribute("blednyToken", true);
             return "login";
         }
-            User user = verificationToken.get().getUser();
-            LocalDateTime localDateTime = LocalDateTime.now();
-            long diff = Duration.between(localDateTime, verificationToken.get().getExpiryDate()).toMinutes();
+        User user = verificationToken.get().getUser();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        long diff = Duration.between(localDateTime, verificationToken.get().getExpiryDate()).toMinutes();
 
-            if (diff < 0L) {
-                log.info(String.format("Token juz jest nieaktulany \n dataDO= %s \n", verificationToken.get().getExpiryDate()));
-                model.addAttribute("nieaktualny", true);
+        if (diff < 0L) {
+            log.info(String.format("Token juz jest nieaktulany \n dataDO= %s \n", verificationToken.get().getExpiryDate()));
+            model.addAttribute("nieaktualny", true);
+        } else {
+            log.info("Token jest aktualny - aktywacja konta");
+            if (verificationToken.get().getIsUsed()) {
+                log.info("Token juz jest wykorzystany");
+                model.addAttribute("wykorzystany", true);
             } else {
-                log.info("Token jest aktualny - aktywacja konta");
-                if (verificationToken.get().getIsUsed()){
-                    log.info("Token juz jest wykorzystany");
-                    model.addAttribute("wykorzystany", true);
-                }else {
-                    userService.activateUser(user, verificationToken.get());
-                    model.addAttribute("aktualny", true);
-                }
+                userService.activateUser(user, verificationToken.get());
+                model.addAttribute("aktualny", true);
             }
+        }
         return "login";
     }
 

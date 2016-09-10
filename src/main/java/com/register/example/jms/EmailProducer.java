@@ -21,9 +21,9 @@ public class EmailProducer {
     }
 
     public void send(EmailRegistrationDTO emailRegistrationDTO) throws JsonProcessingException {
-        log.info("Wstawiam na kolejke {} obiekt {}",queue,emailRegistrationDTO);
-        ObjectMapper objectMapper=new ObjectMapper();
-        template.convertAndSend(queue,objectMapper.writeValueAsString(emailRegistrationDTO));
+        log.info("Wstawiam na kolejke {} obiekt {}", queue, emailRegistrationDTO);
+        ObjectMapper objectMapper = new ObjectMapper();
+        template.convertAndSend(queue, objectMapper.writeValueAsString(emailRegistrationDTO));
     }
 
     public Queue getQueue() {

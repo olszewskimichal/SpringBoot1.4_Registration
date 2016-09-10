@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register**", "/login**","/register/**","/resetPassword**","/api/**")
+                .antMatchers("/register**", "/login**", "/register/**", "/resetPassword**", "/api/**")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()
 
@@ -88,6 +89,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
                 "remember-me", userDetailsService, tokenRepository);
         return tokenBasedservice;
+    }
+
+    @Bean
+    public SimpleJaxWsServiceExporter simpleJaxWsServiceExporter() {
+        SimpleJaxWsServiceExporter simpleJaxWsServiceExporter = new SimpleJaxWsServiceExporter();
+        simpleJaxWsServiceExporter.setBaseAddress("http://localhost:8888/services/");
+        return simpleJaxWsServiceExporter;
     }
 
 

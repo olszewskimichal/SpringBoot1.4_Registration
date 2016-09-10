@@ -13,14 +13,14 @@ public class Dupa implements Serializable {
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "testId",referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "testId", referencedColumnName = "id", nullable = false)
     private Test test;
 
     private String zupa;
 
-    public Dupa(String zupa,Test test){
-        this.zupa=zupa;
-        this.test=test;
+    public Dupa(String zupa, Test test) {
+        this.zupa = zupa;
+        this.test = test;
     }
 
     public Long getId() {

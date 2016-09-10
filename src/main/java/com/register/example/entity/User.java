@@ -29,7 +29,7 @@ public class User {
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
-    private Role role=Role.USER;
+    private Role role = Role.USER;
 
     private Boolean enabled = false;
 
@@ -39,19 +39,18 @@ public class User {
 
     private Boolean accountNonLocked = true;
 
-    private LocalDateTime lastSuccesfullLogin=null;
+    private LocalDateTime lastSuccesfullLogin = null;
 
-    private LocalDate registrationDate=LocalDate.now();
+    private LocalDate registrationDate = LocalDate.now();
 
 
-
-    public User(String name, String lastName, String email, String login, String passwordHash,Role role,Boolean enabled) {
+    public User(String name, String lastName, String email, String login, String passwordHash, Role role, Boolean enabled) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.passwordHash = passwordHash;
         this.role = role;
-        this.enabled=enabled;
+        this.enabled = enabled;
     }
 }

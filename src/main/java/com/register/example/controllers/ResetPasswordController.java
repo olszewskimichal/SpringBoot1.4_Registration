@@ -36,7 +36,7 @@ public class ResetPasswordController {
             model.addAttribute("blednyPasswordToken", true);
             return "login";
         }
-        if (resetToken.get().getIsUsed()){
+        if (resetToken.get().getIsUsed()) {
             log.info("Token juz jest wykorzystany");
             model.addAttribute("wykorzystany", true);
             return "login";
