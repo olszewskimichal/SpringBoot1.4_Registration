@@ -6,6 +6,7 @@ import com.register.example.entity.Product;
 import com.register.example.repository.ProductRepository;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -33,7 +34,7 @@ public class ProductDTOListFactory {
         List<ProductDTO> productList = new ArrayList<>();
         IntStream.range(0, numberOfProducts).forEachOrdered(number -> {
 
-            Product product = new ProductBuilder(String.format("product_%s", number)).withPrice(new BigDecimal((number)*5).setScale(2,BigDecimal.ROUND_HALF_UP)).build();
+            Product product = new ProductBuilder(String.format("product_%s", number)).withPrice(new BigDecimal((number)*5).setScale(2, RoundingMode.HALF_UP)).build();
             repository.save(product);
             productList.add(new ProductDTO(product));
         });

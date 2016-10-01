@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.register.example.soap.WebServiceOperationLog;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.command.ActiveMQQueue;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import javax.jms.Queue;
 
 @Component
 @Slf4j
+@Profile("!test")
 public class OperationLogProducer {
     private final JmsMessagingTemplate template;
     private Queue queue;

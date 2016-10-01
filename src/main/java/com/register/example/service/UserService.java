@@ -23,6 +23,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+//@Profile("!test")
 public class UserService {
     private final UserRepository userRepository;
 
@@ -57,6 +58,7 @@ public class UserService {
     }
 
     public void createVerificationToken(User user) throws JsonProcessingException {
+
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.setUser(user);

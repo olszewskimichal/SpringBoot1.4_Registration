@@ -135,7 +135,8 @@ public class ProductServiceTest extends IntegrationTestBase {
         productService.updateProduct(createdProduct.getId(),new ProductDTOBuilder("testNowy").withPrice(BigDecimal.TEN).build());
 
         //then
-        Product product=productRepository.findProductById(createdProduct.getId());
+        //TODO obsluzyc orElse
+        Product product=productRepository.findProductById(createdProduct.getId()).get();
         assertThat(product.getPrice().stripTrailingZeros()).isEqualTo(BigDecimal.TEN.stripTrailingZeros());
         assertThat(product.getName()).isEqualTo("testNowy");
     }

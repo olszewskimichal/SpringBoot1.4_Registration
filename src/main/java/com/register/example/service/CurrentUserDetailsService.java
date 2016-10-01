@@ -5,6 +5,7 @@ import com.register.example.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 
 @Service
 @Slf4j
+@Profile("!test")
 public class CurrentUserDetailsService implements UserDetailsService {
     private final UserService userService;
     private final LoginAttemptService loginAttemptService;
@@ -33,7 +35,7 @@ public class CurrentUserDetailsService implements UserDetailsService {
     public CurrentUser loadUserByUsername(String value) {
         String profiles[]=env.getActiveProfiles();
         String ip;
-        if (Arrays.binarySearch(profiles,"test")>=0) {
+        if (Arrays.binarySearch(profiles,"integrationTest")>=0) {
             ip = "ipTestowe";
         }
         else ip= getClientIP();

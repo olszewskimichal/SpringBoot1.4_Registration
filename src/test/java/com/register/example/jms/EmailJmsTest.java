@@ -40,9 +40,7 @@ public class EmailJmsTest extends IntegrationTestBase {
             System.out.println(msg.getText());
             assertThat(recivedObject).isEqualToComparingFieldByField(emailRegistrationDTO);
 
-        } catch (JMSException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JMSException | IOException e) {
             e.printStackTrace();
         }
         System.out.println("***********************");

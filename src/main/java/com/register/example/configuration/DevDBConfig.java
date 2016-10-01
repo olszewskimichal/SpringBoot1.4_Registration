@@ -16,6 +16,7 @@ import com.register.example.repository.test.TestRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ import java.util.Set;
 
 @Configuration
 @Slf4j
-//@Profile("!test")
+@Profile("!test")
 public class DevDBConfig {
     @Autowired
     private UserRepository userRepository;

@@ -13,20 +13,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Collection<Product> findProductByName(String name);
+    Collection<Product> findProductsByName(String name);
 
-    Product findProductById(Long id);
+    Optional<Product> findProductById(Long id);
 
     @Cacheable("products")
     Page<Product> findAll(Pageable pageable);
 
     @Transactional
     @Modifying
-    @Query("update Product p set p.imageUrl = ?1, p.description = ?2, p.price = ?3, p.name=?4 where p.id = ?5")
-    int updateProduct(String imageUrl, String description, BigDecimal price,String name, Long id);
+    @Query("update Product p set p.imageUrl = ?1, p.description = ?2, p.name = ?3, p.price=?4 where p.id = ?5")
+    int updateProduct(String imageUrl, String description, String name, BigDecimal price, Long id);
 
     @CacheEvict(value = "products", allEntries = true)
     Product save(Product product);

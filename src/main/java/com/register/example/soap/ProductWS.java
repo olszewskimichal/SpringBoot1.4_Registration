@@ -9,8 +9,8 @@ import com.register.example.soap.objects.GetProductsResponseWS;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.ActiveProfiles;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
@@ -22,7 +22,7 @@ import javax.jws.WebService;
 @Slf4j
 @NoArgsConstructor
 @HandlerChain(file="handler-chain.xml")
-@ActiveProfiles("!test")
+@Profile("!test")
 public class ProductWS {
     private ProductService productService;
 

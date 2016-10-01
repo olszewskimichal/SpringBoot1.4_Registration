@@ -39,7 +39,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
         assertThat(driver.getTitle()).isEqualTo("Strona głowna");
         AuthenticatedNavigation authenticatedNavigation = new AuthenticatedNavigation(driver);
         assertThat(authenticatedNavigation.getLoginName()).isEqualTo("admin");
-        authenticatedNavigation.clickOnloginName();
+        authenticatedNavigation.clickOnLoginName();
         authenticatedNavigation.clickOnLogout();
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
         driver.quit();

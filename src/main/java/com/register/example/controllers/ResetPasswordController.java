@@ -7,6 +7,7 @@ import com.register.example.service.UserService;
 import com.register.example.validators.ResetPasswordValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
+@Profile("!test")
 public class ResetPasswordController {
     private final ResetPasswordValidator resetPasswordValidator;
 

@@ -8,5 +8,5 @@ import javax.xml.bind.annotation.XmlType;
 public enum StatusWS {
     IN_PROGRESS,
     DONE,
-    FAILED;
+    FAILED
 }

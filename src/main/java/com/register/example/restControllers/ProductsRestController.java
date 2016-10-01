@@ -4,6 +4,7 @@ import com.register.example.dto.ProductDTO;
 import com.register.example.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 @Slf4j
+@Profile("!test")
 public class ProductsRestController {
 
     private final ProductService productService;

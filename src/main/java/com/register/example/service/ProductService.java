@@ -9,6 +9,7 @@ import com.register.example.soap.WebServiceOperationLog;
 import com.register.example.soap.objects.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Profile("!test")
 public class ProductService {
     private static int PAGE_LIMIT = 20;
     private static int FIRST_PAGE = 0;
@@ -57,7 +59,8 @@ public class ProductService {
 
     public ProductDTO getProduct(final Long productId) {
         log.info("ProductService getProduct o id" + productId);
-        return new ProductDTO(productRepository.findProductById(productId));
+        //TODO obsluzyc orElse
+        return new ProductDTO(productRepository.findProductById(productId).get());
     }
 
     public void deleteProduct(final Long id) {
@@ -77,17 +80,17 @@ public class ProductService {
         productRepository.updateProduct(
                 productDomain.getImageUrl(),
                 productDomain.getDescription(),
-                productDomain.getPrice(),
                 productDomain.getName(),
+                productDomain.getPrice(),
                 productId);
     }
 
     private int setReturnSize(final Integer size) {
-        return (Objects.isNull(size) ? PAGE_LIMIT : size.intValue());
+        return (Objects.isNull(size) ? PAGE_LIMIT : size);
     }
 
     private int setPageSize(final Integer page) {
-        return (Objects.isNull(page) ? FIRST_PAGE : page.intValue());
+        return (Objects.isNull(page) ? FIRST_PAGE : page);
     }
 
     private Sort.Direction setSortDirection(final String sort) {

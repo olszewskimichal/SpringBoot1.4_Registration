@@ -55,14 +55,14 @@ public class OptimalizationTest extends IntegrationTestBase {
     public void should_findTestWithChilds_In_1Query() {
         testRepository.findALL();
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
-        assertThat(queryCount).isEqualTo(1l);
+        assertThat(queryCount).isEqualTo(1L);
     }
 
     @org.junit.Test
     public void should_DeleteChildFromTest_In_1Query() {
         dupaRepository.deleteDupaByID(1L);
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
-        assertThat(queryCount).isEqualTo(1l);
+        assertThat(queryCount).isEqualTo(1L);
     }
 
     @org.junit.Test
@@ -72,7 +72,7 @@ public class OptimalizationTest extends IntegrationTestBase {
         testRepository.save(test);
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         //Powinno byc w 2L
-        assertThat(queryCount).isEqualTo(3l);
+        assertThat(queryCount).isEqualTo(3L);
     }
 
     @org.junit.Test
@@ -80,16 +80,14 @@ public class OptimalizationTest extends IntegrationTestBase {
         dupaRepository.deleteDupaByTestId(id);
         testRepository.deleteTestByID(id);
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
-        assertThat(queryCount).isEqualTo(2l);
+        assertThat(queryCount).isEqualTo(2L);
     }
 
     @org.junit.Test
     public void should_ReadChildren_In_1Query() {
         Test test2 = testRepository.findOne(id);
-        for (Dupa dupa:test2.getDupas()){
-            dupa.getZupa();
-        }
+        test2.getDupas().forEach(Dupa::getZupa);
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
-        assertThat(queryCount).isEqualTo(1l);
+        assertThat(queryCount).isEqualTo(1L);
     }
 }

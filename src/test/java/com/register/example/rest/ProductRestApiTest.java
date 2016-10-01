@@ -16,10 +16,7 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -97,7 +94,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
         thenCreateProductByApi(expectedName);
 
         //then
-        List<Product> products= (List<Product>) productRepository.findProductByName(expectedName);
+        List<Product> products= (List<Product>) productRepository.findProductsByName(expectedName);
         Assertions.assertThat(products.get(0)).isNotNull();
     }
 
@@ -114,7 +111,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
             Long id = e.getKey();
             thenUpdateProductByApi(id,BigDecimal.ONE);
             //then
-            assertThat(productRepository.findProductById(id))
+            assertThat(productRepository.findProductById(id).get())
                     .isNotNull()
                     .hasFieldOrPropertyWithValue("price", BigDecimal.ONE.setScale(2));
         }
@@ -133,7 +130,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
             System.out.println(id);
             thenDeleteOneProductFromApi(id);
             //then
-            assertThat(productRepository.findProductById(id)).isNull();
+            assertThat(productRepository.findProductById(id)).isEqualTo(Optional.empty());
         }
 
     }
@@ -144,7 +141,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
 
 
     private ProductDTO thenGetOneProductFromApi(Long id) {
-        return restTemplate.getForObject(baseURL+"/{id}", ProductDTO.class,id);
+        return restTemplate.getForEntity(baseURL+"/{id}", ProductDTO.class,id).getBody();
     }
 
     private List<ProductDTO> thenGetProductsFromApi() {
@@ -160,7 +157,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
     }
 
     private List<ProductDTO> thenGetNumberOfNewestProductsFromApi(int number) {
-        return Lists.newArrayList(restTemplate.getForObject(baseURL+String.format("?order=desc&limit=%s", number), ProductDTO[].class));
+        return Lists.newArrayList(restTemplate.getForEntity(baseURL+String.format("?order=desc&limit=%s", number), ProductDTO[].class).getBody());
     }
 
     private void thenDeleteOneProductFromApi(Long id) {

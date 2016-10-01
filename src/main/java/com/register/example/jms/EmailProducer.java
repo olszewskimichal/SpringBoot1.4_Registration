@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.register.example.dto.EmailRegistrationDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import javax.jms.Queue;
 
 @Component
 @Slf4j
+@Profile("!test")
 public class EmailProducer {
     private final JmsMessagingTemplate template;
     private Queue queue;

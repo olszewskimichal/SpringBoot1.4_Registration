@@ -25,9 +25,7 @@ public class ProductWsHandler implements SOAPHandler<SOAPMessageContext> {
             try {
                 SOAPMessage soapMsg = context.getMessage();
                 soapMsg.writeTo(System.out);
-            } catch (SOAPException e) {
-                System.err.println(e);
-            } catch (IOException e) {
+            } catch (SOAPException | IOException e) {
                 System.err.println(e);
             }
 

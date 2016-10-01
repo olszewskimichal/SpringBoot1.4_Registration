@@ -44,9 +44,7 @@ public class OperationLogJmsTest extends IntegrationTestBase {
             System.out.println(msg.getText());
             assertThat(recivedObject).isEqualToComparingFieldByField(webServiceOperationLog);
 
-        } catch (JMSException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JMSException | IOException e) {
             e.printStackTrace();
         }
         System.out.println("***********************");

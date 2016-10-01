@@ -19,7 +19,7 @@ public class AuthenticatedNavigation extends Navigation {
         return webDriver.findElement(loginName).getText();
     }
 
-    public void clickOnloginName() {
+    public void clickOnLoginName() {
         webDriver.findElement(loginName).click();
     }
 

@@ -1,6 +1,6 @@
 package com.register.example.controllers;
 
-import com.register.example.IntegrationWebTestBase;
+import com.register.example.IntegrationTestBase;
 import com.register.example.entity.CurrentUser;
 import com.register.example.repository.UserRepository;
 import org.junit.Before;
@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class HomeControllerTest extends IntegrationWebTestBase {
+public class HomeControllerTest extends IntegrationTestBase {
 
     @Autowired
     UserRepository userRepository;
