@@ -1,7 +1,7 @@
 package com.register.example.restControllers;
 
 import com.register.example.dto.SimpleTweet;
-import com.register.example.service.SearchService;
+import com.register.example.service.TwitterSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +10,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/search")
 public class TwitterController {
-    private final SearchService twitterSearch;
+    private final TwitterSearch twitterSearch;
 
     @Autowired
-    public TwitterController(SearchService twitterSearch) {
+    public TwitterController(TwitterSearch twitterSearch) {
         this.twitterSearch = twitterSearch;
     }
 

@@ -36,7 +36,7 @@ public class VerificationTokenRepositoryTest {
 
     @Before
     public void setUp(){
-        user=this.testEntityManager.persist(new UserBuilder("test","test").build());
+        user=this.testEntityManager.persist(new UserBuilder("test", "test").build());
         user2=this.testEntityManager.persist(new UserBuilder("user","user").build());
     }
 

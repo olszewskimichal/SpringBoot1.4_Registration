@@ -5,8 +5,10 @@ import com.register.example.entity.Role;
 import com.register.example.entity.User;
 import com.register.example.forms.UserCreateForm;
 import com.register.example.repository.UserRepository;
+import com.register.example.repository.VerificationTokenRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
@@ -19,6 +21,12 @@ public class UserCreateValidatorTest extends IntegrationTestBase {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    VerificationTokenRepository tokenRepository;
+
+    @Autowired
+    PersistentTokenRepository persistentTokenRepository;
 
     Errors errors;
 
@@ -51,13 +59,12 @@ public class UserCreateValidatorTest extends IntegrationTestBase {
 
     @Test
     public void shouldReturnErrorWithExistingUserName() throws Exception {
-
-        userRepository.save(new User("user","user","user@o2.pl","user","user", Role.USER,true));
+        userRepository.save(new User("user4","user4","user4@o2.pl","user4","user4", Role.USER,true));
         UserCreateForm userCreateForm=new UserCreateForm();
         userCreateForm.setPassword("dupa");
         userCreateForm.setConfirmPassword("dupa");
-        userCreateForm.setLogin("user");
-        userCreateForm.setEmail("user@o2.pl");
+        userCreateForm.setLogin("user4");
+        userCreateForm.setEmail("user4@o2.pl");
         errors = new BindException(userCreateForm, "userCreateForm");
         userCreateValidator.validate(userCreateForm,errors);
         assertThat(errors.getErrorCount()).isEqualTo(1);

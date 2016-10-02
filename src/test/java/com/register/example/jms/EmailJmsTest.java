@@ -28,7 +28,7 @@ public class EmailJmsTest extends IntegrationTestBase {
 
     @Test
     public void testJMSSender() throws JsonProcessingException {
-        EmailRegistrationDTO emailRegistrationDTO=new EmailRegistrationDTO("test","test","test");
+        EmailRegistrationDTO emailRegistrationDTO=new EmailRegistrationDTO("test", "test", "test");
         Queue queue=new ActiveMQQueue("test");
         jmsSender.setQueue(queue);
         jmsSender.send(emailRegistrationDTO);

@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title th:text="#{login.register}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{/profile}" th:object="${profileForm}" method="post" class="form">
+        <div class="row">
+
+            <div class="form-group col-md-12">
+                <label for="email"> Adres e-mail</label>
+                <input th:field="${profileForm.email}" id="email" type="email" class="form-control"
+                       required="required"/>
+
+                <div th:errors="*{email}" class="red-text">Błąd</div>
+            </div>
+        </div>
+        <fieldset class="form-group">
+            <button class="btn btn-primary" type="submit" name="add" th:text="Dodaj_nastepny">
+            </button>
+            <button class="btn btn-primary" type="submit" name="add2" th:text="Dodaj_nastepny2">
+            </button>
+
+            <div class="row" th:each="row,rowStat : *{forms}">
+                <span th:if="${row instanceof T(com.register.example.forms.JakiKolwiekForm)}" >
+                <div class="form-group col-md-3">
+                    <input class="form-control" type="text" th:field="*{forms[__${rowStat.index}__].name}"
+                           th:placeholder="Name" required="required"/>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <input class="form-control" type="text" th:field="*{forms[__${rowStat.index}__].lastName}"
+                           th:placeholder="lastName" required="required"/>
+                </div>
+
+                 <div class="form-group col-md-3">
+                     <input class="form-control" type="text" th:field="*{forms[__${rowStat.index}__].jakis}"
+                             required="required"/>
+                 </div>
+
+                <div class="form-group col-md-3">
+                    <button class="btn btn-primary" type="submit" name="remove" th:value="${rowStat.index}"
+                            th:text="Usuń">
+                    </button>
+                </div>
+                </span>
+                <span th:if="${row instanceof T(com.register.example.forms.CokolwiekForm)}">
+                <div class="form-group col-md-4">
+                    <input class="form-control" type="text" th:field="*{forms[__${rowStat.index}__].name}"
+                           th:placeholder="Name" required="required"/>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <input class="form-control" type="text" th:field="*{forms[__${rowStat.index}__].lastName}"
+                           th:placeholder="lastName" required="required"/>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <button class="btn btn-primary" type="submit" name="remove" th:value="${rowStat.index}"
+                            th:text="Usuń">
+                    </button>
+                </div>
+                </span>
+            </div>
+        </fieldset>
+
+        <div class="form-group col-md-12 row">
+            <button class="btn btn-primary" type="submit" name="save" th:text="Wyślij">
+            </button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title th:text="upload_files"></title>
+    <style>
+        .image-preview-input {
+            position: relative;
+            overflow: hidden;
+            margin: 0px;
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+        }
+
+        .image-preview-input input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        .image-preview-input-title {
+            margin-left: 2px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${message}">
+        <h2 th:text="${message}"/>
+    </div>
+
+    <div class="well">
+        <form role="form" action="/upload" enctype="multipart/form-data" method="post">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <input type="file" name="file" id="input01"/>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-ok"></span> Upload
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <ul>
+            <li th:each="file : ${files}">
+                <a th:href="${file}" th:text="${file}"/>
+            </li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>

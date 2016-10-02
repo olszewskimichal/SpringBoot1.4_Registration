@@ -1,9 +1,11 @@
 package com.register.example;
 
 import com.register.example.configuration.HibernateStatisticsInterceptor;
+import com.register.example.properties.StorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,7 @@ import java.util.Map;
 @EnableCaching
 @EnableJms
 @EnableWs
+@EnableConfigurationProperties(StorageProperties.class)
 public class CustomRegisterApplication {
 
     public static void main(String... args) {

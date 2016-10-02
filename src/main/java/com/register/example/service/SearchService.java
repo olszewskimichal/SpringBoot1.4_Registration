@@ -2,6 +2,7 @@ package com.register.example.service;
 
 import com.register.example.dto.SimpleTweet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.SearchParameters;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SearchService{
+@Profile("!integrationTest")
+public class SearchService implements TwitterSearch{
     private Twitter twitter;
 
     @Autowired
@@ -18,7 +20,9 @@ public class SearchService{
         this.twitter = twitter;
     }
 
+    @Override
     public List<SimpleTweet> search(String searchType, List<String> keywords) {
+        System.out.println("twitterEasy");
         List<SearchParameters> searches = keywords.stream()
                 .map(taste -> createSearchParam(searchType, taste))
                 .collect(Collectors.toList());
