@@ -2,6 +2,7 @@ package com.register.example.repository;
 
 import com.register.example.builders.ProductBuilder;
 import com.register.example.entity.Product;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -20,6 +21,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
+@Ignore
 public class ProductRepositoryTest {
 
     @Rule

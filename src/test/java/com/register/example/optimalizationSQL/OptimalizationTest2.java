@@ -102,8 +102,8 @@ public class OptimalizationTest2 extends IntegrationTestBase {
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
-        assertThat(queryCount).isEqualTo(3L);
-        assertThat(stats.getObject().getPrepareStatementCount()-queryBefore).isEqualTo(3L);
+        assertThat(queryCount).isEqualTo(5L);
+        assertThat(stats.getObject().getPrepareStatementCount()-queryBefore).isEqualTo(5L);
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
         System.out.println(stats.getObject().toString());
 

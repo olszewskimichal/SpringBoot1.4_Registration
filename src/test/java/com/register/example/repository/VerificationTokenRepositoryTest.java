@@ -4,6 +4,7 @@ import com.register.example.builders.UserBuilder;
 import com.register.example.entity.User;
 import com.register.example.entity.tokens.VerificationToken;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
+@Ignore
 public class VerificationTokenRepositoryTest {
     private static final String TOKEN= UUID.randomUUID().toString();
     @Rule

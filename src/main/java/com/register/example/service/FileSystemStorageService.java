@@ -3,7 +3,6 @@ package com.register.example.service;
 import com.register.example.exceptions.StorageException;
 import com.register.example.properties.StorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 @Service
-@Profile("!test")
 public class FileSystemStorageService {
 
     private final Path rootLocation;
