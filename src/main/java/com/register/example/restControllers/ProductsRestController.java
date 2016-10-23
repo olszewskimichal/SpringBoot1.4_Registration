@@ -65,7 +65,7 @@ public class ProductsRestController {
     }
 
     @RequestMapping(
-            method = RequestMethod.PUT,
+            method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -149,7 +149,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
     }
 
     private void thenCreateProductByApi(String name) {
-        restTemplate.put(baseURL, new ProductDTOBuilder(name).build());
+        restTemplate.postForEntity(baseURL, new ProductDTOBuilder(name).build(),ProductDTO.class);
     }
 
     private void thenUpdateProductByApi(Long id,BigDecimal price) {

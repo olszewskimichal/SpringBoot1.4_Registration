@@ -1,5 +1,6 @@
 package com.register.example.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -17,9 +18,9 @@ import java.util.Locale;
  */
 @Configuration
 public class LocaleConfig extends WebMvcConfigurerAdapter {
-    public LocaleConfig() {
-    }
 
+    @Autowired
+    RequestStatisticsInterceptor requestStatisticsInterceptor;
 
     @Bean(name = "localeResolver")
     public LocaleResolver localeResolver() {
@@ -28,11 +29,17 @@ public class LocaleConfig extends WebMvcConfigurerAdapter {
         return sessionLocaleResolver;
     }
 
+    @Bean
+    public RequestStatisticsInterceptor requestStatisticsInterceptor() {
+        return new RequestStatisticsInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
+        registry.addInterceptor(requestStatisticsInterceptor).addPathPatterns("/**");
     }
 
     @Override

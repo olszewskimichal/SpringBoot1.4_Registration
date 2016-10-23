@@ -19,6 +19,9 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @EnableWebSecurity
@@ -51,8 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register**", "/login**", "/register/**", "/resetPassword**", "/api/**")
+                .antMatchers("/register**", "/login**", "/register/**", "/resetPassword**","/api/**")
                 .permitAll()
+               // .antMatchers(HttpMethod.POST,"/api/**").hasAuthority("ADMIN")
+               // .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority("ADMIN")
+               // .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority("ADMIN")
                 .anyRequest().fullyAuthenticated()
 
                 .and()
@@ -88,6 +94,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
         return new PersistentTokenBasedRememberMeServices(
                 "remember-me", userDetailsService, tokenRepository);
+    }
+
+    @Bean
+    public Docket api() {
+        // Dokumentacja do API jest dostępna pod adresem http://localhost:8080/swagger-ui.html
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(path -> path.startsWith("/api/"))
+                .build();
     }
 
     @Bean

@@ -7,18 +7,18 @@ import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
-public class Dupa implements Serializable {
+public class Dupka implements Serializable {
     @GeneratedValue
     @Id
     private Long id;
 
     @ManyToOne()
     @JoinColumn(name = "testId", referencedColumnName = "id", nullable = false)
-    private Test test;
+    private Upa test;
 
     private String zupa;
 
-    public Dupa(String zupa, Test test) {
+    public Dupka(String zupa, Upa test) {
         this.zupa = zupa;
         this.test = test;
     }
@@ -27,17 +27,17 @@ public class Dupa implements Serializable {
         return id;
     }
 
-    public String getZupa() {
-        return zupa;
+    public Upa getTest() {
+        return test;
     }
 
-    public Test getTest() {
-        return test;
+    public void setTest(Upa test) {
+        this.test = test;
     }
 
     @Override
     public String toString() {
-        return "Dupa{" +
+        return "Dupka{" +
                 "id=" + id +
                 ", test=" + test.getId() +
                 ", zupa='" + zupa + '\'' +

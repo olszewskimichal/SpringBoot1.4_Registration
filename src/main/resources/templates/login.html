@@ -53,6 +53,12 @@
         <button class="btn btn-lg btn-primary btn-block" name="loginSubmit" type="submit"
                 th:text="#{login.submit}"></button>
     </form>
+
+    <form th:action="@{/connect/twitter}" method="POST">
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Twitter" />
+    </form>
+
+
 </div>
 </body>
 </html>

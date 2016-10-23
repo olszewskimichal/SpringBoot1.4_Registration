@@ -1,6 +1,5 @@
 package com.register.example.uploadFiles;
 
-import com.register.example.IntegrationTestBase;
 import com.register.example.entity.CurrentUser;
 import com.register.example.exceptions.StorageException;
 import com.register.example.service.FileSystemStorageService;
@@ -8,12 +7,16 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -28,7 +31,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Ignore
-public class FileUploadTest extends IntegrationTestBase {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("integrationTest")
+public class FileUploadTest {
 
     @Autowired
     protected WebApplicationContext wac;
@@ -77,7 +83,7 @@ public class FileUploadTest extends IntegrationTestBase {
         given(this.storageService.loadAsResource("test.txt"))
                 .willThrow(StorageException.class);
 
-        this.mvc.perform(get("/files/test.txt"))
+        this.mvc.perform(get("upload/files/test.txt"))
                 .andExpect(status().isNotFound());
     }
 

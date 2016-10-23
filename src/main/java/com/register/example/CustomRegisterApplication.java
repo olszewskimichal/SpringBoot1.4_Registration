@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
 @EnableCaching
 @EnableJms
 @EnableWs
+@EnableSwagger2
 @EnableConfigurationProperties(StorageProperties.class)
 public class CustomRegisterApplication {
 
