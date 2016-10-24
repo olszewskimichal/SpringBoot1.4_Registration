@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register**", "/login**", "/register/**", "/resetPassword**","/api/**")
+                .antMatchers("/register**", "/login**", "/register/**", "/resetPassword**","/api/**","/greetings/**")
                 .permitAll()
                // .antMatchers(HttpMethod.POST,"/api/**").hasAuthority("ADMIN")
                // .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority("ADMIN")
