@@ -1,4 +1,3 @@
-
 Feature: Get greeting
 
   As a consumer of the greetings resource

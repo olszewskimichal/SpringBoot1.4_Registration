@@ -5,11 +5,9 @@ import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.ResetPasswordPage;
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
-import org.springframework.context.annotation.Profile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Profile("!test")
 @Ignore
 public class ResetPasswordSeleniumTest extends SeleniumTestBase {
 
@@ -25,14 +23,14 @@ public class ResetPasswordSeleniumTest extends SeleniumTestBase {
     }
 
     @AfterClass
-    public static void tearDown(){
+    public static void tearDown() {
         driver.quit();
     }
 
 
     @Test
     public void shouldResetPasswordWithCorrectData() {
-        driver.get("http://localhost:8080/resetPassword?token=testowyToken");
+        driver.get("http://localhost:" + port + "/resetPassword?token=testowyToken");
         ResetPasswordPage resetPasswordPage = new ResetPasswordPage(driver);
         resetPasswordPage.typePassword("zaq1@WSX");
         resetPasswordPage.typePasswordConfirm("zaq1@WSX");
@@ -46,7 +44,7 @@ public class ResetPasswordSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldResetPasswordFailedWithUsedToken() {
-        driver.get("http://localhost:8080/resetPassword?token=testowyToken2");
+        driver.get("http://localhost:" + port + "/resetPassword?token=testowyToken2");
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
         assertThat(driver.getPageSource()).contains("Podany token juz został wykorzystany");
@@ -55,7 +53,7 @@ public class ResetPasswordSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldResetPasswordFailedWithNotExistingToken() {
-        driver.get("http://localhost:8080/resetPassword?token=dupa");
+        driver.get("http://localhost:" + port + "/resetPassword?token=dupa");
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
         assertThat(driver.getPageSource()).contains("Błedny link resetujacy hasło");

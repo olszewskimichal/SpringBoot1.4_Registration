@@ -44,10 +44,14 @@ public class RequestStatisticsInterceptor implements AsyncHandlerInterceptor {
         if (request.getRemoteUser() != null && request.getRemoteUser().length() > 0) {
             authentication = request.getRemoteUser();
         }
-        log.info(String.valueOf("Wczytanych encji dotychczas = "+hibernateStatisticsStopWatch.getObject().getEntityLoadCount()));
-        log.info(String.valueOf("Wykonanych zapytan dotychczas = "+hibernateStatisticsStopWatch.getObject().getQueryExecutionCount()));
-        log.info(String.valueOf("Transakcji zakonczonych dotychczas = "+hibernateStatisticsStopWatch.getObject().getTransactionCount()));
-        log.info("[Time: {} ms] [Queries: {}] [Authentication: {}] {} {}", duration, queryCount, authentication, request.getMethod(), request.getRequestURI());
+        log.info(String.valueOf(
+                "Wczytanych encji dotychczas = " + hibernateStatisticsStopWatch.getObject().getEntityLoadCount()));
+        log.info(String.valueOf("Wykonanych zapytan dotychczas = " + hibernateStatisticsStopWatch.getObject()
+                .getQueryExecutionCount()));
+        log.info(String.valueOf("Transakcji zakonczonych dotychczas = " + hibernateStatisticsStopWatch.getObject()
+                .getTransactionCount()));
+        log.info("[Time: {} ms] [Queries: {}] [Authentication: {}] {} {}", duration, queryCount, authentication,
+                request.getMethod(), request.getRequestURI());
     }
 
     @Override

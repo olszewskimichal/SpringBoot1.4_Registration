@@ -42,7 +42,7 @@ public class ProductWsHandler implements SOAPHandler<SOAPMessageContext> {
 
     @Override
     public void close(MessageContext context) {
-       // System.out.println("Server : close()......");
+        // System.out.println("Server : close()......");
     }
 
 

@@ -36,12 +36,14 @@ public class UserAndVerificationTokenRepositoryTest extends IntegrationTestBase 
         verificationTokenRepository.deleteAll();
         resetTokenRepository.deleteAll();
         userRepository.deleteAll();
-        user=userRepository.save(new UserBuilder("user1Email", "user1Login").build());
-        user1=userRepository.save(new UserBuilder("user2Email", "user2Login").build());
+        user = userRepository.save(new UserBuilder("user1Email", "user1Login").build());
+        user1 = userRepository.save(new UserBuilder("user2Email", "user2Login").build());
 
-        verificationTokenRepository.save(new VerificationTokenBuilder(user,Boolean.FALSE).withDate(LocalDateTime.now().minusDays(8)).build());
-        verificationTokenRepository.save(new VerificationTokenBuilder(user,Boolean.TRUE).build());
-        verificationToken= verificationTokenRepository.save(new VerificationTokenBuilder(user1,Boolean.FALSE).build());
+        verificationTokenRepository.save(
+                new VerificationTokenBuilder(user, Boolean.FALSE).withDate(LocalDateTime.now().minusDays(8)).build());
+        verificationTokenRepository.save(new VerificationTokenBuilder(user, Boolean.TRUE).build());
+        verificationToken = verificationTokenRepository.save(
+                new VerificationTokenBuilder(user1, Boolean.FALSE).build());
 
     }
 
@@ -70,7 +72,8 @@ public class UserAndVerificationTokenRepositoryTest extends IntegrationTestBase 
         //when
         Optional<User> user = userRepository.findUserDistinctByEmailOrLogin(expectedUser, expectedUser);
         //then
-        user.orElseThrow(() -> new UsernameNotFoundException(String.format("Uzytkownik %s nie istnieje", expectedUser)));
+        user.orElseThrow(
+                () -> new UsernameNotFoundException(String.format("Uzytkownik %s nie istnieje", expectedUser)));
     }
 
 
@@ -79,7 +82,8 @@ public class UserAndVerificationTokenRepositoryTest extends IntegrationTestBase 
         //given
 
         //when
-        Integer deleted= verificationTokenRepository.deleteVerificationTokenByExpiryDateLessThen(LocalDateTime.now().minusDays(7));
+        Integer deleted = verificationTokenRepository.deleteVerificationTokenByExpiryDateLessThen(
+                LocalDateTime.now().minusDays(7));
 
         //then
         assertThat(verificationTokenRepository.findAll().size()).isEqualTo(1);

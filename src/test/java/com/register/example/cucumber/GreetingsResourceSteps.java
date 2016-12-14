@@ -44,7 +44,7 @@ public class GreetingsResourceSteps extends IntegrationTestBase {
     }
 
     @Test
-    public void test(){
+    public void test() {
 
     }
 

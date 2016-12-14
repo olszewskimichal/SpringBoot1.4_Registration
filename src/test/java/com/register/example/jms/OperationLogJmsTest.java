@@ -28,19 +28,19 @@ public class OperationLogJmsTest extends IntegrationTestBase {
 
     @Test
     public void testJMSSender() throws JsonProcessingException {
-        WebServiceOperationLog webServiceOperationLog=new WebServiceOperationLog();
+        WebServiceOperationLog webServiceOperationLog = new WebServiceOperationLog();
         webServiceOperationLog.setMsgId("testoweId");
         webServiceOperationLog.setDate(new Date());
         webServiceOperationLog.setSuccess(true);
 
-        Queue queue=new ActiveMQQueue("test");
+        Queue queue = new ActiveMQQueue("test");
         jmsSender.setQueue(queue);
         jmsSender.writeAction(webServiceOperationLog);
         TextMessage msg = (TextMessage) jmsTemplate.receive("test");
         System.out.println("***********************");
         try {
-            ObjectMapper objectMapper=new ObjectMapper();
-            WebServiceOperationLog recivedObject=objectMapper.readValue(msg.getText(), WebServiceOperationLog.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            WebServiceOperationLog recivedObject = objectMapper.readValue(msg.getText(), WebServiceOperationLog.class);
             System.out.println(msg.getText());
             assertThat(recivedObject).isEqualToComparingFieldByField(webServiceOperationLog);
 

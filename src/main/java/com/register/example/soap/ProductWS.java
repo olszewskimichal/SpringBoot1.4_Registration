@@ -21,7 +21,7 @@ import javax.jws.WebService;
 @WebService(serviceName = "ProductWS")
 @Slf4j
 @NoArgsConstructor
-@HandlerChain(file="handler-chain.xml")
+@HandlerChain(file = "handler-chain.xml")
 @Profile("!test")
 public class ProductWS {
     private ProductService productService;

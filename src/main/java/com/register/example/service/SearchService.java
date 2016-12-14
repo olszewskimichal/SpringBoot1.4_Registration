@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Profile("!integrationTest")
-public class SearchService implements TwitterSearch{
+public class SearchService implements TwitterSearch {
     private Twitter twitter;
 
     @Autowired

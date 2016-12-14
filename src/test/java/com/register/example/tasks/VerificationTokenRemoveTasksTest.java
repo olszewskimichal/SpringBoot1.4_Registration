@@ -13,14 +13,14 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class VerificationTokenRemoveTasksTest {
 
     @Test
-    public void shouldExecuteTriggerNextDay(){
+    public void shouldExecuteTriggerNextDay() {
         org.springframework.scheduling.support.CronTrigger trigger = new CronTrigger("00 39 18 * * *");
         Calendar today = Calendar.getInstance();
         today.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss EEEE");
         final Date yesterday = today.getTime();
-        Date nextExecutionTime = trigger.nextExecutionTime(new TriggerContext(){
+        Date nextExecutionTime = trigger.nextExecutionTime(new TriggerContext() {
 
             @Override
             public Date lastScheduledExecutionTime() {
@@ -35,7 +35,8 @@ public class VerificationTokenRemoveTasksTest {
             @Override
             public Date lastCompletionTime() {
                 return yesterday;
-            }});
+            }
+        });
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(nextExecutionTime);
@@ -44,7 +45,6 @@ public class VerificationTokenRemoveTasksTest {
         assertThat(hours).isEqualTo(18);
         assertThat(minutes).isEqualTo(39);
     }
-
 
 
 }

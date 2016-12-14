@@ -107,7 +107,7 @@ public class OptimalizationTest extends IntegrationTestBase {
 
     @org.junit.Test
     @Transactional
-    public void testSet(){
+    public void testSet() {
         testRepository.deleteAll();
         dupaRepository.deleteAll();
         upaRepository.deleteAll();
@@ -116,20 +116,20 @@ public class OptimalizationTest extends IntegrationTestBase {
         hibernateStatisticsInterceptor.startCounter();
 
         Test test = new Test();
-        test=testRepository.save(test);
-        test.getDupas().add(new Dupa("test",test));
-        test.getDupas().add(new Dupa("test2",test));
-        test.getDupas().add(new Dupa("test3",test));
+        test = testRepository.save(test);
+        test.getDupas().add(new Dupa("test", test));
+        test.getDupas().add(new Dupa("test2", test));
+        test.getDupas().add(new Dupa("test3", test));
 
         Iterator<Dupa> iterator = test.getDupas().iterator();
         iterator.next();
         iterator.remove();
         iterator.next();
         iterator.remove();
-        test.getDupas().add(new Dupa("test4",test));
+        test.getDupas().add(new Dupa("test4", test));
         testRepository.save(test);
         assertThat(test.getDupas().size()).isEqualTo(2);
-        Test test2=testRepository.findByID(test.getId());
+        Test test2 = testRepository.findByID(test.getId());
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
@@ -138,7 +138,7 @@ public class OptimalizationTest extends IntegrationTestBase {
 
     @org.junit.Test
     @Transactional
-    public void testList(){
+    public void testList() {
         testRepository.deleteAll();
         dupaRepository.deleteAll();
         upaRepository.deleteAll();
@@ -147,20 +147,20 @@ public class OptimalizationTest extends IntegrationTestBase {
         hibernateStatisticsInterceptor.startCounter();
 
         Upa test = new Upa();
-        test=upaRepository.save(test);
-        test.getDupas().add(new Dupka("test",test));
-        test.getDupas().add(new Dupka("test2",test));
-        test.getDupas().add(new Dupka("test3",test));
+        test = upaRepository.save(test);
+        test.getDupas().add(new Dupka("test", test));
+        test.getDupas().add(new Dupka("test2", test));
+        test.getDupas().add(new Dupka("test3", test));
         Iterator<Dupka> iterator = test.getDupas().iterator();
         iterator.next();
         iterator.remove();
         iterator.next();
         iterator.remove();
 
-        test.getDupas().add(new Dupka("test4",test));
+        test.getDupas().add(new Dupka("test4", test));
         upaRepository.save(test);
         assertThat(test.getDupas().size()).isEqualTo(2);
-        Upa test2=upaRepository.findOne(test.getId());
+        Upa test2 = upaRepository.findOne(test.getId());
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
@@ -169,7 +169,7 @@ public class OptimalizationTest extends IntegrationTestBase {
 
     @org.junit.Test
     @Transactional
-    public void testSet2(){
+    public void testSet2() {
         testRepository.deleteAll();
         dupaRepository.deleteAll();
         upaRepository.deleteAll();
@@ -178,11 +178,11 @@ public class OptimalizationTest extends IntegrationTestBase {
         hibernateStatisticsInterceptor.startCounter();
 
         Test test = new Test();
-        test=testRepository.save(test);
-        test.getDupas().add(new Dupa("test",test));
-        test.getDupas().add(new Dupa("test2",test));
-        test.getDupas().add(new Dupa("test3",test));
-        test=testRepository.save(test);
+        test = testRepository.save(test);
+        test.getDupas().add(new Dupa("test", test));
+        test.getDupas().add(new Dupa("test2", test));
+        test.getDupas().add(new Dupa("test3", test));
+        test = testRepository.save(test);
         Iterator<Dupa> iterator = test.getDupas().iterator();
         Dupa next = iterator.next();
         iterator.remove();
@@ -190,9 +190,9 @@ public class OptimalizationTest extends IntegrationTestBase {
         next = iterator.next();
         iterator.remove();
         dupaRepository.delete(next.getId());
-        test.getDupas().add(new Dupa("test4",test));
+        test.getDupas().add(new Dupa("test4", test));
 
-        Test test2=testRepository.findByID(test.getId());
+        Test test2 = testRepository.findByID(test.getId());
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();

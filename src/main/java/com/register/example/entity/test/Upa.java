@@ -14,7 +14,7 @@ public class Upa implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dupka> dupas;
 
     public List<Dupka> getDupas() {

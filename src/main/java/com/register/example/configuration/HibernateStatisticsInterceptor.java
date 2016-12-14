@@ -26,8 +26,8 @@ public class HibernateStatisticsInterceptor extends EmptyInterceptor {
         if (count != null) {
             queryCount.set(count + 1);
         }
-        if(count!=null)
-            log.info((count+1)+"Wywołanie sql ="+sql);
+        if (count != null)
+            log.info((count + 1) + "Wywołanie sql =" + sql);
         else log.info(sql);
         return super.onPrepareStatement(sql);
     }

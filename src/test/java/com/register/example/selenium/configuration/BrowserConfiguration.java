@@ -16,12 +16,14 @@ public class BrowserConfiguration {
         FirefoxProfile firefoxPro = new FirefoxProfile();
         return new FirefoxDriver(Binary, firefoxPro);
     }
+
     public WebDriver getChromeDriver() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver_win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",
+                "C:\\Users\\Admin\\Downloads\\chromedriver_win32\\chromedriver.exe");
         return new ChromeDriver();
     }
 
-    public WebDriver firefox(){
+    public WebDriver firefox() {
         return new FirefoxDriver();
     }
 

@@ -79,7 +79,8 @@ public class RegisterController {
         long diff = Duration.between(localDateTime, verificationToken.get().getExpiryDate()).toMinutes();
 
         if (diff < 0L) {
-            log.info(String.format("Token juz jest nieaktulany \n dataDO= %s \n", verificationToken.get().getExpiryDate()));
+            log.info(String.format("Token juz jest nieaktulany \n dataDO= %s \n",
+                    verificationToken.get().getExpiryDate()));
             model.addAttribute("nieaktualny", true);
         } else {
             log.info("Token jest aktualny - aktywacja konta");

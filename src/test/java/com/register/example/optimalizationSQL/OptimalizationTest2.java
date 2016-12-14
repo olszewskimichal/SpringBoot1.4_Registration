@@ -44,7 +44,7 @@ public class OptimalizationTest2 extends IntegrationTestBase {
 
     private Long id = 1L;
 
-    private Long id2= 2L;
+    private Long id2 = 2L;
 
     @Before
     public void setUp() throws Exception {
@@ -67,11 +67,11 @@ public class OptimalizationTest2 extends IntegrationTestBase {
         id = test1.getId();
 
         Upa upa = new Upa();
-        upa.getDupas().add(new Dupka("test",upa));
-        upa.getDupas().add(new Dupka("test2",upa));
-        upa.getDupas().add(new Dupka("test3",upa));
-        Upa upa1=upaRepository.save(upa);
-        id2=upa1.getId();
+        upa.getDupas().add(new Dupka("test", upa));
+        upa.getDupas().add(new Dupka("test2", upa));
+        upa.getDupas().add(new Dupka("test3", upa));
+        Upa upa1 = upaRepository.save(upa);
+        id2 = upa1.getId();
 
         hibernateStatisticsInterceptor.startCounter();
     }
@@ -86,7 +86,7 @@ public class OptimalizationTest2 extends IntegrationTestBase {
     public void testSet() throws Exception {
         System.out.println(String.valueOf(stats.getObject().toString()));
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
-        Long queryBefore=stats.getObject().getPrepareStatementCount();
+        Long queryBefore = stats.getObject().getPrepareStatementCount();
 
         System.out.println(testRepository.findAll());
         Test test = testRepository.findOne(id);
@@ -95,15 +95,15 @@ public class OptimalizationTest2 extends IntegrationTestBase {
         iterator.remove();
         iterator.next();
         iterator.remove();
-        test.getDupas().add(new Dupa("test4",test));
+        test.getDupas().add(new Dupa("test4", test));
         testRepository.save(test);
         assertThat(test.getDupas().size()).isEqualTo(2);
-        Test test2=testRepository.findByID(test.getId());
+        Test test2 = testRepository.findByID(test.getId());
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(5L);
-        assertThat(stats.getObject().getPrepareStatementCount()-queryBefore).isEqualTo(5L);
+        assertThat(stats.getObject().getPrepareStatementCount() - queryBefore).isEqualTo(5L);
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
         System.out.println(stats.getObject().toString());
 
@@ -119,10 +119,10 @@ public class OptimalizationTest2 extends IntegrationTestBase {
     public void testList() throws Exception {
         System.out.println(String.valueOf(stats.getObject().toString()));
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
-        Long queryBefore=stats.getObject().getPrepareStatementCount();
+        Long queryBefore = stats.getObject().getPrepareStatementCount();
         System.out.println(upaRepository.findAll());
 
-        Upa test=upaRepository.findOne(id2);
+        Upa test = upaRepository.findOne(id2);
 
         Iterator<Dupka> iterator = test.getDupas().iterator();
         iterator.next();
@@ -130,16 +130,16 @@ public class OptimalizationTest2 extends IntegrationTestBase {
         iterator.next();
         iterator.remove();
 
-        test.getDupas().add(new Dupka("test4",test));
+        test.getDupas().add(new Dupka("test4", test));
         upaRepository.save(test);
         assertThat(test.getDupas().size()).isEqualTo(2);
-        Upa test2=upaRepository.findOne(test.getId());
+        Upa test2 = upaRepository.findOne(test.getId());
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(2L);
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
-        assertThat(stats.getObject().getPrepareStatementCount()-queryBefore).isEqualTo(2L);
+        assertThat(stats.getObject().getPrepareStatementCount() - queryBefore).isEqualTo(2L);
 
 
         System.out.println(upaRepository.findAll());
@@ -153,9 +153,9 @@ public class OptimalizationTest2 extends IntegrationTestBase {
     public void testSet2() throws Exception {
         System.out.println(String.valueOf(stats.getObject().toString()));
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
-        Long queryBefore=stats.getObject().getPrepareStatementCount();
+        Long queryBefore = stats.getObject().getPrepareStatementCount();
         System.out.println(testRepository.findAll());
-        Test test=testRepository.findOne(id);
+        Test test = testRepository.findOne(id);
         Iterator<Dupa> iterator = test.getDupas().iterator();
         Dupa next = iterator.next();
         iterator.remove();
@@ -163,15 +163,15 @@ public class OptimalizationTest2 extends IntegrationTestBase {
         next = iterator.next();
         iterator.remove();
         dupaRepository.delete(next.getId());
-        test.getDupas().add(new Dupa("test4",test));
+        test.getDupas().add(new Dupa("test4", test));
 
-        Test test2=testRepository.findByID(test.getId());
+        Test test2 = testRepository.findByID(test.getId());
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(5L);
-        assertThat(stats.getObject().getPrepareStatementCount()-queryBefore).isEqualTo(5L);
+        assertThat(stats.getObject().getPrepareStatementCount() - queryBefore).isEqualTo(5L);
 
         System.out.println(testRepository.findAll());
         System.out.println(dupaRepository.findAll());
@@ -185,9 +185,9 @@ public class OptimalizationTest2 extends IntegrationTestBase {
     public void testList2() throws Exception {
         System.out.println(String.valueOf(stats.getObject().toString()));
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
-        Long queryBefore=stats.getObject().getPrepareStatementCount();
+        Long queryBefore = stats.getObject().getPrepareStatementCount();
         System.out.println(upaRepository.findAll());
-        Upa test=upaRepository.findOne(id2);
+        Upa test = upaRepository.findOne(id2);
 
         Iterator<Dupka> iterator = test.getDupas().iterator();
         Dupka next = iterator.next();
@@ -197,9 +197,9 @@ public class OptimalizationTest2 extends IntegrationTestBase {
         iterator.remove();
         dupkaRepository.delete(next.getId());
         Thread.sleep(1000);
-        test.getDupas().add(new Dupka("test4",test));
+        test.getDupas().add(new Dupka("test4", test));
 
-        Upa test2=upaRepository.findOne(test.getId());
+        Upa test2 = upaRepository.findOne(test.getId());
         assertThat(test2.getDupas().size()).isEqualTo(2);
 
         System.out.println(upaRepository.findAll());
@@ -207,7 +207,7 @@ public class OptimalizationTest2 extends IntegrationTestBase {
 
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(6L);
-        assertThat(stats.getObject().getPrepareStatementCount()-queryBefore).isEqualTo(6L);
+        assertThat(stats.getObject().getPrepareStatementCount() - queryBefore).isEqualTo(6L);
 
         System.out.println(String.valueOf(stats.getObject().getPrepareStatementCount()));
         System.out.println(String.valueOf(stats.getObject().toString()));

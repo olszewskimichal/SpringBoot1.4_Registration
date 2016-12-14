@@ -19,28 +19,28 @@ public class ResetPasswordValidatorTest extends IntegrationTestBase {
 
     @Test
     public void shouldReturnErrorWithEmptyConfirmPassword() throws Exception {
-        ResetPasswordForm resetPasswordForm=new ResetPasswordForm("token");
+        ResetPasswordForm resetPasswordForm = new ResetPasswordForm("token");
         resetPasswordForm.setPassword("dupa");
         errors = new BindException(resetPasswordForm, "resetPasswordForm");
-        resetPasswordValidator.validate(resetPasswordForm,errors);
+        resetPasswordValidator.validate(resetPasswordForm, errors);
         assertThat(errors.getErrorCount()).isEqualTo(1);
     }
 
     @Test
     public void shouldReturnErrorWithEmptyPasswordAndConfirmPassword() throws Exception {
-        ResetPasswordForm resetPasswordForm=new ResetPasswordForm("token");
+        ResetPasswordForm resetPasswordForm = new ResetPasswordForm("token");
         errors = new BindException(resetPasswordForm, "resetPasswordForm");
-        resetPasswordValidator.validate(resetPasswordForm,errors);
+        resetPasswordValidator.validate(resetPasswordForm, errors);
         assertThat(errors.getErrorCount()).isEqualTo(1);
     }
 
     @Test
     public void shouldReturn0ErrorsWithCorrectPasswords() throws Exception {
-        ResetPasswordForm resetPasswordForm=new ResetPasswordForm("token");
+        ResetPasswordForm resetPasswordForm = new ResetPasswordForm("token");
         resetPasswordForm.setPassword("dupa");
         resetPasswordForm.setConfirmPassword("dupa");
         errors = new BindException(resetPasswordForm, "resetPasswordForm");
-        resetPasswordValidator.validate(resetPasswordForm,errors);
+        resetPasswordValidator.validate(resetPasswordForm, errors);
         assertThat(errors.getErrorCount()).isEqualTo(0);
     }
 

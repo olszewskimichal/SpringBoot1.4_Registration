@@ -30,7 +30,7 @@ public class UserServiceMockTest {
     PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Mock
-    private  EmailProducer emailProducer;
+    private EmailProducer emailProducer;
 
     @Autowired
     @InjectMocks
@@ -41,21 +41,22 @@ public class UserServiceMockTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        userService = new UserService(userRepository, verificationTokenRepository, passwordResetTokenRepository, emailProducer);
+        userService = new UserService(userRepository, verificationTokenRepository, passwordResetTokenRepository,
+                emailProducer);
     }
 
     @Test
     public void should_User_repository_create_user() throws Exception {
         //given
-        User user=new UserBuilder("email1","login1").build();
-        long userId=12345;
-        User persistedUser=new UserBuilder("email1","login1").build();
+        User user = new UserBuilder("email1", "login1").build();
+        long userId = 12345;
+        User persistedUser = new UserBuilder("email1", "login1").build();
         user.setEmail("email1");
         persistedUser.setEmail("email1");
         persistedUser.setId(userId);
         //when
         when(userRepository.save(user)).thenReturn(persistedUser);
-        User result=userRepository.save(user);
+        User result = userRepository.save(user);
         verify(userRepository).save(user);
 
         assertThat(result).isEqualToComparingFieldByField(persistedUser);

@@ -43,19 +43,22 @@ public class ResetPasswordControllerTest extends IntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.webAppContextSetup(context).addFilter(springSecurityFilterChain).apply(springSecurity()).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilter(springSecurityFilterChain)
+                .apply(springSecurity())
+                .build();
     }
 
     @Test
     public void shouldGetPasswordResetPage() throws Exception {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest5", "loginTest5").withPassword("1").build();
-        User user=userService.create(userCreateForm);
+        User user = userService.create(userCreateForm);
         userService.createPasswordResetToken(user);
-        Optional<PasswordResetToken> resetToken=userService.getPasswordResetToken(user);
+        Optional<PasswordResetToken> resetToken = userService.getPasswordResetToken(user);
 
         //when
-        RequestBuilder requestBuilder = get("/resetPassword?token="+resetToken.get().getToken());
+        RequestBuilder requestBuilder = get("/resetPassword?token=" + resetToken.get().getToken());
         //then
         mvc.perform(requestBuilder)
                 .andDo(print())
@@ -67,13 +70,14 @@ public class ResetPasswordControllerTest extends IntegrationTestBase {
     @Test
     public void shouldFailGettingResetPasswordWithUsedToken() throws Exception {
         //given
-        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTestx2", "loginTestx2").withPassword("1").build();
-        User user=userService.create(userCreateForm);
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTestx2", "loginTestx2").withPassword("1")
+                .build();
+        User user = userService.create(userCreateForm);
 
-        passwordResetTokenRepository.save(new PasswordResetToken("nowyToken",user,Boolean.TRUE));
+        passwordResetTokenRepository.save(new PasswordResetToken("nowyToken", user, Boolean.TRUE));
 
         //when
-        RequestBuilder requestBuilder = get("/resetPassword?token="+"nowyToken");
+        RequestBuilder requestBuilder = get("/resetPassword?token=" + "nowyToken");
 
         //then
         mvc.perform(requestBuilder);
@@ -94,15 +98,15 @@ public class ResetPasswordControllerTest extends IntegrationTestBase {
     public void should_fail_passwordReset() throws Exception {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest6", "loginTest6").withPassword("1").build();
-        User user=userService.create(userCreateForm);
+        User user = userService.create(userCreateForm);
         userService.createPasswordResetToken(user);
-        Optional<PasswordResetToken> resetToken=userService.getPasswordResetToken(user);
+        Optional<PasswordResetToken> resetToken = userService.getPasswordResetToken(user);
 
         //when
         mvc.perform(post("/resetPassword")
                 .param("password", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX1")
-                .param("token",resetToken.get().getToken()))
+                .param("token", resetToken.get().getToken()))
                 .andDo(print())
                 //then
                 .andExpect(content().string(
@@ -117,14 +121,14 @@ public class ResetPasswordControllerTest extends IntegrationTestBase {
     public void should_resetPassword_withCorrectData() throws Exception {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest7", "loginTest7").withPassword("1").build();
-        User user=userService.create(userCreateForm);
+        User user = userService.create(userCreateForm);
         userService.createPasswordResetToken(user);
-        Optional<PasswordResetToken> resetToken=userService.getPasswordResetToken(user);
+        Optional<PasswordResetToken> resetToken = userService.getPasswordResetToken(user);
         //when
         mvc.perform(post("/resetPassword")
                 .param("password", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX")
-                .param("token",resetToken.get().getToken()))
+                .param("token", resetToken.get().getToken()))
                 .andDo(print())
                 .andExpect(content().string(
                         allOf(
@@ -139,7 +143,7 @@ public class ResetPasswordControllerTest extends IntegrationTestBase {
     public void shouldFailGettingResetPasswordWithNotActualToken() throws Exception {
 
         //when
-        RequestBuilder requestBuilder = get("/resetPassword?token="+"dupa");
+        RequestBuilder requestBuilder = get("/resetPassword?token=" + "dupa");
 
         //then
         mvc.perform(requestBuilder)

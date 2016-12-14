@@ -35,7 +35,7 @@ public class UserServiceTest extends IntegrationTestBase {
     PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
-    private  EmailProducer emailProducer;
+    private EmailProducer emailProducer;
 
     private UserService userService;
 
@@ -46,9 +46,10 @@ public class UserServiceTest extends IntegrationTestBase {
         passwordResetTokenRepository.deleteAll();
         verificationTokenRepository.deleteAll();
         userRepository.deleteAll();
-        user=userRepository.save(new UserBuilder("user1Email", "user1Login").build());
+        user = userRepository.save(new UserBuilder("user1Email", "user1Login").build());
         userRepository.save(new UserBuilder("user2Email", "user2Login").build());
-        userService = new UserService(userRepository, verificationTokenRepository, passwordResetTokenRepository, emailProducer);
+        userService = new UserService(userRepository, verificationTokenRepository, passwordResetTokenRepository,
+                emailProducer);
     }
 
     @Test
@@ -69,7 +70,7 @@ public class UserServiceTest extends IntegrationTestBase {
         //when
         user = userService.create(userCreateForm);
         //then
-        Optional<VerificationToken> verificationToken= verificationTokenRepository.findVerificationTokenByUser(user);
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findVerificationTokenByUser(user);
         assertThat(user.getEnabled()).isFalse();
         assertThat(verificationToken.get()).isNotNull();
         assertThat(verificationToken.get().getIsUsed()).isFalse();
@@ -81,10 +82,10 @@ public class UserServiceTest extends IntegrationTestBase {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("email3", "login3").withPassword("1").build();
         user = userService.create(userCreateForm);
-        Optional<VerificationToken> verificationToken= verificationTokenRepository.findVerificationTokenByUser(user);
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findVerificationTokenByUser(user);
 
         //when
-        userService.activateUser(user,verificationToken.get());
+        userService.activateUser(user, verificationToken.get());
 
         //then
         assertThat(verificationToken.get().getIsUsed()).isTrue();
@@ -145,7 +146,7 @@ public class UserServiceTest extends IntegrationTestBase {
     }
 
     @Test
-    public void should_createResetPasswordToken() throws Exception{
+    public void should_createResetPasswordToken() throws Exception {
         //given
 
         //when
@@ -155,17 +156,17 @@ public class UserServiceTest extends IntegrationTestBase {
     }
 
     @Test
-    public void should_afterResetPassword_changePassword() throws Exception{
+    public void should_afterResetPassword_changePassword() throws Exception {
         //given
         userService.createPasswordResetToken(user);
-        Optional<PasswordResetToken> resetToken=userService.getPasswordResetToken(user);
-        ResetPasswordForm resetPasswordForm=new ResetPasswordForm(resetToken.get().getToken());
+        Optional<PasswordResetToken> resetToken = userService.getPasswordResetToken(user);
+        ResetPasswordForm resetPasswordForm = new ResetPasswordForm(resetToken.get().getToken());
         resetPasswordForm.setPassword("dupa");
         resetPasswordForm.setConfirmPassword("dupa");
-        String oldHash=user.getPasswordHash();
+        String oldHash = user.getPasswordHash();
         //then
-        user=userService.resetPassword(resetPasswordForm);
-        String newHash=userService.getUserByEmailOrLogin(user.getLogin()).get().getPasswordHash();
+        user = userService.resetPassword(resetPasswordForm);
+        String newHash = userService.getUserByEmailOrLogin(user.getLogin()).get().getPasswordHash();
 
         assertThat(newHash).isNotNull();
         assertThat(newHash).isNotEqualTo(oldHash);

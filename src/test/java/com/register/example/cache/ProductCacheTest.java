@@ -38,26 +38,26 @@ public class ProductCacheTest extends IntegrationTestBase {
 
     @org.junit.Test
     public void should_cache_findAllProduct() {
-        productRepository.findAll(new PageRequest(1,4));
+        productRepository.findAll(new PageRequest(1, 4));
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(1L);
         hibernateStatisticsInterceptor.clearCounter();
 
         hibernateStatisticsInterceptor.startCounter();
-        productRepository.findAll(new PageRequest(1,4));
+        productRepository.findAll(new PageRequest(1, 4));
         queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(0L);
     }
 
     @org.junit.Test
     public void should_cache_afterSaveProduct() {
-        productRepository.findAll(new PageRequest(1,4));
+        productRepository.findAll(new PageRequest(1, 4));
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(1L);
         hibernateStatisticsInterceptor.clearCounter();
 
         hibernateStatisticsInterceptor.startCounter();
-        productRepository.findAll(new PageRequest(1,4));
+        productRepository.findAll(new PageRequest(1, 4));
         queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(0L);
         hibernateStatisticsInterceptor.clearCounter();
@@ -66,7 +66,7 @@ public class ProductCacheTest extends IntegrationTestBase {
         System.out.println();
         hibernateStatisticsInterceptor.startCounter();
         productRepository.save(productRepository.save(new ProductBuilder("aaa").build()));
-        productRepository.findAll(new PageRequest(1,4));
+        productRepository.findAll(new PageRequest(1, 4));
         queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isGreaterThan(1L);
     }

@@ -8,14 +8,19 @@ before_install:
 
 install: true
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
+addons:
+  sonarqube:
+    token:
+      secure: "38a3100a525d157f7fe5f71a8753eb94e18e9e54"
 cache:
   directories:
   - $HOME/.m2
+  - $HOME/.sonar
 
 script:
   - mvn clean install
   - bash <(curl -s https://codecov.io/bash)
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

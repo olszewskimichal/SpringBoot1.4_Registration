@@ -48,12 +48,13 @@ public class ProductService {
 
 
     public List<ProductDTO> getProducts(Integer size, Integer page, String sort) {
-        return getProductsFromRepo(size,page,sort).stream().map(ProductDTO::new).collect(Collectors.toList());
+        return getProductsFromRepo(size, page, sort).stream().map(ProductDTO::new).collect(Collectors.toList());
     }
 
     public List<Product> getProductsFromRepo(Integer size, Integer page, String sort) {
         log.info(String.format("getProducts size= %d page %d sort %s", size, page, sort));
-        PageRequest pageRequest = new PageRequest(setPageSize(page), setReturnSize(size), setSortDirection(sort), DEFAULT_SORT_BY_NAME);
+        PageRequest pageRequest = new PageRequest(setPageSize(page), setReturnSize(size), setSortDirection(sort),
+                DEFAULT_SORT_BY_NAME);
         return productRepository.findAll(pageRequest).getContent();
     }
 
@@ -102,22 +103,23 @@ public class ProductService {
     public AddProductsResponseWS addProducts(AddProductsRequestWS productsRequest) throws JsonProcessingException {
         AddProductsResponseWS addProductsResponseWS = new AddProductsResponseWS();
         ResponseHeaderWS responseHeader = new ResponseHeaderWS();
-        WebServiceOperationLog webServiceOpLog=new WebServiceOperationLog();
+        WebServiceOperationLog webServiceOpLog = new WebServiceOperationLog();
         try {
             responseHeader.setSource("SERWER_GLOWNY");
             HeaderWS headerWS = productsRequest.getHeaderWS();
             webServiceOpLog.setDate(new Date());
-            if (headerWS.getMessageId()==null) throw new NullPointerException("Brak messageId");
+            if (headerWS.getMessageId() == null) throw new NullPointerException("Brak messageId");
             String msgId = headerWS.getMessageId();
             webServiceOpLog.setMsgId(msgId);
             responseHeader.setMessageId(msgId);
 
-            for (ProductDTO productDTO:productsRequest.getProducts()){
+            for (ProductDTO productDTO : productsRequest.getProducts()) {
                 String name = productDTO.getName();
                 String url = (productDTO.getImageUrl() == null) ? null : productDTO.getImageUrl();
                 String description = (productDTO.getDescription() == null) ? null : productDTO.getDescription();
                 BigDecimal price = productDTO.getPrice();
-                addProductsResponseWS.getProductsId().add(createProduct(new ProductDTO(name, url, description, price)).getId());
+                addProductsResponseWS.getProductsId()
+                        .add(createProduct(new ProductDTO(name, url, description, price)).getId());
             }
             responseHeader.setStatusWS(StatusWS.DONE);
             responseHeader.setIsFailed(false);
@@ -126,7 +128,7 @@ public class ProductService {
         } catch (Exception e) {
             e.printStackTrace();
             responseHeader.setStatusWS(StatusWS.FAILED);
-            responseHeader.setErrorMsg(e.getMessage()+"\nBlad podczas dodawania produktów"); //TODO - poprawic
+            responseHeader.setErrorMsg(e.getMessage() + "\nBlad podczas dodawania produktów"); //TODO - poprawic
             responseHeader.setIsFailed(true);
             webServiceOpLog.setErrorMsg(e.getMessage());
             webServiceOpLog.setSuccess(false);
@@ -140,7 +142,7 @@ public class ProductService {
     public GetProductsResponseWS getProducts(GetProductsRequestWS requestWS) throws JsonProcessingException {
         GetProductsResponseWS getProductsResponseWS = new GetProductsResponseWS();
         ResponseHeaderWS responseHeader = new ResponseHeaderWS();
-        WebServiceOperationLog webServiceOpLog=new WebServiceOperationLog();
+        WebServiceOperationLog webServiceOpLog = new WebServiceOperationLog();
         try {
             responseHeader.setSource("SERWER_GLOWNY");
             HeaderWS headerWS = requestWS.getHeaderWS();
@@ -150,7 +152,7 @@ public class ProductService {
             responseHeader.setDateTime(new Date());
             webServiceOpLog.setDate(new Date());
             Integer limit = requestWS.getProductLimit();
-            if (limit==null) throw new NullPointerException("Nieprawidlowa ilosc pobieranych produktow");
+            if (limit == null) throw new NullPointerException("Nieprawidlowa ilosc pobieranych produktow");
             List<ProductDTO> productDTOs = getProducts(limit, null, "desc");
             getProductsResponseWS.setProducts(productDTOs);
             responseHeader.setStatusWS(StatusWS.DONE);
@@ -160,7 +162,7 @@ public class ProductService {
             e.printStackTrace();
             responseHeader.setIsFailed(true);
             responseHeader.setStatusWS(StatusWS.FAILED);
-            responseHeader.setErrorMsg(e.getMessage()+"\nBlad podczas pobierania produktów"); //TODO - poprawic
+            responseHeader.setErrorMsg(e.getMessage() + "\nBlad podczas pobierania produktów"); //TODO - poprawic
             webServiceOpLog.setErrorMsg(e.getMessage());
             webServiceOpLog.setSuccess(false);
         } finally {

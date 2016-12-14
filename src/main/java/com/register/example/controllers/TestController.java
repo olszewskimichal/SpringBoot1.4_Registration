@@ -37,7 +37,10 @@ public class TestController {
     //   @CacheEvict(value = "users", allEntries = true)
     @RequestMapping("/test2")
     public User test2() {
-        return userRepository.save(new UserBuilder("admin11", "admin81").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
+        return userRepository.save(new UserBuilder("admin11", "admin81").withPassword("admin")
+                .withRole(Role.ADMIN)
+                .withEnabled(true)
+                .build());
     }
 
     @RequestMapping("/test3")

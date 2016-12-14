@@ -44,7 +44,10 @@ public class RegisterControllerTest extends IntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.webAppContextSetup(context).addFilter(springSecurityFilterChain).apply(springSecurity()).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilter(springSecurityFilterChain)
+                .apply(springSecurity())
+                .build();
     }
 
     @Test
@@ -76,11 +79,12 @@ public class RegisterControllerTest extends IntegrationTestBase {
     public void shouldActivateUserWithCorrectToken() throws Exception {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest1", "loginTest1").withPassword("1").build();
-        User user=userService.create(userCreateForm);
-        Optional<VerificationToken> verificationToken=userService.getVerificationToken(user);
+        User user = userService.create(userCreateForm);
+        Optional<VerificationToken> verificationToken = userService.getVerificationToken(user);
 
         //when
-        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+verificationToken.get().getToken());
+        RequestBuilder requestBuilder = get(
+                "/register/registrationConfirm?token=" + verificationToken.get().getToken());
         //then
         mvc.perform(requestBuilder)
                 .andDo(print())
@@ -95,18 +99,16 @@ public class RegisterControllerTest extends IntegrationTestBase {
     }
 
 
-
-
-
     @Test
     public void shouldFailActivationWithUsedToken() throws Exception {
         //given
         UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest2", "loginTest2").withPassword("1").build();
-        User user=userService.create(userCreateForm);
-        Optional<VerificationToken> verificationToken=userService.getVerificationToken(user);
+        User user = userService.create(userCreateForm);
+        Optional<VerificationToken> verificationToken = userService.getVerificationToken(user);
 
         //when
-        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+verificationToken.get().getToken());
+        RequestBuilder requestBuilder = get(
+                "/register/registrationConfirm?token=" + verificationToken.get().getToken());
 
         //then
         mvc.perform(requestBuilder);
@@ -126,15 +128,16 @@ public class RegisterControllerTest extends IntegrationTestBase {
     @Test
     public void shouldFailActivationWithNotExistingToken() throws Exception {
         //given
-        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest4", "loginTest4s").withPassword("1").build();
-        User user=userService.create(userCreateForm);
-        VerificationToken verificationToken=userService.getVerificationToken(user).get();
+        UserCreateForm userCreateForm = new UserCreateFormBuilder("emailTest4", "loginTest4s").withPassword("1")
+                .build();
+        User user = userService.create(userCreateForm);
+        VerificationToken verificationToken = userService.getVerificationToken(user).get();
         verificationToken.setExpiryDate(LocalDateTime.now().minusDays(1).minusMinutes(1));
 
         verificationTokenRepository.save(verificationToken);
 
         //when
-        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+verificationToken.getToken());
+        RequestBuilder requestBuilder = get("/register/registrationConfirm?token=" + verificationToken.getToken());
 
         //then
         mvc.perform(requestBuilder);
@@ -158,7 +161,7 @@ public class RegisterControllerTest extends IntegrationTestBase {
         userService.create(userCreateForm);
 
         //when
-        RequestBuilder requestBuilder = get("/register/registrationConfirm?token="+"dupa");
+        RequestBuilder requestBuilder = get("/register/registrationConfirm?token=" + "dupa");
 
         //then
         mvc.perform(requestBuilder)

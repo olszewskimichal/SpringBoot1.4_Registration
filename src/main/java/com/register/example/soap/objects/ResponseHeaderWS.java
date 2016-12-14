@@ -24,5 +24,5 @@ public class ResponseHeaderWS extends HeaderWS implements Serializable {
 
     @XmlAttribute(name = "errorMsg")
     private String errorMsg;
-    
+
 }

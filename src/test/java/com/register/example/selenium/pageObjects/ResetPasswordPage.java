@@ -41,7 +41,8 @@ public class ResetPasswordPage {
     }
 
     public ResetPasswordPage verifyPageLoaded(String pageLoadedText) {
-        (new WebDriverWait(webDriver, timeout)).until((ExpectedCondition<Boolean>) d -> d.getPageSource().contains(pageLoadedText));
+        (new WebDriverWait(webDriver, timeout)).until(
+                (ExpectedCondition<Boolean>) d -> d.getPageSource().contains(pageLoadedText));
         return this;
     }
 

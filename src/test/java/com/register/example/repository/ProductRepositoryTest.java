@@ -32,33 +32,33 @@ public class ProductRepositoryTest {
     private ProductRepository productRepository;
 
     @Test
-    public void shouldReturn0resultOfProductsByName(){
-        List<Product> result= (List<Product>) this.productRepository.findProductsByName("name");
+    public void shouldReturn0resultOfProductsByName() {
+        List<Product> result = (List<Product>) this.productRepository.findProductsByName("name");
         assertThat(result).isEmpty();
         assertThat(result.size()).isEqualTo(0);
     }
 
     @Test
-    public void shouldReturn2resultOfProductsByName(){
+    public void shouldReturn2resultOfProductsByName() {
         this.testEntityManager.persist(new ProductBuilder("name").build());
         this.testEntityManager.persist(new ProductBuilder("name").withPrice(BigDecimal.TEN).build());
-        List<Product> result= (List<Product>) this.productRepository.findProductsByName("name");
+        List<Product> result = (List<Product>) this.productRepository.findProductsByName("name");
         assertThat(result.size()).isEqualTo(2);
     }
 
     @Test
-    public void shouldFindProductById(){
-        Product product=this.testEntityManager.persist(new ProductBuilder("name").build());
-        Product result=this.productRepository.findProductById(product.getId()).get();
+    public void shouldFindProductById() {
+        Product product = this.testEntityManager.persist(new ProductBuilder("name").build());
+        Product result = this.productRepository.findProductById(product.getId()).get();
         assertThat(product).isEqualToComparingFieldByField(result);
     }
 
     @Test
-    public void shouldReturnExceptionWhenFindProductNotExistingTokenById(){
+    public void shouldReturnExceptionWhenFindProductNotExistingTokenById() {
         this.thrown.expect(IllegalArgumentException.class);
         this.thrown.expectMessage("Podany produkt nie istnieje");
         this.testEntityManager.persist(new ProductBuilder("name").build());
-        Product product=this.productRepository.findProductById(12345l)
+        Product product = this.productRepository.findProductById(12345l)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Podany produkt nie istnieje")));
         assertThat(product).isNull();
     }

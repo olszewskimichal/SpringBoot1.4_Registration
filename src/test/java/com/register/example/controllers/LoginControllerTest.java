@@ -37,7 +37,10 @@ public class LoginControllerTest extends IntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.webAppContextSetup(context).addFilter(springSecurityFilterChain).apply(springSecurity()).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilter(springSecurityFilterChain)
+                .apply(springSecurity())
+                .build();
     }
 
     @Test
@@ -72,7 +75,6 @@ public class LoginControllerTest extends IntegrationTestBase {
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
-
 
 
     @Test

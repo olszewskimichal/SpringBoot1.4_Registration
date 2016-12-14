@@ -24,7 +24,7 @@
             </button>
 
             <div class="row" th:each="row,rowStat : *{forms}">
-                <span th:if="${row instanceof T(com.register.example.forms.JakiKolwiekForm)}" >
+                <span th:if="${row instanceof T(com.register.example.forms.JakiKolwiekForm)}">
                 <div class="form-group col-md-3">
                     <input class="form-control" type="text" th:field="*{forms[__${rowStat.index}__].name}"
                            th:placeholder="Name" required="required"/>
@@ -37,7 +37,7 @@
 
                  <div class="form-group col-md-3">
                      <input class="form-control" type="text" th:field="*{forms[__${rowStat.index}__].jakis}"
-                             required="required"/>
+                            required="required"/>
                  </div>
 
                 <div class="form-group col-md-3">

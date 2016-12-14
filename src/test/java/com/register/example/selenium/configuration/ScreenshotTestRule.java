@@ -16,7 +16,7 @@ public class ScreenshotTestRule implements MethodRule {
     private WebDriver driver;
 
     public ScreenshotTestRule(WebDriver driver) {
-        this.driver=driver;
+        this.driver = driver;
     }
 
     public Statement apply(final Statement statement, final FrameworkMethod frameworkMethod, final Object o) {

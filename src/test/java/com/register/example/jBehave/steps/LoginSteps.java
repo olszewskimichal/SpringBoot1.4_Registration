@@ -23,8 +23,8 @@ public class LoginSteps {
     @Autowired
     private WebApplicationContext context;
 
-    private String password=null;
-    private String userLogin=null;
+    private String password = null;
+    private String userLogin = null;
     private MockMvc mvc;
     private RequestBuilder requestBuilder;
 

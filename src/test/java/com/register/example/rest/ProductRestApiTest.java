@@ -35,7 +35,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
 
     @Before
     public void setup() {
-        baseURL="http://localhost:"+port+"/api/products";
+        baseURL = "http://localhost:" + port + "/api/products";
         productRepository.deleteAll();
     }
 
@@ -52,7 +52,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
 
     @Test
     public void should_get_one_product() {
-        TreeMap<Long,ProductDTO> givenProducts = givenProduct()
+        TreeMap<Long, ProductDTO> givenProducts = givenProduct()
                 .buildNumberOfProductsAndSave(1);
 
         for (HashMap.Entry<Long, ProductDTO> e : givenProducts.entrySet()) {
@@ -66,7 +66,6 @@ public class ProductRestApiTest extends IntegrationTestBase {
         }
 
     }
-
 
 
     @Test
@@ -88,20 +87,20 @@ public class ProductRestApiTest extends IntegrationTestBase {
     @Test
     public void should_create_a_product() {
         //given
-        String expectedName="TestName";
+        String expectedName = "TestName";
 
         //when
         thenCreateProductByApi(expectedName);
 
         //then
-        List<Product> products= (List<Product>) productRepository.findProductsByName(expectedName);
+        List<Product> products = (List<Product>) productRepository.findProductsByName(expectedName);
         Assertions.assertThat(products.get(0)).isNotNull();
     }
 
     @Test
     public void should_update_existing_product() {
         //given
-        TreeMap<Long,ProductDTO> givenProducts = givenProduct()
+        TreeMap<Long, ProductDTO> givenProducts = givenProduct()
                 .buildNumberOfProductsAndSave(1);
 
         //when
@@ -109,7 +108,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
 
         for (HashMap.Entry<Long, ProductDTO> e : givenProducts.entrySet()) {
             Long id = e.getKey();
-            thenUpdateProductByApi(id,BigDecimal.ONE);
+            thenUpdateProductByApi(id, BigDecimal.ONE);
             //then
             assertThat(productRepository.findProductById(id).get())
                     .isNotNull()
@@ -120,7 +119,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
     @Test
     public void should_delete_existing_product() {
         //given
-        TreeMap<Long,ProductDTO> givenProducts = givenProduct()
+        TreeMap<Long, ProductDTO> givenProducts = givenProduct()
                 .buildNumberOfProductsAndSave(1);
 
         //when
@@ -141,7 +140,7 @@ public class ProductRestApiTest extends IntegrationTestBase {
 
 
     private ProductDTO thenGetOneProductFromApi(Long id) {
-        return restTemplate.getForEntity(baseURL+"/{id}", ProductDTO.class,id).getBody();
+        return restTemplate.getForEntity(baseURL + "/{id}", ProductDTO.class, id).getBody();
     }
 
     private List<ProductDTO> thenGetProductsFromApi() {
@@ -149,19 +148,21 @@ public class ProductRestApiTest extends IntegrationTestBase {
     }
 
     private void thenCreateProductByApi(String name) {
-        restTemplate.postForEntity(baseURL, new ProductDTOBuilder(name).build(),ProductDTO.class);
+        restTemplate.postForEntity(baseURL, new ProductDTOBuilder(name).build(), ProductDTO.class);
     }
 
-    private void thenUpdateProductByApi(Long id,BigDecimal price) {
-        restTemplate.put(baseURL+"/"+id, new ProductDTOBuilder("product_0").withPrice(price).build());
+    private void thenUpdateProductByApi(Long id, BigDecimal price) {
+        restTemplate.put(baseURL + "/" + id, new ProductDTOBuilder("product_0").withPrice(price).build());
     }
 
     private List<ProductDTO> thenGetNumberOfNewestProductsFromApi(int number) {
-        return Lists.newArrayList(restTemplate.getForEntity(baseURL+String.format("?order=desc&limit=%s", number), ProductDTO[].class).getBody());
+        return Lists.newArrayList(
+                restTemplate.getForEntity(baseURL + String.format("?order=desc&limit=%s", number), ProductDTO[].class)
+                        .getBody());
     }
 
     private void thenDeleteOneProductFromApi(Long id) {
-        restTemplate.delete(baseURL+"/"+id);
+        restTemplate.delete(baseURL + "/" + id);
     }
 
 

@@ -8,11 +8,9 @@ import com.register.example.selenium.pageObjects.RegisterPage;
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.springframework.context.annotation.Profile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Profile("!test")
 @Ignore
 public class RegisterSeleniumTest extends SeleniumTestBase {
 
@@ -28,13 +26,13 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
     }
 
     @AfterClass
-    public static void tearDown(){
+    public static void tearDown() {
         driver.quit();
     }
 
     @Test
     public void shouldRegisterWithCorrectData() {
-        driver.get("http://localhost:8080/register");
+        driver.get("http://localhost:" + port + "/register");
         RegisterPage registerPage = new RegisterPage(driver);
         registerPage.typeName("userTest");
         registerPage.typeLastName("userTest");
@@ -49,7 +47,7 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         assertThat(driver.getTitle()).isEqualTo("Zarejestruj się");
 
         //notActivatedUser
-        driver.get("http://localhost:8080/login");
+        driver.get("http://localhost:" + port + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeUserName("userTestXXX");
         loginPage.typePassword("zaq1@WSX");
@@ -59,7 +57,7 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         assertThat(driver.getPageSource()).contains(" <span>Twoje konto nie jest aktywne</span>");
 
         //not Existing login
-        driver.get("http://localhost:8080/login");
+        driver.get("http://localhost:" + port + "/login");
         loginPage = new LoginPage(driver);
         loginPage.typeUserName("userTest");
         loginPage.typePassword("zaq1@WSX");
@@ -72,14 +70,14 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldRegisterFailedWithExistingAccount() {
-        driver.get("http://localhost:8080/register");
+        driver.get("http://localhost:" + port + "/register");
         RegisterPage registerPage = new RegisterPage(driver);
         registerPage.typeName("user");
         registerPage.typeLastName("user");
         registerPage.typeEmail("user@poczta.pl");
         registerPage.typeLogin("user");
-        registerPage.typePassword("zaQ1");
-        registerPage.typeConfirmPassword("zaQ1");
+        registerPage.typePassword("zaq1@WSXX");
+        registerPage.typeConfirmPassword("zaq1@WSXX");
         registerPage.clickOnRegisterButton();
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
@@ -88,7 +86,7 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldActivationFailedWithNotExistingToken() {
-        driver.get("http://localhost:8080/register/registrationConfirm?token=dupa");
+        driver.get("http://localhost:" + port + "/register/registrationConfirm?token=dupa");
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
         System.out.println(driver.getTitle() + "\n////////////////////////////////////");
         assertThat(driver.getPageSource()).contains("Bledny link weryfikacyjny");
@@ -96,7 +94,7 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldRedirectToLoginPage() {
-        driver.get("http://localhost:8080/register");
+        driver.get("http://localhost:" + port + "/register");
         assertThat(driver.getPageSource()).contains("Formularz rejestracji");
         assertThat(driver.getTitle()).isEqualTo("Zarejestruj się");
         NonAuthenticatedNavigation navigation = new NonAuthenticatedNavigation(driver);

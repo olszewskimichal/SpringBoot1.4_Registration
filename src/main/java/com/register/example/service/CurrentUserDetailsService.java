@@ -33,12 +33,11 @@ public class CurrentUserDetailsService implements UserDetailsService {
 
     @Override
     public CurrentUser loadUserByUsername(String value) {
-        String profiles[]=env.getActiveProfiles();
+        String profiles[] = env.getActiveProfiles();
         String ip;
-        if (Arrays.binarySearch(profiles,"integrationTest")>=0) {
+        if (Arrays.binarySearch(profiles, "integrationTest") >= 0) {
             ip = "ipTestowe";
-        }
-        else ip= getClientIP();
+        } else ip = getClientIP();
 
         log.info("Autentykacja uzytkownika {} z ip {}", value, ip);
 

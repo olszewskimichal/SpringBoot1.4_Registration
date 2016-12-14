@@ -1,9 +1,8 @@
 package com.register.example.selenium.configuration;
 
-import org.springframework.context.annotation.Profile;
+import com.register.example.IntegrationTestBase;
 
-@Profile("!test")
-public class SeleniumTestBase {
+public class SeleniumTestBase extends IntegrationTestBase {
     public static BrowserConfiguration browserConfiguration = new BrowserConfiguration();
 
 

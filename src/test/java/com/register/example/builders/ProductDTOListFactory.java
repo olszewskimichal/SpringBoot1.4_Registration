@@ -19,22 +19,24 @@ public class ProductDTOListFactory {
         this.repository = repository;
     }
 
-    public TreeMap<Long,ProductDTO> buildNumberOfProductsAndSave(int numberOfProducts) {
-        TreeMap<Long,ProductDTO>  result=new TreeMap<>();
+    public TreeMap<Long, ProductDTO> buildNumberOfProductsAndSave(int numberOfProducts) {
+        TreeMap<Long, ProductDTO> result = new TreeMap<>();
         IntStream.range(0, numberOfProducts).forEachOrdered(number -> {
-            Product product = new ProductBuilder(String.format("product_%s", number)).withPrice(new BigDecimal("10.00")).build();
-            product=repository.save(product);
-            result.put(product.getId(),new ProductDTO(product));
+            Product product = new ProductBuilder(String.format("product_%s", number)).withPrice(new BigDecimal("10.00"))
+                    .build();
+            product = repository.save(product);
+            result.put(product.getId(), new ProductDTO(product));
 
         });
         return result;
     }
 
-    public List<ProductDTO> buildNumberOfProductsWithCustomPriceAndSave(int numberOfProducts){
+    public List<ProductDTO> buildNumberOfProductsWithCustomPriceAndSave(int numberOfProducts) {
         List<ProductDTO> productList = new ArrayList<>();
         IntStream.range(0, numberOfProducts).forEachOrdered(number -> {
 
-            Product product = new ProductBuilder(String.format("product_%s", number)).withPrice(new BigDecimal((number)*5).setScale(2, RoundingMode.HALF_UP)).build();
+            Product product = new ProductBuilder(String.format("product_%s", number)).withPrice(
+                    new BigDecimal((number) * 5).setScale(2, RoundingMode.HALF_UP)).build();
             repository.save(product);
             productList.add(new ProductDTO(product));
         });

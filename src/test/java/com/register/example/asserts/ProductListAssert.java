@@ -31,7 +31,8 @@ public class ProductListAssert extends ListAssert<ProductDTO> {
     public ProductListAssert newestOf(List<ProductDTO> productList) {
         List<ProductDTO> newestProducts = productList.subList(productList.size() - actual.size(), productList.size());
         Collections.reverse(newestProducts);
-        assertThat(actual).usingFieldByFieldElementComparator().containsExactly(newestProducts.toArray(new ProductDTO[newestProducts.size()]));
+        assertThat(actual).usingFieldByFieldElementComparator()
+                .containsExactly(newestProducts.toArray(new ProductDTO[newestProducts.size()]));
         return this;
     }
 

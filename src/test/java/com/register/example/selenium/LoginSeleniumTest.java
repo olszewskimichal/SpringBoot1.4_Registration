@@ -7,13 +7,11 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.springframework.context.annotation.Profile;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Profile("!test")
 @Ignore
 public class LoginSeleniumTest extends SeleniumTestBase {
 
@@ -27,7 +25,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldLoginWithCorrectAuthentication() {
-        driver.get("http://localhost:8080/login");
+        driver.get("http://localhost:" + port + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeUserName("admin");
         loginPage.typePassword("admin");
@@ -47,7 +45,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldGetErrorWhenLoginWithIncorrectAuthentication() {
-        driver.get("http://localhost:8080/login");
+        driver.get("http://localhost:" + port + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeUserName("admin");
         loginPage.typePassword("dupa");
@@ -59,7 +57,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
 
     @Test
     public void shouldRedirectToRegisterPage() {
-        driver.get("http://localhost:8080/login");
+        driver.get("http://localhost:" + port + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.clickOnRegisterLink();
         assertThat(driver.getPageSource()).contains("Formularz rejestracji");
@@ -70,8 +68,8 @@ public class LoginSeleniumTest extends SeleniumTestBase {
     @Test
     @Ignore
     //Zablokuje inne testy TODO do poprawy
-    public void sshouldBlockUserAfter3badCredentials() throws InterruptedException {
-        driver.get("http://localhost:8080/login");
+    public void shouldBlockUserAfter3badCredentials() throws InterruptedException {
+        driver.get("http://localhost:" + port + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeUserName("admin4");
         loginPage.typePassword("dupa");
@@ -91,7 +89,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
         assertThat(driver.getPageSource()).contains("Twoje konto zostało zablokowane");
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
 
-        Thread.sleep(1000*320);
+        Thread.sleep(1000 * 320);
 
         loginPage.typeUserName("admin4");
         loginPage.typePassword("dupa");
@@ -109,7 +107,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
         assertThat(driver.getPageSource()).contains("Twoje konto zostało zablokowane");
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
 
-        Thread.sleep(1000*60*70);
+        Thread.sleep(1000 * 60 * 70);
 
         loginPage.typeUserName("admin4");
         loginPage.typePassword("dupa");
@@ -126,7 +124,6 @@ public class LoginSeleniumTest extends SeleniumTestBase {
         loginPage.clickOnLoginButton();
         assertThat(driver.getPageSource()).contains("Twoje konto zostało zablokowane");
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
-
 
 
         driver.quit();

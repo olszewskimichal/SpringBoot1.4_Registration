@@ -13,7 +13,6 @@ public class LoginAttemptServiceTest extends IntegrationTestBase {
     LoginAttemptService loginAttemptService;
 
 
-
     @Test
     public void shouldBlockUserAndActivateAfterSuccesLogin() throws Exception {
         loginAttemptService.loginFailed("login1");

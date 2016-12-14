@@ -28,15 +28,15 @@ public class EmailJmsTest extends IntegrationTestBase {
 
     @Test
     public void testJMSSender() throws JsonProcessingException {
-        EmailRegistrationDTO emailRegistrationDTO=new EmailRegistrationDTO("test", "test", "test");
-        Queue queue=new ActiveMQQueue("test");
+        EmailRegistrationDTO emailRegistrationDTO = new EmailRegistrationDTO("test", "test", "test");
+        Queue queue = new ActiveMQQueue("test");
         jmsSender.setQueue(queue);
         jmsSender.send(emailRegistrationDTO);
         TextMessage msg = (TextMessage) jmsTemplate.receive("test");
         System.out.println("***********************");
         try {
-            ObjectMapper objectMapper=new ObjectMapper();
-            EmailRegistrationDTO recivedObject=objectMapper.readValue(msg.getText(), EmailRegistrationDTO.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            EmailRegistrationDTO recivedObject = objectMapper.readValue(msg.getText(), EmailRegistrationDTO.class);
             System.out.println(msg.getText());
             assertThat(recivedObject).isEqualToComparingFieldByField(emailRegistrationDTO);
 

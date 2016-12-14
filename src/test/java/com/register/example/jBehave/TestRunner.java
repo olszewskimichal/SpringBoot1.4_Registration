@@ -62,7 +62,8 @@ public class TestRunner extends JUnitStories {
     }
 
     protected List<String> storyPaths() {
-        return new StoryFinder().findPaths(CodeLocations.codeLocationFromClass(this.getClass()), "**/*.story", "**/excluded*.story");
+        return new StoryFinder().findPaths(CodeLocations.codeLocationFromClass(this.getClass()), "**/*.story",
+                "**/excluded*.story");
     }
 
 }

@@ -25,7 +25,7 @@ public class OperationLogConsumer {
     @JmsListener(destination = "operationLog.queue")
     public void receive(String text) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        WebServiceOperationLog webServiceOperationLog=objectMapper.readValue(text,WebServiceOperationLog.class);
+        WebServiceOperationLog webServiceOperationLog = objectMapper.readValue(text, WebServiceOperationLog.class);
         log.info("Otrzymalem z kolejki {}", webServiceOperationLog);
         operationLogRepository.save(webServiceOperationLog);
     }

@@ -29,7 +29,9 @@ public class ProductsRestController {
             value = "/{id}",
             produces = "application/json"
     )
-    public @ResponseBody ProductDTO getProduct(@PathVariable("id") Long productId) {
+    public
+    @ResponseBody
+    ProductDTO getProduct(@PathVariable("id") Long productId) {
         System.out.println("restController getProduct o id" + productId);
         return productService.getProduct(productId);
     }
@@ -38,7 +40,9 @@ public class ProductsRestController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public  @ResponseBody List<ProductDTO> getProducts(
+    public
+    @ResponseBody
+    List<ProductDTO> getProducts(
             @RequestParam(value = "limit", required = false) Integer limit,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "order", required = false) String sort
