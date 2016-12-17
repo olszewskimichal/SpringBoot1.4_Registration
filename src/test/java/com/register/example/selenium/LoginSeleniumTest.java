@@ -24,7 +24,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
 
     @Before
     public void setUp() throws IOException {
-        driver = browserConfiguration.firefox();
+        driver = browserConfiguration.firefox2();
         driver.manage().window().maximize();
     }
 
