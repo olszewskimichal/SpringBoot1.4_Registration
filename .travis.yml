@@ -6,13 +6,18 @@ jdk:
 before_install:
   - chmod ugo+x mvnw
 
+before_script:
+  - "export DISPLAY=:0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
 install: true
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 addons:
   sonarqube:
     token:
       secure: "38a3100a525d157f7fe5f71a8753eb94e18e9e54"
-  firefox: "45.0"
+  firefox: "44.0"
 cache:
   directories:
   - $HOME/.m2
