@@ -37,7 +37,7 @@ public class ProductWS {
         try {
             return productService.addProducts(productsRequest);
         } catch (JsonProcessingException e) {
-            log.debug(e.getMessage());
+            log.info(e.getMessage());
         }
         //ku chwale kompilatora
         return null;
@@ -55,7 +55,7 @@ public class ProductWS {
         try {
             return productService.getProducts(requestWS);
         } catch (JsonProcessingException e) {
-            log.debug(e.getMessage());
+            log.info(e.getMessage());
         }
         //ku chwale kompilatora
         return null;

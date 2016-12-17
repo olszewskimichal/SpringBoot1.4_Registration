@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class ResetPasswordForm {
     @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{3,}$")
-    private String password;
+    private String passForm;
 
     private String confirmPassword;
 

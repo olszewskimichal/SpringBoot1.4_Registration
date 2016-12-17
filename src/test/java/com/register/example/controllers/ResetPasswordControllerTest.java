@@ -104,7 +104,7 @@ public class ResetPasswordControllerTest extends IntegrationTestBase {
 
         //when
         mvc.perform(post("/resetPassword")
-                .param("password", "zaq1@WSX")
+                .param("pass_field", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX1")
                 .param("token", resetToken.get().getToken()))
                 .andDo(print())
@@ -126,7 +126,7 @@ public class ResetPasswordControllerTest extends IntegrationTestBase {
         Optional<PasswordResetToken> resetToken = userService.getPasswordResetToken(user);
         //when
         mvc.perform(post("/resetPassword")
-                .param("password", "zaq1@WSX")
+                .param("passForm", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX")
                 .param("token", resetToken.get().getToken()))
                 .andDo(print())

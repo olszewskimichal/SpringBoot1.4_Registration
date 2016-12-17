@@ -20,7 +20,7 @@ public class ResetPasswordValidatorTest extends IntegrationTestBase {
     @Test
     public void shouldReturnErrorWithEmptyConfirmPassword() throws Exception {
         ResetPasswordForm resetPasswordForm = new ResetPasswordForm("token");
-        resetPasswordForm.setPassword("dupa");
+        resetPasswordForm.setPassForm("dupa");
         errors = new BindException(resetPasswordForm, "resetPasswordForm");
         resetPasswordValidator.validate(resetPasswordForm, errors);
         assertThat(errors.getErrorCount()).isEqualTo(1);
@@ -37,7 +37,7 @@ public class ResetPasswordValidatorTest extends IntegrationTestBase {
     @Test
     public void shouldReturn0ErrorsWithCorrectPasswords() throws Exception {
         ResetPasswordForm resetPasswordForm = new ResetPasswordForm("token");
-        resetPasswordForm.setPassword("dupa");
+        resetPasswordForm.setPassForm("dupa");
         resetPasswordForm.setConfirmPassword("dupa");
         errors = new BindException(resetPasswordForm, "resetPasswordForm");
         resetPasswordValidator.validate(resetPasswordForm, errors);

@@ -23,10 +23,10 @@ public class ResetPasswordValidator implements Validator {
     public void validate(Object target, Errors errors) {
         ResetPasswordForm form = (ResetPasswordForm) target;
         log.info("Walidacja formularza resetowania hasła uzytkownika {}", target);
-        if (form.getPassword() == null || form.getConfirmPassword() == null)
-            errors.rejectValue("password", "password_error");
-        else if (!form.getPassword().equals(form.getConfirmPassword())) {
-            errors.rejectValue("password", "password_error");
+        if (form.getPassForm() == null || form.getConfirmPassword() == null)
+            errors.rejectValue("passForm", "password_error");
+        else if (!form.getPassForm().equals(form.getConfirmPassword())) {
+            errors.rejectValue("passForm", "password_error");
         }
     }
 }

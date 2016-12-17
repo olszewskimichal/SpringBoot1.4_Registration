@@ -32,15 +32,11 @@ public class TokenRepositoryImpl implements PersistentTokenRepository {
     @Override
     public PersistentRememberMeToken getTokenForSeries(String seriesId) {
         log.info("Fetch Token if any for seriesId : {}", seriesId);
-        try {
-            PersistentLogin persistentLogin = persistentTokenRepository.findOne(seriesId);
+        PersistentLogin persistentLogin = persistentTokenRepository.findOne(seriesId);
 
-            return new PersistentRememberMeToken(persistentLogin.getUsername(), persistentLogin.getSeries(),
-                    persistentLogin.getToken(), persistentLogin.getLast_used());
-        } catch (Exception e) {
-            log.info("Token not found...");
-            return null;
-        }
+        return new PersistentRememberMeToken(persistentLogin.getUsername(), persistentLogin.getSeries(),
+                persistentLogin.getToken(), persistentLogin.getLast_used());
+
     }
 
     @Override

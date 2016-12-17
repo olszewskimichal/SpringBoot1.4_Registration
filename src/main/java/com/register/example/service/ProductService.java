@@ -125,8 +125,8 @@ public class ProductService {
             responseHeader.setIsFailed(false);
             responseHeader.setDateTime(new Date());
             webServiceOpLog.setSuccess(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch (NullPointerException e) {
+            log.info("pusty messageId - wyjatek {}",e.getMessage());
             responseHeader.setStatusWS(StatusWS.FAILED);
             responseHeader.setErrorMsg(e.getMessage() + "\nBlad podczas dodawania produktów"); //TODO - poprawic
             responseHeader.setIsFailed(true);
@@ -135,8 +135,8 @@ public class ProductService {
         } finally {
             addProductsResponseWS.setHeaderWS(responseHeader);
             logProducer.writeAction(webServiceOpLog);
-            return addProductsResponseWS;
         }
+        return addProductsResponseWS;
     }
 
     public GetProductsResponseWS getProducts(GetProductsRequestWS requestWS) throws JsonProcessingException {
@@ -158,8 +158,8 @@ public class ProductService {
             responseHeader.setStatusWS(StatusWS.DONE);
             responseHeader.setIsFailed(false);
             webServiceOpLog.setSuccess(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NullPointerException e) {
+            log.info("limit ==null, wyjatek {}",e.getMessage());
             responseHeader.setIsFailed(true);
             responseHeader.setStatusWS(StatusWS.FAILED);
             responseHeader.setErrorMsg(e.getMessage() + "\nBlad podczas pobierania produktów"); //TODO - poprawic
@@ -168,7 +168,7 @@ public class ProductService {
         } finally {
             getProductsResponseWS.setHeaderWS(responseHeader);
             logProducer.writeAction(webServiceOpLog);
-            return getProductsResponseWS;
         }
+        return getProductsResponseWS;
     }
 }

@@ -33,7 +33,7 @@ public class UserCreateValidatorTest extends IntegrationTestBase {
     @Test
     public void shouldReturnErrorWithEmptyConfirmPassword() throws Exception {
         UserCreateForm userCreateForm = new UserCreateForm();
-        userCreateForm.setPassword("dupa");
+        userCreateForm.setPassForm("dupa");
         errors = new BindException(userCreateForm, "userCreateForm");
         userCreateValidator.validate(userCreateForm, errors);
         assertThat(errors.getErrorCount()).isEqualTo(1);
@@ -50,7 +50,7 @@ public class UserCreateValidatorTest extends IntegrationTestBase {
     @Test
     public void shouldReturn0ErrorsWithCorrectPasswords() throws Exception {
         UserCreateForm userCreateForm = new UserCreateForm();
-        userCreateForm.setPassword("dupa");
+        userCreateForm.setPassForm("dupa");
         userCreateForm.setConfirmPassword("dupa");
         errors = new BindException(userCreateForm, "userCreateForm");
         userCreateValidator.validate(userCreateForm, errors);
@@ -61,7 +61,7 @@ public class UserCreateValidatorTest extends IntegrationTestBase {
     public void shouldReturnErrorWithExistingUserName() throws Exception {
         userRepository.save(new User("user4", "user4", "user4@o2.pl", "user4", "user4", Role.USER, true));
         UserCreateForm userCreateForm = new UserCreateForm();
-        userCreateForm.setPassword("dupa");
+        userCreateForm.setPassForm("dupa");
         userCreateForm.setConfirmPassword("dupa");
         userCreateForm.setLogin("user4");
         userCreateForm.setEmail("user4@o2.pl");

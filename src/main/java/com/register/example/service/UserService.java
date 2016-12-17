@@ -50,7 +50,7 @@ public class UserService {
         user.setLastName(form.getLastName());
         user.setLogin(form.getLogin());
         user.setName(form.getName());
-        user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getPassword()));
+        user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getPassForm()));
         user = userRepository.save(user);
         createVerificationToken(user);
         log.info("Stworzono uzytkownika o id=" + user.getId());
@@ -127,7 +127,7 @@ public class UserService {
     public User resetPassword(ResetPasswordForm resetPasswordForm) {
         PasswordResetToken token = getPasswordResetToken(resetPasswordForm.getToken()).get();
         User user = token.getUser();
-        user.setPasswordHash(new BCryptPasswordEncoder().encode(resetPasswordForm.getPassword()));
+        user.setPasswordHash(new BCryptPasswordEncoder().encode(resetPasswordForm.getPassForm()));
         user = userRepository.save(user);
         token.setIsUsed(true);
         passwordResetTokenRepository.save(token);

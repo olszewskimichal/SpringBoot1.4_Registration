@@ -1,4 +1,4 @@
-package com.register.example.tasks;
+package com.register.example.unit.tasks;
 
 import org.junit.Test;
 import org.springframework.scheduling.TriggerContext;

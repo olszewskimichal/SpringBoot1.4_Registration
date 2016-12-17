@@ -161,7 +161,7 @@ public class UserServiceTest extends IntegrationTestBase {
         userService.createPasswordResetToken(user);
         Optional<PasswordResetToken> resetToken = userService.getPasswordResetToken(user);
         ResetPasswordForm resetPasswordForm = new ResetPasswordForm(resetToken.get().getToken());
-        resetPasswordForm.setPassword("dupa");
+        resetPasswordForm.setPassForm("dupa");
         resetPasswordForm.setConfirmPassword("dupa");
         String oldHash = user.getPasswordHash();
         //then

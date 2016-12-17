@@ -56,6 +56,7 @@ public class LoginAttemptService {
             attemptsHour = attemptsHourCache.get(key);
             attempts5min = attempts5minCache.get(key);
         } catch (ExecutionException e) {
+            log.debug("Zerowanie liczników");
             attemptsDay = 0;
             attemptsHour = 0;
             attempts5min = 0;
@@ -83,6 +84,7 @@ public class LoginAttemptService {
             }
             return blocked;
         } catch (ExecutionException e) {
+            log.info("Wyjatek {}", e.getMessage());
             return false;
         }
     }

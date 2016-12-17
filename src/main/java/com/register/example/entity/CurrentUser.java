@@ -4,7 +4,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
 
-    private User user;
+    transient User user;
 
     public CurrentUser(User user) {
         super(user.getLogin(), user.getPasswordHash(), user.getEnabled(), user.getAccountNonExpired(),

@@ -68,7 +68,7 @@ public class RegisterControllerTest extends IntegrationTestBase {
                 .param("lastName", "malysz")
                 .param("login", "malyszNajeprzy")
                 .param("email", "a1@o2.pl")
-                .param("password", "zaq1@WSX")
+                .param("passForm", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX"))
                 .andDo(print())
                 //then
@@ -185,7 +185,7 @@ public class RegisterControllerTest extends IntegrationTestBase {
                 .param("lastName", "malysz")
                 .param("login", "malyszNajeprzy")
                 .param("email", "a1@o2.pl")
-                .param("password", "zaq1@WSX")
+                .param("passForm", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX"))
                 .andDo(print())
                 //then
@@ -205,7 +205,7 @@ public class RegisterControllerTest extends IntegrationTestBase {
                 .param("lastName", "malysz")
                 .param("login", "malyszNajeprzy3")
                 .param("email", "aaaa")
-                .param("password", "zaq1@WSX")
+                .param("passForm", "zaq1@WSX")
                 .param("confirmPassword", "zaq1@WSX"))
                 .andDo(print())
                 //then

@@ -11,8 +11,8 @@ import java.util.List;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ProfileSession implements Serializable {
-    private String email;
-    private List<Cokolwiek> cokolwiek = new ArrayList<>();
+    transient String email;
+    transient List<Cokolwiek> cokolwiek = new ArrayList<>();
 
     public void saveForm(ProfileForm profileForm) {
         this.email = profileForm.getEmail();

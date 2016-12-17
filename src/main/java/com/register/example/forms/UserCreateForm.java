@@ -28,7 +28,7 @@ public class UserCreateForm {
     private String login;
 
     @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{3,}$")
-    private String password;
+    private String passForm;
 
     private String confirmPassword;
 
@@ -38,7 +38,7 @@ public class UserCreateForm {
         this.lastName = lastName;
         this.email = email;
         this.login = login;
-        this.password = password;
+        this.passForm = password;
         this.confirmPassword = confirmPassword;
     }
 }

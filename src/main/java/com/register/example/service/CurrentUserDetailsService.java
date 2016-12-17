@@ -43,7 +43,7 @@ public class CurrentUserDetailsService implements UserDetailsService {
 
         if (loginAttemptService.isBlocked(ip)) {
             log.info("Zbyt duża ilość błednych logowań - Powinno zablokować");
-            throw new RuntimeException("blocked");
+            throw new IllegalArgumentException("blocked");
         }
 
         User user = userService.getUserByEmailOrLogin(value)

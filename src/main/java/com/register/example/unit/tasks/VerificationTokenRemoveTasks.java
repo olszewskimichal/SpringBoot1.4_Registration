@@ -1,4 +1,4 @@
-package com.register.example.tasks;
+package com.register.example.unit.tasks;
 
 import com.register.example.repository.VerificationTokenRepository;
 import lombok.extern.slf4j.Slf4j;

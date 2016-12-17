@@ -12,6 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Ignore
+///jakas zmiana
 public class RegisterSeleniumTest extends SeleniumTestBase {
 
     public static WebDriver driver;

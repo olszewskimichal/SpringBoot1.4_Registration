@@ -6,7 +6,7 @@ import org.hibernate.EmptyInterceptor;
 @Slf4j
 public class HibernateStatisticsInterceptor extends EmptyInterceptor {
 
-    private ThreadLocal<Long> queryCount = new ThreadLocal<>();
+    transient ThreadLocal<Long> queryCount = new ThreadLocal<>();
 
     public void startCounter() {
         queryCount.set(0L);
