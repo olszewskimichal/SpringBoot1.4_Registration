@@ -3,6 +3,7 @@ package com.register.example.selenium;
 import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.AuthenticatedNavigation;
 import com.register.example.selenium.pageObjects.LoginPage;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,10 +13,14 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Ignore
 public class LoginSeleniumTest extends SeleniumTestBase {
 
-    public WebDriver driver;
+    public static WebDriver driver;
+
+    @AfterClass
+    public static void tearUp(){
+        driver.close();
+    }
 
     @Before
     public void setUp() throws IOException {
@@ -24,10 +29,11 @@ public class LoginSeleniumTest extends SeleniumTestBase {
     }
 
     @Test
+    @Ignore
     public void shouldLoginWithCorrectAuthentication() {
         driver.get("http://localhost:" + port + "/login");
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.typeUserName("admin");
+        loginPage.typeUserName("admin@o2.pl");
         loginPage.typePassword("admin");
         loginPage.clickOnLoginButton();
         System.out.println(driver.getPageSource() + "\n////////////////////////////////////");
@@ -36,7 +42,7 @@ public class LoginSeleniumTest extends SeleniumTestBase {
                 "                <strong>przykladoweImie</strong>");
         assertThat(driver.getTitle()).isEqualTo("Strona głowna");
         AuthenticatedNavigation authenticatedNavigation = new AuthenticatedNavigation(driver);
-        assertThat(authenticatedNavigation.getLoginName()).isEqualTo("admin");
+        assertThat(authenticatedNavigation.getLoginName()).isEqualTo("admin@o2.pl");
         authenticatedNavigation.clickOnLoginName();
         authenticatedNavigation.clickOnLogout();
         assertThat(driver.getTitle()).isEqualTo("Strona logowania");
