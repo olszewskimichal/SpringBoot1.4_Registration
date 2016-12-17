@@ -84,7 +84,7 @@ public class RegisterControllerTest extends IntegrationTestBase {
 
         //when
         RequestBuilder requestBuilder = get(
-                "/register/registrationConfirm?token=" + verificationToken.get().getToken());
+                "/register/registrationConfirm?token=" + verificationToken.get().getTokenString());
         //then
         mvc.perform(requestBuilder)
                 .andDo(print())
@@ -108,7 +108,7 @@ public class RegisterControllerTest extends IntegrationTestBase {
 
         //when
         RequestBuilder requestBuilder = get(
-                "/register/registrationConfirm?token=" + verificationToken.get().getToken());
+                "/register/registrationConfirm?token=" + verificationToken.get().getTokenString());
 
         //then
         mvc.perform(requestBuilder);
@@ -137,7 +137,7 @@ public class RegisterControllerTest extends IntegrationTestBase {
         verificationTokenRepository.save(verificationToken);
 
         //when
-        RequestBuilder requestBuilder = get("/register/registrationConfirm?token=" + verificationToken.getToken());
+        RequestBuilder requestBuilder = get("/register/registrationConfirm?token=" + verificationToken.getTokenString());
 
         //then
         mvc.perform(requestBuilder);

@@ -38,7 +38,7 @@ public class HomeControllerTest extends IntegrationTestBase {
     @Test
     public void shouldReturnHomePage() throws Exception {
         //given
-        CurrentUser currentUser = (CurrentUser) userDetailsService.loadUserByUsername("admin");
+        CurrentUser currentUser = (CurrentUser) userDetailsService.loadUserByUsername("admin@o2.pl");
         TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(currentUser, null);
         SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
         //when

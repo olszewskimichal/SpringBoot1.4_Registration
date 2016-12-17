@@ -30,6 +30,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Profile("!test")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String REMEMBER_ME = "remember-me";
     @Autowired
     PersistentTokenRepository tokenRepository;
     @Autowired
@@ -69,13 +70,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe()
-                .rememberMeParameter("remember-me")
+                .rememberMeParameter(REMEMBER_ME)
                 .tokenRepository(tokenRepository)
                 .tokenValiditySeconds(360000)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .deleteCookies("remember-me")
+                .deleteCookies(REMEMBER_ME)
                 .logoutSuccessUrl("/login")
                 .permitAll()
                 .and()
@@ -92,8 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-        return new PersistentTokenBasedRememberMeServices(
-                "remember-me", userDetailsService, tokenRepository);
+        return new PersistentTokenBasedRememberMeServices(REMEMBER_ME, userDetailsService, tokenRepository);
     }
 
     @Bean

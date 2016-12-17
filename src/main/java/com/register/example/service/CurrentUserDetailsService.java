@@ -33,9 +33,9 @@ public class CurrentUserDetailsService implements UserDetailsService {
 
     @Override
     public CurrentUser loadUserByUsername(String value) {
-        String profiles[] = env.getActiveProfiles();
+
         String ip;
-        if (Arrays.binarySearch(profiles, "integrationTest") >= 0) {
+        if (Arrays.binarySearch(env.getActiveProfiles(), "integrationTest") >= 0) {
             ip = "ipTestowe";
         } else ip = getClientIP();
 

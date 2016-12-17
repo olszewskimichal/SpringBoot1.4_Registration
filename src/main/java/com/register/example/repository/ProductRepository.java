@@ -22,6 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findProductById(Long id);
 
     @Cacheable("products")
+    @Override
     Page<Product> findAll(Pageable pageable);
 
     @Transactional

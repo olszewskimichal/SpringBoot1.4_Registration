@@ -1,4 +1,4 @@
-package com.register.example.restControllers;
+package com.register.example.rest;
 
 import com.register.example.dto.SimpleTweet;
 import com.register.example.service.TwitterSearch;

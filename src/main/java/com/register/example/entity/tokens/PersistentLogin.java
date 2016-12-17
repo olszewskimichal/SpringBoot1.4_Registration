@@ -23,7 +23,7 @@ public class PersistentLogin implements Serializable {
     private String token;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date last_used;
+    private Date lastUsed;
 
 
 }

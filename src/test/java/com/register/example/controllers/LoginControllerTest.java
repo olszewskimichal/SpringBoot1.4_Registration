@@ -46,7 +46,7 @@ public class LoginControllerTest extends IntegrationTestBase {
     @Test
     public void shouldLoginWithCorrectLoginAndPassword() throws Exception {
         //given
-        String userLogin = "admin";
+        String userLogin = "admin@o2.pl";
         String password = "admin";
         //when
         RequestBuilder requestBuilder = post("/login")
@@ -56,7 +56,7 @@ public class LoginControllerTest extends IntegrationTestBase {
         mvc.perform(requestBuilder)
                 .andDo(print())
                 .andExpect(redirectedUrl("/"))
-                .andExpect(authenticated().withUsername("admin"));
+                .andExpect(authenticated().withUsername("admin@o2.pl"));
     }
 
     @Test

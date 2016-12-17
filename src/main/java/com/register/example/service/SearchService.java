@@ -22,7 +22,6 @@ public class SearchService implements TwitterSearch {
 
     @Override
     public List<SimpleTweet> search(String searchType, List<String> keywords) {
-        System.out.println("twitterEasy");
         List<SearchParameters> searches = keywords.stream()
                 .map(taste -> createSearchParam(searchType, taste))
                 .collect(Collectors.toList());

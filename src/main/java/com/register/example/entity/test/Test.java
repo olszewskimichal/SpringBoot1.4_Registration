@@ -18,7 +18,9 @@ public class Test implements Serializable {
     private Set<Dupa> dupas;
 
     public Set<Dupa> getDupas() {
-        if (dupas == null) dupas = new HashSet<>();
+        if (dupas == null) {
+            dupas = new HashSet<>();
+        }
         return dupas;
     }
 

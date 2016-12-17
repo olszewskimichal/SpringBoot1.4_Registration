@@ -30,10 +30,7 @@ import java.util.stream.Collectors;
 public class ProductService {
     private static int PAGE_LIMIT = 20;
     private static int FIRST_PAGE = 0;
-    private static String NAME = "";
     private static String DEFAULT_SORT_BY_NAME = "name";
-    private static BigDecimal PRICE_MIN = BigDecimal.ZERO;
-    private static BigDecimal PRICE_MAX = BigDecimal.valueOf(Long.MAX_VALUE);
 
 
     private final ProductRepository productRepository;
@@ -87,15 +84,15 @@ public class ProductService {
     }
 
     private int setReturnSize(final Integer size) {
-        return (Objects.isNull(size) ? PAGE_LIMIT : size);
+        return Objects.isNull(size) ? PAGE_LIMIT : size;
     }
 
     private int setPageSize(final Integer page) {
-        return (Objects.isNull(page) ? FIRST_PAGE : page);
+        return Objects.isNull(page) ? FIRST_PAGE : page;
     }
 
     private Sort.Direction setSortDirection(final String sort) {
-        return (StringUtils.isEmpty(sort) ? null : Sort.Direction.fromString(sort));
+        return StringUtils.isEmpty(sort) ? null : Sort.Direction.fromString(sort);
     }
 
     @Transactional
@@ -108,7 +105,9 @@ public class ProductService {
             responseHeader.setSource("SERWER_GLOWNY");
             HeaderWS headerWS = productsRequest.getHeaderWS();
             webServiceOpLog.setDate(new Date());
-            if (headerWS.getMessageId() == null) throw new NullPointerException("Brak messageId");
+            if (headerWS.getMessageId() == null) {
+                throw new NullPointerException("Brak messageId");
+            }
             String msgId = headerWS.getMessageId();
             webServiceOpLog.setMsgId(msgId);
             responseHeader.setMessageId(msgId);
@@ -152,7 +151,9 @@ public class ProductService {
             responseHeader.setDateTime(new Date());
             webServiceOpLog.setDate(new Date());
             Integer limit = requestWS.getProductLimit();
-            if (limit == null) throw new NullPointerException("Nieprawidlowa ilosc pobieranych produktow");
+            if (limit == null) {
+                throw new NullPointerException("Nieprawidlowa ilosc pobieranych produktow");
+            }
             List<ProductDTO> productDTOs = getProducts(limit, null, "desc");
             getProductsResponseWS.setProducts(productDTOs);
             responseHeader.setStatusWS(StatusWS.DONE);

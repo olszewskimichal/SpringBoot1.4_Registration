@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Profile;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ import java.util.Set;
 @Slf4j
 @Profile("!test")
 public class DevDBConfig {
+    private static final String ADMINPASS = "admin";
     @Autowired
     private UserRepository userRepository;
 
@@ -46,25 +48,28 @@ public class DevDBConfig {
     @PostConstruct
     public void populateDatabase() {
         log.info("ładowanie bazy testowej");
-        User admin = userRepository.save(
-                new UserBuilder("admin", "admin").withPassword("admin").withRole(Role.ADMIN).withEnabled(true).build());
+        userRepository.save(
+                new UserBuilder("admin@o2.pl", "admin@o2.pl").withPassword(ADMINPASS)
+                        .withRole(Role.ADMIN)
+                        .withEnabled(true)
+                        .build());
         User user = userRepository.save(
                 new UserBuilder("user@poczta.pl", "user").withPassword("user").withEnabled(true).build());
         userRepository.save(
                 new UserBuilder("user2@poczta.pl", "user2").withPassword("user").withEnabled(false).build());
-        userRepository.save(new UserBuilder("admin1", "admin8").withPassword("admin")
+        userRepository.save(new UserBuilder("admin1", "admin8").withPassword(ADMINPASS)
                 .withRole(Role.ADMIN)
                 .withEnabled(true)
                 .build());
-        userRepository.save(new UserBuilder("admin2", "admin7").withPassword("admin")
+        userRepository.save(new UserBuilder("admin2", "admin7").withPassword(ADMINPASS)
                 .withRole(Role.ADMIN)
                 .withEnabled(true)
                 .build());
-        userRepository.save(new UserBuilder("admin3", "admin6").withPassword("admin")
+        userRepository.save(new UserBuilder("admin3", "admin6").withPassword(ADMINPASS)
                 .withRole(Role.ADMIN)
                 .withEnabled(true)
                 .build());
-        userRepository.save(new UserBuilder("admin4", "admin5").withPassword("admin")
+        userRepository.save(new UserBuilder("admin4", "admin5").withPassword(ADMINPASS)
                 .withRole(Role.ADMIN)
                 .withEnabled(true)
                 .build());
@@ -88,14 +93,14 @@ public class DevDBConfig {
         repository.save(new Product("6Snake", "", "", BigDecimal.TEN));
 
         Test test = new Test();
-        Set dupas = new HashSet<Dupa>() {
-            {
-                add(new Dupa("test", test));
-                add(new Dupa("test2", test));
-                add(new Dupa("test3", test));
-            }
-        };
+        Dupa dupa = new Dupa("test", test);
+        Dupa dupa1 = new Dupa("test2", test);
+        Dupa dupa2 = new Dupa("test3", test);
+        Set dupas = new HashSet<Dupa>();
+        dupas.addAll(Arrays.asList(dupa, dupa1, dupa2));
+
+
         test.setDupas(dupas);
-        Test test1 = testRepository.save(test);
+        testRepository.save(test);
     }
 }

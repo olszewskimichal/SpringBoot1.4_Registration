@@ -60,17 +60,17 @@ public class UserService {
     public void createVerificationToken(User user) throws JsonProcessingException {
 
         VerificationToken verificationToken = new VerificationToken();
-        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationToken.setTokenString(UUID.randomUUID().toString());
         verificationToken.setUser(user);
         verificationTokenRepository.save(verificationToken);
         log.info("Zaczynam wysylac wiadomosci.");
-        emailProducer.send(new EmailRegistrationDTO(user.getEmail(), "Rejestracja", verificationToken.getToken()));
+        emailProducer.send(new EmailRegistrationDTO(user.getEmail(), "Rejestracja", verificationToken.getTokenString()));
         log.info("Stworzono token dla uzytkownika o id=" + user.getId());
     }
 
     public void createPasswordResetToken(User user) {
         PasswordResetToken token = new PasswordResetToken();
-        token.setToken(UUID.randomUUID().toString());
+        token.setTokenString(UUID.randomUUID().toString());
         token.setUser(user);
         passwordResetTokenRepository.save(token);
         log.info("Stworzono token dla uzytkownika o id=" + user.getId());
@@ -90,7 +90,7 @@ public class UserService {
 
     public Optional<VerificationToken> getVerificationToken(String token) {
         log.info("Pobieranie tokena {}", token);
-        return verificationTokenRepository.findVerificationTokenByToken(token);
+        return verificationTokenRepository.findVerificationTokenByTokenString(token);
     }
 
     public Optional<VerificationToken> getVerificationToken(User user) {
@@ -100,7 +100,7 @@ public class UserService {
 
     public Optional<PasswordResetToken> getPasswordResetToken(String token) {
         log.info("Pobieranie tokena resetujacego haslo {}", token);
-        return passwordResetTokenRepository.findPasswordResetTokenByToken(token);
+        return passwordResetTokenRepository.findPasswordResetTokenByTokenString(token);
     }
 
     public Optional<PasswordResetToken> getPasswordResetToken(User user) {

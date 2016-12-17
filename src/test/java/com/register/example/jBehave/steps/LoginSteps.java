@@ -31,7 +31,7 @@ public class LoginSteps {
     @Given("a")
     public void a_dupa() {
         mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
-        userLogin = "admin";
+        userLogin = "admin@o2.pl";
         password = "admin";
     }
 
@@ -47,7 +47,7 @@ public class LoginSteps {
         mvc.perform(requestBuilder)
                 .andDo(print())
                 .andExpect(redirectedUrl("/"))
-                .andExpect(authenticated().withUsername("admin"));
+                .andExpect(authenticated().withUsername("admin@o2.pl"));
     }
 
 

@@ -1,4 +1,4 @@
-package com.register.example.restControllers;
+package com.register.example.rest;
 
 import com.register.example.dto.ProductDTO;
 import com.register.example.service.ProductService;
@@ -29,10 +29,9 @@ public class ProductsRestController {
             value = "/{id}",
             produces = "application/json"
     )
-    public
     @ResponseBody
-    ProductDTO getProduct(@PathVariable("id") Long productId) {
-        System.out.println("restController getProduct o id" + productId);
+    public ProductDTO getProduct(@PathVariable("id") Long productId) {
+        log.info("restController getProduct o id {}", productId);
         return productService.getProduct(productId);
     }
 
@@ -40,9 +39,9 @@ public class ProductsRestController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public
+
     @ResponseBody
-    List<ProductDTO> getProducts(
+    public List<ProductDTO> getProducts(
             @RequestParam(value = "limit", required = false) Integer limit,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "order", required = false) String sort
@@ -50,7 +49,7 @@ public class ProductsRestController {
            @RequestParam(value = "priceMin",required = false) Integer priceMin,
             @RequestParam(value = "priceMax",required = false) Integer priceMax*/
     ) {
-        System.out.println("restController getProducts ");
+        log.info("restController getProducts ");
         // return productService.getProducts(limit, sort,name,priceMin,priceMax);
         return productService.getProducts(limit, page, sort);
     }

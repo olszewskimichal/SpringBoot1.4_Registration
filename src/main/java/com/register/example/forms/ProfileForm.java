@@ -22,7 +22,9 @@ public class ProfileForm {
     }
 
     public List<Cokolwiek> getForms() {
-        if (forms == null) forms = new ArrayList<>();
+        if (forms == null) {
+            forms = new ArrayList<>();
+        }
         return forms;
     }
 

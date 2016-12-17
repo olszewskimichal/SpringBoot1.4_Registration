@@ -16,7 +16,7 @@ public abstract class Token {
     @GeneratedValue
     private Long id;
 
-    private String token;
+    private String tokenString;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
@@ -25,7 +25,7 @@ public abstract class Token {
     private Boolean isUsed = false;
 
     public Token(String token, User user, Boolean isUsed) {
-        this.token = token;
+        this.tokenString = token;
         this.user = user;
         this.isUsed = isUsed;
     }

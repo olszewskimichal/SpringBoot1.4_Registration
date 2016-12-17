@@ -28,6 +28,7 @@ import java.util.Optional;
 @Profile("!test")
 public class RegisterController {
 
+    private static final String REGISTER = "register";
     private final UserCreateValidator userCreateValidator;
 
     private final UserService userService;
@@ -47,7 +48,7 @@ public class RegisterController {
             log.error(e.getMessage(), e);
             log.info(model.toString());
         }
-        return "register";
+        return REGISTER;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -56,13 +57,13 @@ public class RegisterController {
         userCreateValidator.validate(userCreateForm, result);
         if (result.hasErrors()) {
             log.info(userCreateForm.toString());
-            return "register";
+            return REGISTER;
         } else {
             User user = userService.create(userCreateForm);
             log.info("stworzono uzytkownika " + user.getLogin());
             model.addAttribute("userCreateForm", new UserCreateForm());
             model.addAttribute("confirmRegistration", true);
-            return "register";
+            return REGISTER;
         }
     }
 

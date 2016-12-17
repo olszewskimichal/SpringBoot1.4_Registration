@@ -5,7 +5,6 @@ import com.register.example.entity.Role;
 import com.register.example.entity.User;
 import com.register.example.entity.test.Dupa;
 import com.register.example.entity.test.Test;
-import com.register.example.repository.ProductRepository;
 import com.register.example.repository.UserRepository;
 import com.register.example.repository.test.DupaRepository;
 import com.register.example.repository.test.TestRepository;
@@ -19,13 +18,11 @@ public class TestController {
     private final UserRepository userRepository;
     private final TestRepository testRepository;
     private final DupaRepository dupaRepository;
-    private final ProductRepository productRepository;
 
-    public TestController(UserRepository userRepository, TestRepository testRepository, DupaRepository dupaRepository, ProductRepository productRepository) {
+    public TestController(UserRepository userRepository, TestRepository testRepository, DupaRepository dupaRepository) {
         this.userRepository = userRepository;
         this.testRepository = testRepository;
         this.dupaRepository = dupaRepository;
-        this.productRepository = productRepository;
     }
 
     //  @Cacheable("users")
@@ -45,13 +42,13 @@ public class TestController {
 
     @RequestMapping("/test3")
     public String test3() {
-        return testRepository.findALL().toString();
+        return testRepository.findAllTests().toString();
     }
 
     @RequestMapping("/test4")
     public String test4() {
         dupaRepository.deleteDupaByID(1L);
-        return testRepository.findALL().toString();
+        return testRepository.findAllTests().toString();
     }
 
     @RequestMapping("/test5")

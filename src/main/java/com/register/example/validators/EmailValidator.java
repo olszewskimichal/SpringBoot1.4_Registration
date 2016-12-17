@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
-    private String email_pattern = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+    private String emailPattern = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
     private Pattern pattern;
     private Matcher matcher;
 
@@ -18,7 +18,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        pattern = Pattern.compile(email_pattern);
+        pattern = Pattern.compile(emailPattern);
         if (value == null) {
             return false;
         }

@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class LoginAttemptService {
-    private final int MAX_ATTEMPT_DAY = 8;
-    private final int MAX_ATTEMPT_HOUR = 5;
-    private final int MAX_ATTEMPT_5MIN = 3;
+    private static final int MAX_ATTEMPT_HOUR = 5;
+    private static final int MAX_ATTEMPT_5MIN = 3;
+    private static final int MAX_ATTEMPT_DAY = 8;
     private final LoadingCache<String, Integer> attemptsDayCache;
     private final LoadingCache<String, Integer> attemptsHourCache;
     private final LoadingCache<String, Integer> attempts5minCache;
@@ -23,18 +23,21 @@ public class LoginAttemptService {
         super();
         attemptsDayCache = CacheBuilder.newBuilder().
                 expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<String, Integer>() {
+            @Override
             public Integer load(String key) {
                 return 0;
             }
         });
         attemptsHourCache = CacheBuilder.newBuilder().
                 expireAfterWrite(1, TimeUnit.HOURS).build(new CacheLoader<String, Integer>() {
+            @Override
             public Integer load(String key) {
                 return 0;
             }
         });
         attempts5minCache = CacheBuilder.newBuilder().
                 expireAfterWrite(5, TimeUnit.MINUTES).build(new CacheLoader<String, Integer>() {
+            @Override
             public Integer load(String key) {
                 return 0;
             }

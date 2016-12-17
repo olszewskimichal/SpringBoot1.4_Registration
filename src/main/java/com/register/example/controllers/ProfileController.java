@@ -16,6 +16,7 @@ import javax.validation.Valid;
 @Controller
 @Slf4j
 public class ProfileController {
+    private static final String MULTI_FORM = "multiForm";
     private ProfileSession userProfileSession;
 
     @Autowired
@@ -29,15 +30,15 @@ public class ProfileController {
     }
 
     @RequestMapping("/profile")
-    public String displayProfile(Model model, ProfileForm profileForm) {
+    public String displayProfile(Model model) {
         model.addAttribute("typeChecker", new TypeChecker());
-        return "multiForm";
+        return MULTI_FORM;
     }
 
     @RequestMapping(value = "/profile", params = {"save"}, method = RequestMethod.POST)
     public String saveProfile(@Valid ProfileForm profileForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "multiForm";
+            return MULTI_FORM;
         }
         userProfileSession.saveForm(profileForm);
         log.info(userProfileSession.toString());
@@ -48,22 +49,22 @@ public class ProfileController {
     public String addRow(ProfileForm profileForm) {
         log.info("add");
         profileForm.getForms().add(new CokolwiekForm());
-        System.out.println(profileForm);
-        return "multiForm";
+        log.info(profileForm.toString());
+        return MULTI_FORM;
     }
 
     @RequestMapping(value = "/profile", params = {"add2"})
     public String addRow2(ProfileForm profileForm) {
         log.info("add2");
         profileForm.getForms().add(new JakiKolwiekForm());
-        System.out.println(profileForm);
-        return "multiForm";
+        log.info(profileForm.toString());
+        return MULTI_FORM;
     }
 
     @RequestMapping(value = "/profile", params = {"remove"})
     public String removeRow(ProfileForm profileForm, HttpServletRequest req) {
-        Integer rowId = Integer.valueOf(req.getParameter("remove"));
-        profileForm.getForms().remove(rowId.intValue());
-        return "multiForm";
+        int rowId = Integer.parseInt(req.getParameter("remove"));
+        profileForm.getForms().remove(rowId);
+        return MULTI_FORM;
     }
 }

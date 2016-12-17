@@ -18,7 +18,9 @@ public class Upa implements Serializable {
     private List<Dupka> dupas;
 
     public List<Dupka> getDupas() {
-        if (dupas == null) dupas = new ArrayList<>();
+        if (dupas == null) {
+            dupas = new ArrayList<>();
+        }
         return dupas;
     }
 

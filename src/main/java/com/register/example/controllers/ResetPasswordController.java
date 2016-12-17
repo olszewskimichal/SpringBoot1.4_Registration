@@ -20,6 +20,8 @@ import java.util.Optional;
 @Slf4j
 @Profile("!test")
 public class ResetPasswordController {
+    private static final String LOGIN = "login";
+    private static final String RESET_FORM = "resetPassword";
     private final ResetPasswordValidator resetPasswordValidator;
 
     private final UserService userService;
@@ -36,16 +38,16 @@ public class ResetPasswordController {
         Optional<PasswordResetToken> resetToken = userService.getPasswordResetToken(token);
         if (!resetToken.isPresent()) {
             model.addAttribute("blednyPasswordToken", true);
-            return "login";
+            return LOGIN;
         }
         if (resetToken.get().getIsUsed()) {
             log.info("Token juz jest wykorzystany");
             model.addAttribute("wykorzystany", true);
-            return "login";
+            return LOGIN;
         }
         log.info("Token jest aktualny - wywołanie strony do resetowania hasła");
         model.addAttribute("resetPasswordForm", new ResetPasswordForm(token));
-        return "resetPassword";
+        return RESET_FORM;
     }
 
 
@@ -55,12 +57,12 @@ public class ResetPasswordController {
         resetPasswordValidator.validate(resetPasswordForm, result);
         if (result.hasErrors()) {
             log.info(resetPasswordForm.toString());
-            return "resetPassword";
+            return RESET_FORM;
         } else {
             User user = userService.resetPassword(resetPasswordForm);
             log.info("Zmieniono hasło uzytkownika " + user.getLogin());
             model.addAttribute("confirmPasswordReset", true);
-            return "login";
+            return LOGIN;
         }
     }
 }

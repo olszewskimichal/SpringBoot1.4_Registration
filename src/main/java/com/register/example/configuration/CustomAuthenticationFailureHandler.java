@@ -53,11 +53,11 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         }
         String errorMessage = messages.getMessage("message.badCredentials", null, locale);
 
-        if (exception.getMessage().equalsIgnoreCase("User is disabled")) {
+        if (("User is disabled").equalsIgnoreCase(exception.getMessage())) {
             errorMessage = messages.getMessage("auth.message.disabled", null, locale);
-        } else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
+        } else if (("User account has expired").equalsIgnoreCase(exception.getMessage())) {
             errorMessage = messages.getMessage("auth.message.expired", null, locale);
-        } else if (exception.getMessage().equalsIgnoreCase("blocked")) {
+        } else if (("blocked").equalsIgnoreCase(exception.getMessage())) {
             errorMessage = messages.getMessage("auth.message.blocked", null, locale);
         }
         request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);

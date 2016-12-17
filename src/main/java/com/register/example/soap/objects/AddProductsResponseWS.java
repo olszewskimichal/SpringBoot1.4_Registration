@@ -17,7 +17,9 @@ public class AddProductsResponseWS extends ResponseWS {
     private List<Long> productsId;
 
     public List<Long> getProductsId() {
-        if (productsId == null) productsId = new ArrayList<>();
+        if (productsId == null) {
+            productsId = new ArrayList<>();
+        }
         return productsId;
     }
 }

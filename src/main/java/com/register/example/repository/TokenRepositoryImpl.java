@@ -25,7 +25,7 @@ public class TokenRepositoryImpl implements PersistentTokenRepository {
         persistentLogin.setUsername(token.getUsername());
         persistentLogin.setSeries(token.getSeries());
         persistentLogin.setToken(token.getTokenValue());
-        persistentLogin.setLast_used(token.getDate());
+        persistentLogin.setLastUsed(token.getDate());
         persistentTokenRepository.save(persistentLogin);
     }
 
@@ -35,7 +35,7 @@ public class TokenRepositoryImpl implements PersistentTokenRepository {
         PersistentLogin persistentLogin = persistentTokenRepository.findOne(seriesId);
 
         return new PersistentRememberMeToken(persistentLogin.getUsername(), persistentLogin.getSeries(),
-                persistentLogin.getToken(), persistentLogin.getLast_used());
+                persistentLogin.getToken(), persistentLogin.getLastUsed());
 
     }
 
@@ -51,7 +51,7 @@ public class TokenRepositoryImpl implements PersistentTokenRepository {
         log.info("Updating Token for seriesId : {}", seriesId);
         PersistentLogin persistentLogin = persistentTokenRepository.findOne(seriesId);
         persistentLogin.setToken(tokenValue);
-        persistentLogin.setLast_used(lastUsed);
+        persistentLogin.setLastUsed(lastUsed);
         persistentTokenRepository.save(persistentLogin);
     }
 }

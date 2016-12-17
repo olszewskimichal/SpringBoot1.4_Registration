@@ -196,7 +196,6 @@ public class OptimalizationTest2 extends IntegrationTestBase {
         next = iterator.next();
         iterator.remove();
         dupkaRepository.delete(next.getId());
-        Thread.sleep(1000);
         test.getDupas().add(new Dupka("test4", test));
 
         Upa test2 = upaRepository.findOne(test.getId());

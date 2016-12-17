@@ -1,7 +1,9 @@
 package com.register.example.entity;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.authority.AuthorityUtils;
 
+@EqualsAndHashCode(callSuper = true)
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
 
     transient User user;

@@ -1,4 +1,4 @@
-package com.register.example.restControllers;
+package com.register.example.rest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GreetingsController {
 
     @GetMapping("/greetings/{caller}")
-    public ResponseEntity<?> getGreeting(@PathVariable String caller) {
+    public ResponseEntity<? extends String> getGreeting(@PathVariable String caller) {
 
         if ("0xCAFEBABE".equalsIgnoreCase(caller)) {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);

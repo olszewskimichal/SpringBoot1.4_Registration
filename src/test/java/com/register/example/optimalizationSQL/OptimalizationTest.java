@@ -67,7 +67,7 @@ public class OptimalizationTest extends IntegrationTestBase {
 
     @org.junit.Test
     public void should_findTestWithChilds_In_1Query() {
-        testRepository.findALL();
+        testRepository.findAllTests();
         Long queryCount = hibernateStatisticsInterceptor.getQueryCount();
         assertThat(queryCount).isEqualTo(1L);
     }

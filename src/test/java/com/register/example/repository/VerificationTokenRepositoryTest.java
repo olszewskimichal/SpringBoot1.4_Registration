@@ -45,9 +45,9 @@ public class VerificationTokenRepositoryTest {
     @Test
     public void shouldFindVerificationTokenByToken() {
         this.testEntityManager.persist(new VerificationToken(TOKEN, user, LocalDateTime.now(), Boolean.FALSE));
-        VerificationToken verificationToken = this.verificationTokenRepository.findVerificationTokenByToken(TOKEN)
+        VerificationToken verificationToken = this.verificationTokenRepository.findVerificationTokenByTokenString(TOKEN)
                 .get();
-        assertThat(verificationToken.getToken()).isEqualTo(TOKEN);
+        assertThat(verificationToken.getTokenString()).isEqualTo(TOKEN);
         assertThat(verificationToken.getUser()).isEqualTo(user);
     }
 
@@ -56,7 +56,7 @@ public class VerificationTokenRepositoryTest {
         this.thrown.expect(IllegalArgumentException.class);
         this.thrown.expectMessage("Token token nie istnieje");
         this.testEntityManager.persist(new VerificationToken(TOKEN, user, LocalDateTime.now(), Boolean.FALSE));
-        VerificationToken verificationToken = this.verificationTokenRepository.findVerificationTokenByToken("token")
+        VerificationToken verificationToken = this.verificationTokenRepository.findVerificationTokenByTokenString("token")
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Token %s nie istnieje", "token")));
         assertThat(verificationToken).isNull();
     }
@@ -65,7 +65,7 @@ public class VerificationTokenRepositoryTest {
     public void shouldFindVerificationTokenByUser() {
         this.testEntityManager.persist(new VerificationToken(TOKEN, user, LocalDateTime.now(), Boolean.FALSE));
         VerificationToken verificationToken = this.verificationTokenRepository.findVerificationTokenByUser(user).get();
-        assertThat(verificationToken.getToken()).isEqualTo(TOKEN);
+        assertThat(verificationToken.getTokenString()).isEqualTo(TOKEN);
         assertThat(verificationToken.getUser()).isEqualTo(user);
     }
 

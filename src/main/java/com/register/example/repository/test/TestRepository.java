@@ -14,7 +14,7 @@ import java.util.Set;
 public interface TestRepository extends JpaRepository<Test, Long> {
 
     @Query("select distinct u from Test u join fetch u.dupas")
-    Set<Test> findALL();
+    Set<Test> findAllTests();
 
     @Transactional
     @Modifying
