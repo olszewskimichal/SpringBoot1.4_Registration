@@ -12,7 +12,7 @@ addons:
   sonarqube:
     token:
       secure: "38a3100a525d157f7fe5f71a8753eb94e18e9e54"
-  firefox: "53.0"
+  firefox: "45.0"
 cache:
   directories:
   - $HOME/.m2
