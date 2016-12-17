@@ -5,6 +5,7 @@ import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.LoginPage;
 import com.register.example.selenium.pageObjects.NonAuthenticatedNavigation;
 import com.register.example.selenium.pageObjects.RegisterPage;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,6 +29,10 @@ public class RegisterSeleniumTest extends SeleniumTestBase {
         driver.manage().window().maximize();
     }
 
+    @AfterClass
+    public static void tearDown() {
+        driver.quit();
+    }
 
     @Test
     public void shouldRegisterWithCorrectData() {

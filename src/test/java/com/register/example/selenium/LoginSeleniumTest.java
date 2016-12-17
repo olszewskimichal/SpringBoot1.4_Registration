@@ -3,6 +3,7 @@ package com.register.example.selenium;
 import com.register.example.selenium.configuration.SeleniumTestBase;
 import com.register.example.selenium.pageObjects.AuthenticatedNavigation;
 import com.register.example.selenium.pageObjects.LoginPage;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,6 +17,10 @@ public class LoginSeleniumTest extends SeleniumTestBase {
 
     public static WebDriver driver;
 
+    @AfterClass
+    public static void tearUp(){
+        driver.close();
+    }
 
     @Before
     public void setUp() throws IOException {
